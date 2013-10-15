@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+			 alpha.disabled="0.5" xmlns:local="*">
+	
+	<fx:Metadata>[HostComponent("com.blogspot.jaggerm.cdmeyer.controls.imageButton.ImageButton")]</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[         
+			
+		]]>        
+	</fx:Script>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Rect id="background" left="0" right="0" top="0" bottom="0" radiusX="{hostComponent.cornerRadius}">
+		<s:fill>
+			<!-- @private -->
+			<s:SolidColor id="bgFill"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:BitmapImage id="imageDisplay" left="0" top="0" right="0" bottom="0" mask="{background.displayObject}" />
+	
+	<s:Rect id="border" left="0" right="0" top="0" bottom="0" radiusX="{hostComponent.cornerRadius}">
+		<s:stroke>
+			<s:SolidColorStroke weight="2" color="0x0055CC" color.over="0xFF0000" color.down="0xFF0000"/>
+		</s:stroke>
+	</s:Rect>
+</s:SparkSkin>

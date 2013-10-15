@@ -1,0 +1,27 @@
+<screens>
+	<screen id="main_menu">
+		<top_logo>main_menu_top_logo.png</top_logo>
+		<bg>screen_backround.png</bg>
+	</screen>
+	<screen id="names">
+		<top_logo>names_top_logo.png</top_logo>
+		<bg>screen_backround.jpg</bg>
+		<instructions><![CDATA[
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		]]></instructions>
+	</screen>
+	<screen id="sports">
+		<top_logo>names_top_logo.png</top_logo>
+		<bg>screen_backround.jpg</bg>
+		<instructions><![CDATA[
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		]]></instructions>
+	</screen>
+	<screen id="years">
+		<top_logo>names_top_logo.png</top_logo>
+		<bg>screen_backround.jpg</bg>
+		<instructions><![CDATA[
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		]]></instructions>
+	</screen>	
+</screens>

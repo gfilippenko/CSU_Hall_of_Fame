@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width="100%" height="100%" 
+					   creationComplete="CreationComplete(event)" 
+					   addedToStage="AddedToStage()"
+					   applicationComplete="ApplicationComplete()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->	
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer.Controller;
+			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.states.AddChild;
+			
+			import spark.components.Application;
+			
+			public static var APP_PATH : String = "";
+			
+			private var controller : Controller;
+			
+			private function CreationComplete(event : FlexEvent) : void
+			{
+//				nativeWindow.stage.scaleMode = StageScaleMode.NO_BORDER;
+				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
+				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				nativeWindow.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+				
+				var baseDir : File = File.applicationDirectory.resolvePath(".");
+				cdmeyer.APP_PATH = baseDir.nativePath + '/resources/';
+				
+				var file:File = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'screens.xml'); 
+				var fileStream:FileStream = new FileStream(); 
+				fileStream.open(file, FileMode.READ); 
+				var prefsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+				fileStream.close();				
+				
+				controller = new Controller();
+				controller.addEventListener(CDMeyerEvent.ADD_SCREEN, AddScreen);
+				controller.Start(prefsXML);
+			}
+			
+			private function OnKeyDownHandler(event:KeyboardEvent):void
+			{		
+				if (event.keyCode == 27)
+				{
+					event.preventDefault();
+				}
+			}			
+			
+			private function AddScreen(e : CDMeyerEvent) : void
+			{
+				addElement(e.screen);
+			}
+			
+			private function AddedToStage() : void
+			{
+				
+			}
+			
+			private function ApplicationComplete() : void
+			{
+//				nativeWindow.x = 0;
+//				nativeWindow.y = 0;
+			}
+
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+</s:WindowedApplication>

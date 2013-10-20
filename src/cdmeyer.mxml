@@ -2,7 +2,7 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   width="100%" height="100%" 
+					   width="1" height="1" 
 					   creationComplete="CreationComplete(event)" 
 					   addedToStage="AddedToStage()"
 					   applicationComplete="ApplicationComplete()">
@@ -14,24 +14,51 @@
 		<![CDATA[
 			import com.blogspot.jaggerm.cdmeyer.Controller;
 			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
+			import com.blogspot.jaggerm.cdmeyer.views.WindowSkin;
 			
 			import mx.controls.Alert;
+			import mx.events.AIREvent;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.states.AddChild;
 			
 			import spark.components.Application;
+			import spark.components.Window;
 			
 			public static var APP_PATH : String = "";
 			
 			private var controller : Controller;
 			
+			private var wnd1 : Window;
+			private var wnd2 : Window;
+			
 			private function CreationComplete(event : FlexEvent) : void
-			{
-//				nativeWindow.stage.scaleMode = StageScaleMode.NO_BORDER;
-				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
-				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+			{				
+				wnd1  = new Window();											
+				wnd1.minimizable = false;
+				wnd1.maximizable = false;
+				wnd1.resizable = false;
+				wnd1.systemChrome = NativeWindowSystemChrome.NONE;
+				wnd1.setStyle('skinClass', WindowSkin);
+				wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);				
+				wnd1.open();
+				
+				wnd2 = new Window();
+				wnd2.minimizable = false;
+				wnd2.maximizable = false;
+				wnd2.resizable = false;
+				wnd2.systemChrome = NativeWindowSystemChrome.NONE;
+				wnd2.setStyle('skinClass', WindowSkin);
+				wnd2.addEventListener(AIREvent.WINDOW_COMPLETE, wind2Complete);
+				wnd2.open();
+				
+				
+				nativeWindow.close();
+				
+//				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
+//				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				nativeWindow.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
 				
 				var baseDir : File = File.applicationDirectory.resolvePath(".");
@@ -41,11 +68,82 @@
 				var fileStream:FileStream = new FileStream(); 
 				fileStream.open(file, FileMode.READ); 
 				var prefsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
-				fileStream.close();				
+				fileStream.close();			
 				
-				controller = new Controller();
-				controller.addEventListener(CDMeyerEvent.ADD_SCREEN, AddScreen);
+				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'names.xml');
+				fileStream.open(file, FileMode.READ);
+				var athletesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+				fileStream.close();			
+				
+				controller = Controller.getInstance();
+				controller.addEventListener(CDMeyerEvent.ADD_BOTTOM_SCREEN, AddScreen);
+				controller.addEventListener(CDMeyerEvent.ADD_TOP_SCREEN, AddTopScreen);
+				controller.addEventListener(CDMeyerEvent.REMOVE_BOTTOM_SCREEN, RemoveBottonScreen);
+				controller.addEventListener(CDMeyerEvent.REMOVE_TOP_SCREEN, RemoveTopScr);
+				
+				controller.Atheles(athletesXML);
+				
 				controller.Start(prefsXML);
+				
+			}
+			
+			private function AddScreen(e : CDMeyerEvent) : void
+			{				
+				wnd1.addElement(e.screen);
+				
+//				if(wnd1.numChildren > 1)
+//					wnd1.removeElementAt(1);				
+			}
+			
+			private function AddTopScreen(e : CDMeyerEvent) : void
+			{
+				wnd2.addElement(e.screen);
+				
+//				if(wnd2.numChildren > 1)
+//					wnd2.removeElementAt(1);
+			}
+			
+			private function RemoveBottonScreen(e : CDMeyerEvent) : void
+			{
+				wnd1.removeElementAt(0);
+			}
+			
+			private function RemoveTopScr(e : CDMeyerEvent) : void
+			{
+				wnd2.removeElementAt(0);
+			}
+			
+			private function wind2Complete(event : AIREvent) : void
+			{
+				if(Screen.screens.length < 2)
+					return;
+				var secondScreen : Screen = Screen.screens[1];
+				wnd2.nativeWindow.x = secondScreen.visibleBounds.x;
+				wnd2.nativeWindow.y = secondScreen.visibleBounds.y;
+				wnd2.nativeWindow.width = secondScreen.visibleBounds.width;
+				wnd2.nativeWindow.height = secondScreen.visibleBounds.height;
+				wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+			}
+			
+			private function wind1Complete(event : AIREvent) : void
+			{
+				var mainScreen : Screen = Screen.screens[0];
+				wnd1.nativeWindow.x = mainScreen.bounds.x;
+				wnd1.nativeWindow.y = mainScreen.bounds.y;
+				wnd1.nativeWindow.width = mainScreen.bounds.width;
+				wnd1.nativeWindow.height = mainScreen.bounds.height;
+				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+			}
+			
+			private function AddedToStage() : void
+			{
+//				wnd1.stage.addChild(scr);
+			}
+			
+			private function ApplicationComplete() : void
+			{
+//				nativeWindow.x = 0;
+//				nativeWindow.y = 0;
 			}
 			
 			private function OnKeyDownHandler(event:KeyboardEvent):void
@@ -54,24 +152,13 @@
 				{
 					event.preventDefault();
 				}
-			}			
-			
-			private function AddScreen(e : CDMeyerEvent) : void
-			{
-				addElement(e.screen);
-			}
-			
-			private function AddedToStage() : void
-			{
 				
-			}
-			
-			private function ApplicationComplete() : void
-			{
-//				nativeWindow.x = 0;
-//				nativeWindow.y = 0;
-			}
-
+				if(event.altKey && event.keyCode==115)
+				{
+					wnd1.close();
+					wnd2.close();
+				}
+			}	
 		]]>
 	</fx:Script>
 	<s:layout>

@@ -6,9 +6,15 @@ package com.blogspot.jaggerm.cdmeyer.events
 	
 	public class CDMeyerEvent extends Event
 	{
-		public static const ADD_SCREEN : String = 'addScreen';
+		public static const ADD_TOP_SCREEN : String = 'addTopScreen';
+		public static const ADD_BOTTOM_SCREEN : String = 'addBottomScreen';
+		public static const REMOVE_TOP_SCREEN : String = 'removeTopScreen';
+		public static const REMOVE_BOTTOM_SCREEN : String = 'removeBottomScreen';
+		
 		public static const SHOW_MAIN_SCREEN : String = 'showMainScreen';
 		public static const SHOW_NAMES_SCREEN : String = 'showNamesScreen';
+		public static const SHOW_SPORTS_SCREEN : String = 'showSportsScreen';
+		public static const SHOW_YEARS_SCREEN : String = 'showYearsScreen';
 		
 		public var screen : ScreenView;
 		

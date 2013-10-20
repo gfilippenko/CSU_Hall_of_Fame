@@ -19,8 +19,8 @@
 	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
-	<s:BitmapImage source.disabled="@Embed('../../../../../../resources/next_button_up.png')" 
-				   source.down="@Embed('../../../../../../resources/next_button_down.png')" 
-				   source.up="@Embed('../../../../../../resources/next_button_up.png')" 
-				   source.over="@Embed('../../../../../../resources/next_button_up.png')" />
+	<s:BitmapImage source.disabled="@Embed('../../../../../../../resources/main_scr_button2_up.png')" 
+				   source.down="@Embed('../../../../../../../resources/main_scr_button2_down.png')" 
+				   source.up="@Embed('../../../../../../../resources/main_scr_button2_up.png')" 
+				   source.over="@Embed('../../../../../../../resources/main_scr_button2_up.png')" />
 </s:Skin>

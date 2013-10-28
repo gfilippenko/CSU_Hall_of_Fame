@@ -29,9 +29,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 		private var logoClass : Class;
 		
 		
-		public function NamesScreen(value : ScreenSettings)
+		public function NamesScreen(value : ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
-			super(value);
+			super(value, _scrWidth, _scrHeight);
+			showBackBtn = true;
+			backBtnEventType = CDMeyerEvent.SHOW_MAIN_SCREEN;
 		}
 		
 		override public function draw() : void
@@ -43,25 +45,20 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 				DrawInstructions();
 			}	
 			
-			backBtn = new Button();
-			backBtn.addEventListener(MouseEvent.CLICK, BackClicked);
-			backBtn.setStyle('skinClass',BackButtonSkin);
-			backBtn.useHandCursor = true;
-			addElement(backBtn);
-			
-
 
 			logo = new Image();
 			logo.width = 400;
 			logo.height = 400;
 			logo.source = logoClass;
+			logo.x = 50;
+			logo.y = instructionsText.y + ScreenView.backBtnHeight + 20;
 			addElement(logo);
 			
 			listSource = Controller.getInstance().athletes;
 			
-			
-			
 			list = new AthletesList();
+			list.x = _screenWidth - ScreenView.listWidth - 20;
+			list.y = _screenHeight - ScreenView.listHeight - 20;			
 
 			currentProvider = new ArrayCollection();
 //			list.list.dataProvider = currentProvider;
@@ -84,21 +81,18 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			DrawList();
 		}
 		
-		override protected function measure() : void
-		{
-			super.measure();
-			
-			
-			if(logo != null)
-			{
-				logo.x = 50;
-				logo.y = instructionsText.y + instructionsText.height + 20;
-			}
-		}
+//		override protected function measure() : void
+//		{
+//			super.measure();
+//			
+//			
+//			if(logo != null)
+//			{
+//				logo.x = 50;
+//				logo.y = instructionsText.y + instructionsText.height + 20;
+//			}
+//		}
 		
-		private function BackClicked(e : MouseEvent) : void
-		{
-			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
-		}		
+				
 	}
 }

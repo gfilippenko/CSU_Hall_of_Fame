@@ -6,6 +6,11 @@
 	<fx:Metadata>
 		[HostComponent("spark.components.Button")]
 	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
+		]]>
+	</fx:Script>
 	
 	<!-- states -->
 	<s:states>
@@ -20,7 +25,7 @@
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
 	
-	<s:BitmapImage width="120.5" height="200.25" source.disabled="@Embed('../../../../../../resources/back_button_up.png')" 
+	<s:BitmapImage width="120.5" height="{ScreenView.backBtnHeight}" source.disabled="@Embed('../../../../../../resources/back_button_up.png')" 
 				   source.down="@Embed('../../../../../../resources/back_button_up.png')" 
 				   source.up="@Embed('../../../../../../resources/back_button_up.png')" 
 				   source.over="@Embed('../../../../../../resources/back_button_up.png')" />

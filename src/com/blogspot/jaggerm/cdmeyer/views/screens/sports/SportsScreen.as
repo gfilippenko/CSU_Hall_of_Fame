@@ -22,9 +22,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			invalidateProperties();
 		}
 		
-		public function SportsScreen(value:ScreenSettings)
+		public function SportsScreen(value:ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
-			super(value);
+			super(value, _scrWidth, _scrHeight);
+			showBackBtn = true;
+			backBtnEventType = CDMeyerEvent.SHOW_MAIN_SCREEN;			
 		}
 		
 		override public function draw() : void
@@ -36,12 +38,6 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 				DrawInstructions();
 			}
 			
-			backBtn = new Button();
-			backBtn.addEventListener(MouseEvent.CLICK, BackClicked);
-			backBtn.setStyle('skinClass',BackButtonSkin);
-			backBtn.useHandCursor = true;
-			addElement(backBtn);	
-			
 			DrawButtons();
 		}
 		
@@ -52,6 +48,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 		
 		protected function DrawButtons():void
 		{
+			var buttons : Array = [];
+			var startBtnIndex : uint = 0;
 			var shiftX : Number = 20;
 			var shiftY : Number = 20;
 			
@@ -63,11 +61,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			{
 				var btn : Button = new Button();
 				btn.setStyle('skinClass', CircleButtonSkin);
-				btn.width = 200;
-				btn.height = 200;
+				btn.width = ScreenView.sportButtonWidth;
+				btn.height = ScreenView.sportButtonWidth;
 				btn.label = item.toUpperCase();
 				btn.x = nextX;
 				btn.y = nextY;
+				btn.addEventListener(MouseEvent.CLICK, SportButtonClicked);
 				
 				nextX = btn.x + btn.width + shiftX;
 				if(nextX > (stage.width - btn.width))
@@ -75,14 +74,20 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 					nextX = startX;
 					nextY = btn.y + btn.height + shiftY;
 				}
-				
-				addElement(btn);
+											
+				buttons.push(btn);
+			}
+			
+			for each(var b : Button in buttons)
+			{
+				addElement(b);
 			}
 		}
 		
-		private function BackClicked(e : MouseEvent) : void
+		private function SportButtonClicked(event : MouseEvent) : void
 		{
-			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
+			
 		}
+
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="615">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="{ScreenView.listWidth}" height="{ScreenView.listHeight}">
 	<s:layout>
 		<s:VerticalLayout/>
 	</s:layout>
@@ -9,6 +9,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;

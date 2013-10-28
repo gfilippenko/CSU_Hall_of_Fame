@@ -63,6 +63,8 @@ package com.blogspot.jaggerm.cdmeyer
 		
 		public function Start(settings : XML, screenWidth : Number, screenHeight : Number) : void
 		{
+			_screenWidth = screenWidth;
+			_screenHeight = screenHeight;
 			_settings = settings;
 			CreateScreen('main_menu');
 		}
@@ -120,7 +122,7 @@ package com.blogspot.jaggerm.cdmeyer
 				case 'main_menu':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='main_menu'));			
 					
-					bottomScreen = new MainScreen(screenSettings);
+					bottomScreen = new MainScreen(screenSettings, _screenWidth, _screenHeight);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_NAMES_SCREEN, ShowNamesScreen);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORTS_SCREEN, ShowSportsScreen);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_SCREEN, ShowYearsScreen);
@@ -130,7 +132,7 @@ package com.blogspot.jaggerm.cdmeyer
 				case 'names':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='names'));			
 					
-					bottomScreen = new NamesScreen(screenSettings);
+					bottomScreen = new NamesScreen(screenSettings, _screenWidth, _screenHeight);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
 					
 				break;
@@ -138,7 +140,7 @@ package com.blogspot.jaggerm.cdmeyer
 				case 'sports':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='sports'));			
 					
-					bottomScreen = new SportsScreen(screenSettings);
+					bottomScreen = new SportsScreen(screenSettings, _screenWidth, _screenHeight);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
 					SportsScreen(bottomScreen).sports = sports;
 					break;
@@ -146,17 +148,13 @@ package com.blogspot.jaggerm.cdmeyer
 				case 'years':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));			
 					
-					bottomScreen = new InductionDecade(screenSettings);
-					
-					bottomScreen.width = _screenWidth;
-					bottomScreen.height = _screenHeight;
-					
+					bottomScreen = new InductionDecade(screenSettings, _screenWidth, _screenHeight);										
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
 					InductionDecade(bottomScreen).decades = decades;
 					break;
 			}
 			
-			var topScr : TopScreen = new TopScreen(screenSettings);
+			var topScr : TopScreen = new TopScreen(screenSettings, _screenWidth, _screenHeight);
 			
 			var scrPair : ScreenPair = new ScreenPair();
 			scrPair.topScr = topScr;

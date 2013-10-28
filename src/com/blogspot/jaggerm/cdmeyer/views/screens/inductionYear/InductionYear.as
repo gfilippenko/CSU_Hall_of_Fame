@@ -13,9 +13,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	
 	public class InductionYear extends ScreenView
 	{
-		public function InductionYear(value:ScreenSettings)
+		public function InductionYear(value:ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
-			super(value);
+			super(value, _scrWidth, _scrHeight);
 		}
 		
 		override public function draw() : void

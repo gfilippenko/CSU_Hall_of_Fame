@@ -26,56 +26,49 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 		private var btn2 : Button;
 		private var btn3 : Button;
 		
-		public function MainScreen(value : ScreenSettings)
+		public function MainScreen(value : ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
-			super(value);
+			super(value, _scrWidth, _scrHeight);
 		}
 		
 		override public function draw() : void
 		{
 			super.draw();
 			
+			var startX : Number = 100;
+			var startY : Number = 300;
+			var shiftY : Number = 100;
+			
 			btn1 = new Button();
+			btn1.x = startX;
+			btn1.y = startY;
 			btn1.setStyle('skinClass', Button1Skin);			
 			btn1.addEventListener(MouseEvent.CLICK, btn1Clicked);
 			addElement(btn1);
 			
-			btn2= new Button();
+			btn2 = new Button();
 			btn2.setStyle('skinClass', Button2Skin);
 			btn2.addEventListener(MouseEvent.CLICK, btn2Clicked);
+			var btn2X : Number = startX + ScreenView.mainButtonWidth + shiftY; 
+			btn2.x = btn2X; 
+			btn2.y = startY;
 			addElement(btn2);
+			
 			
 			btn3 = new Button();
 			btn3.setStyle('skinClass', Button3Skin);
 			btn3.addEventListener(MouseEvent.CLICK, btn3Clicked);
+			btn3.x = btn2X + ScreenView.mainButtonWidth + shiftY;
+			btn3.y = startY;
 			addElement(btn3);
 			
 			sortBy = new Image();
-			sortBy.source = sortByClass;			
-			addElement(sortBy);
-						
-		}
-		
-		override protected function measure() : void
-		{
-			super.measure();
+			sortBy.source = sortByClass;				
 			sortBy.width = 221.5;
 			sortBy.height = 44;
 			sortBy.x = 400;
 			sortBy.y = 700;
-			
-//			btn1.width = 300;
-			btn1.x = 100;
-			btn1.y = 300;
-			
-//			btn2.width = 300;
-			btn2.x = btn1.x + btn1.width + 100;
-			btn2.y = 300;
-			
-//			btn3.width = 300;
-			btn3.x = btn2.x + btn2.width + 100;
-			btn3.y = 300;
-
+			addElement(sortBy);						
 		}
 		
 		private function btn1Clicked(event : MouseEvent) : void

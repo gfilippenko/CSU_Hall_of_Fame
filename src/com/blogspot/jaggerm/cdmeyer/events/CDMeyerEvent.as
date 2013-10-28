@@ -16,10 +16,14 @@ package com.blogspot.jaggerm.cdmeyer.events
 		public static const SHOW_SPORTS_SCREEN : String = 'showSportsScreen';
 		public static const SHOW_YEARS_SCREEN : String = 'showYearsScreen';
 		
+		public static const SHOW_SPORT_SCREEN : String = 'showSportScreen';
+		public static const SHOW_SPORT_YEAR : String = 'showYearScreen';
+		
 		public static const SORT_LIST : String = 'sortAthletesList';
 		
 		public var screen : ScreenView;
 		public var sortParam : String;
+		public var screenLabel : String;
 		
 		public function CDMeyerEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

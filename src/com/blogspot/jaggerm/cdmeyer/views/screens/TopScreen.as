@@ -11,16 +11,19 @@ package com.blogspot.jaggerm.cdmeyer.views.screens
 	public class TopScreen extends ScreenView
 	{
 		private var topLogo : Image;
-		public function TopScreen(value : ScreenSettings)
+		
+		public function TopScreen(value : ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
-			super(value);
+			super(value, _scrWidth, _scrHeight);
 		}
 		
 		override protected function DrawTopLogo() : void
 		{
 			topLogo = new Image();
 			topLogo.width = 1123.6;
-			topLogo.height = 159.8;
+			topLogo.height = 462;
+			topLogo.x = (_screenWidth - 1123.6) / 2;
+			topLogo.y = (_screenHeight - 462) / 2;
 			topLogo.source = cdmeyer.APP_PATH + settings.top_logo;			
 			addElement(topLogo);
 		}
@@ -37,11 +40,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens
 			addElement(backgroundImage);
 		}
 		
-		override protected function measure():void
-		{
-			
-			topLogo.x = (width - topLogo.width) / 2;
-			topLogo.y = (height - topLogo.height) / 2;
-		}
+//		override protected function measure():void
+//		{
+//			
+//			topLogo.x = (width - topLogo.width) / 2;
+//			topLogo.y = (height - topLogo.height) / 2;
+//		}
 	}
 }

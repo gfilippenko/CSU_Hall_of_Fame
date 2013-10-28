@@ -2,12 +2,16 @@ package com.blogspot.jaggerm.cdmeyer
 {
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
+	import com.blogspot.jaggerm.cdmeyer.model.Decade;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenPair;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.TopScreen;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.InductionDecade;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.InductionYear;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen.MainScreen;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen.NamesScreen;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.sports.SportsScreen;
 	
 	import flash.display.Screen;
 	import flash.events.Event;
@@ -18,12 +22,20 @@ package com.blogspot.jaggerm.cdmeyer
 
 	public class Controller implements IEventDispatcher
 	{
-		static private var _instance : Controller;
-		private var screens : Array = [];
+		private var _screenWidth : Number;
+		private var _screenHeight : Number;
+				
+		private var screens : Object = {};
+		
 		private var _settings : XML;
+		
 		public var athletes : Array = [];
+		public var sports : Array = [];
+		public var decades : Array = [];
+		
 		
 		private var _ed:EventDispatcher;
+		static private var _instance : Controller;
 		
 		public function Controller()
 		{
@@ -49,10 +61,10 @@ package com.blogspot.jaggerm.cdmeyer
 			return _instance;
 		}
 		
-		public function Start(settings : XML) : void
+		public function Start(settings : XML, screenWidth : Number, screenHeight : Number) : void
 		{
 			_settings = settings;
-			CreateScreen(0);
+			CreateScreen('main_menu');
 		}
 		
 		public function Atheles(rawData : XML) : void
@@ -63,15 +75,37 @@ package com.blogspot.jaggerm.cdmeyer
 			}
 		}
 		
-		public function CreateScreen(id : uint) : void
+		public function Sports(rawData : XML) : void
+		{
+			for each(var item : XML in rawData[0].item)
+			{
+				sports.push(item);
+			}
+		}
+		
+		public function Years(rawData : XML) : void
+		{
+			for each(var item : XML in rawData[0].decade)
+			{
+				var d : Decade = new Decade();
+				d.id = Number(item.@id);
+				for each(var year : XML in item[0].year)
+				{
+					d.years.push(Number(year));
+				}
+				decades.push(d);
+			}
+		}
+		
+		public function CreateScreen(id : String) : void
 		{	
-			if(screens.length != 0)
+			if(screens['main_menu'] != undefined)
 			{
 				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.REMOVE_BOTTOM_SCREEN));
 				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.REMOVE_TOP_SCREEN));
 			}
 			
-			if(id < screens.length)
+			if(screens[id] != undefined)
 			{
 				AddPair(id, screens[id].topScr, screens[id].botScr); 
 				return;
@@ -83,43 +117,62 @@ package com.blogspot.jaggerm.cdmeyer
 
 			switch(id)
 			{
-				case 0:
+				case 'main_menu':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='main_menu'));			
 					
-					bottomScreen = new MainScreen();
-					bottomScreen.settings = screenSettings;
+					bottomScreen = new MainScreen(screenSettings);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_NAMES_SCREEN, ShowNamesScreen);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORTS_SCREEN, ShowSportsScreen);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_SCREEN, ShowYearsScreen);
 					
 				break;
 			
-				case 1:
+				case 'names':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='names'));			
 					
-					bottomScreen = new NamesScreen();
-					bottomScreen.settings = screenSettings;
+					bottomScreen = new NamesScreen(screenSettings);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
 					
 				break;
+				
+				case 'sports':
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='sports'));			
+					
+					bottomScreen = new SportsScreen(screenSettings);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
+					SportsScreen(bottomScreen).sports = sports;
+					break;
+				
+				case 'years':
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));			
+					
+					bottomScreen = new InductionDecade(screenSettings);
+					
+					bottomScreen.width = _screenWidth;
+					bottomScreen.height = _screenHeight;
+					
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
+					InductionDecade(bottomScreen).decades = decades;
+					break;
 			}
 			
-			var topScr : TopScreen = new TopScreen();
-			topScr.settings = screenSettings;
+			var topScr : TopScreen = new TopScreen(screenSettings);
 			
 			var scrPair : ScreenPair = new ScreenPair();
 			scrPair.topScr = topScr;
 			scrPair.botScr = bottomScreen;
 			
-			screens.push(scrPair);
+			screens[id] = scrPair;
 			
 			AddPair(id, topScr, bottomScreen);
 		}
 		
 		private function ShowMainScreen(e : CDMeyerEvent) : void
 		{
-			CreateScreen(0);
+			CreateScreen('main_menu');
 		}
 		
-		private function AddPair(id : uint, topScr : ScreenView, botScr : ScreenView) : void
+		private function AddPair(id : String, topScr : ScreenView, botScr : ScreenView) : void
 		{
 			var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.ADD_TOP_SCREEN);
 			e.screen = topScr;
@@ -132,7 +185,17 @@ package com.blogspot.jaggerm.cdmeyer
 		
 		private function ShowNamesScreen(event : CDMeyerEvent) : void
 		{
-			CreateScreen(1);
+			CreateScreen('names');
+		}
+		
+		private function ShowSportsScreen(event : CDMeyerEvent) : void
+		{
+			CreateScreen('sports');			
+		}
+		
+		private function ShowYearsScreen(event : CDMeyerEvent) : void
+		{
+			CreateScreen('years');			
 		}
 		
 		public function addEventListener(type:String, listener:Function,

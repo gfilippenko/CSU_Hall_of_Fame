@@ -2,6 +2,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 {
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
+	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
 	
 	import flash.desktop.NativeApplication;
@@ -33,7 +34,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 		protected var listLimit : uint = 15;
 		protected var listSource : Array;
 		private var listPages : uint;
-		protected var list : DataGrid;
+		protected var list : AthletesList;
 		protected var currentPage : uint = 1;
 		[Bindable]
 		protected var currentProvider : ArrayCollection;
@@ -41,15 +42,9 @@ package com.blogspot.jaggerm.cdmeyer.views
 		protected var backBtn : Button;
 		protected var nextBtn : Button;
 		
-		private var backgroundImage : Image;
+		protected var backgroundImage : Image;
 		private var _settings : ScreenSettings;
 		
-		
-		[Bindable]
-		public function set settings(value : ScreenSettings) : void
-		{
-			_settings = value;
-		}
 		
 		public function get settings() : ScreenSettings
 		{
@@ -59,8 +54,6 @@ package com.blogspot.jaggerm.cdmeyer.views
 		public function set pages(value : uint) : void
 		{
 			listPages = value;
-			if(listPages > 1)
-				DrawNextButton();
 		}
 		
 		public function get pages() : uint
@@ -68,15 +61,16 @@ package com.blogspot.jaggerm.cdmeyer.views
 			return listPages;
 		}
 		
-		public function ScreenView()
+		public function ScreenView(value : ScreenSettings)
 		{
+			_settings = value;
 			percentWidth = 100;
 			percentHeight = 100;			
 		}
 		
 		public function draw() : void
 		{
-			
+
 		}
 		
 		override protected function commitProperties():void
@@ -100,16 +94,21 @@ package com.blogspot.jaggerm.cdmeyer.views
 			backgroundImage.x = 0;
 			backgroundImage.y = 0;		
 			backgroundImage.scaleMode = BitmapFillMode.SCALE;
-			backgroundImage.source = cdmeyer.APP_PATH + _settings.backgroundImage;
+			backgroundImage.source = cdmeyer.APP_PATH + _settings.botBackgroundImage;
 			addElement(backgroundImage);
 		}
 		
 		protected function DrawNextButton() : void
 		{
-			nextBtn = new Button();
+			nextBtn = new Button();			
 			nextBtn.addEventListener(MouseEvent.CLICK, NextBtnClicked);
 			nextBtn.setStyle('skinClass',NextButtonSkin);
 			addElement(nextBtn);			
+			if(nextBtn != null)
+			{
+				nextBtn.x = width - nextBtn.width - 20;
+				nextBtn.y = height - nextBtn.height - 20;
+			}
 		}
 		
 		/*
@@ -124,18 +123,37 @@ package com.blogspot.jaggerm.cdmeyer.views
 		{
 			super.measure();
 			
-			if(nextBtn != null)
+			if(backBtn != null)
 			{
-				nextBtn.x = width - nextBtn.width - 20;
-				nextBtn.y = height - nextBtn.height - 20;
+				backBtn.x = 20;
+				backBtn.y = height - backBtn.height - 20;
+			}
+			 
+			
+			if(instructionsText != null)
+			{
+				instructionsText.x = 20;
+				instructionsText.y = 20;
+				instructionsText.width = 350;
+				instructionsText.height = 160;
 			}
 			
+						
 			if(list != null)
 			{
-				list.height = 415;
-			}
+				list.x = 450;
+				list.y = 30;
+			}			
 		}
 		
+		protected function DrawList() : void
+		{
+			list.list.dataProvider = new ArrayCollection(listSource);
+		}
+		
+		/*
+		* drows limited number of items
+		*/
 		protected function DrawListPage(page : uint  = 1) : void
 		{
 			currentProvider.disableAutoUpdate();
@@ -147,17 +165,20 @@ package com.blogspot.jaggerm.cdmeyer.views
 			if(end > listSource.length)
 			{
 				end = listSource.length - 1;
-				nextBtn.visible = false;
+				if(nextBtn != null)
+					nextBtn.visible = false;
 			}
 			else
+				if(nextBtn == null)
+				{
+					DrawNextButton();
+				}
+			
 				if(!nextBtn.visible)
 					nextBtn.visible = true;
 			
-			
-			
 			for(var i:uint=start;i<end;i++)
-			{
-				Alert.show(listSource[i].firstName);
+			{				
 				currentProvider.addItem(listSource[i]);
 			}
 			
@@ -171,6 +192,17 @@ package com.blogspot.jaggerm.cdmeyer.views
 				return;
 			currentPage++;
 			DrawListPage(currentPage);
+		}
+		
+		protected function DrawInstructions() : void
+		{
+			instructionsText = new Text();
+			instructionsText.text = settings.instructions;
+			instructionsText.setStyle('fontFamily',"Swis721 Cn BT");
+			instructionsText.setStyle('fontWeight', "bold");
+			instructionsText.setStyle('fontSize', 14);
+			instructionsText.setStyle('color', 0xffffff);
+			addElement(instructionsText);
 		}
 	}
 }

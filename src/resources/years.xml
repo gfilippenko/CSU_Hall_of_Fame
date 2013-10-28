@@ -1,10 +1,11 @@
 <years>
-<1990>
-<1990/>
-<1991/>
-<1995/>
-</1990>
-<2010>
-<2013/>
-</2010>
+	<decade id="1980">
+		<year>1988</year>
+		<year>1989</year>
+	</decade>
+	<decade id="1990">
+		<year>1990</year>
+		<year>1991</year>
+		<year>1995</year>
+	</decade>
 </years>

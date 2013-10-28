@@ -4,14 +4,16 @@ package com.blogspot.jaggerm.cdmeyer.model
 
 	public class ScreenSettings
 	{
-		public var backgroundImage : String;
+		public var topBackgroundImage : String;
+		public var botBackgroundImage : String;
 		public var top_logo : String;
 		public var instructions : String;
 		
 		public function ScreenSettings(settings : XMLList)
 		{
 			
-			backgroundImage = settings.bg[0];
+			topBackgroundImage = settings.top_bg[0];
+			botBackgroundImage = settings.bot_bg[0];
 			top_logo = settings.top_logo[0];
 			instructions = settings.instructions[0];
 

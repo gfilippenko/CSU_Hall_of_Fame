@@ -34,6 +34,9 @@
 			private var wnd1 : Window;
 			private var wnd2 : Window;
 			
+			private var wnd1Complete : Boolean = false;
+			private var wnd2Complete : Boolean = false;
+			
 			private function CreationComplete(event : FlexEvent) : void
 			{				
 				wnd1  = new Window();											
@@ -59,8 +62,11 @@
 				
 //				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
 //				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				nativeWindow.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
-				
+//				nativeWindow.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);				
+			}
+			
+			private function Start() : void
+			{
 				var baseDir : File = File.applicationDirectory.resolvePath(".");
 				cdmeyer.APP_PATH = baseDir.nativePath + '/resources/';
 				
@@ -73,7 +79,19 @@
 				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'names.xml');
 				fileStream.open(file, FileMode.READ);
 				var athletesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
-				fileStream.close();			
+				fileStream.close();		
+				
+				
+				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'sports.xml');
+				fileStream.open(file, FileMode.READ);
+				var sportsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+				fileStream.close();	
+				
+				
+				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'years.xml');
+				fileStream.open(file, FileMode.READ);
+				var yearsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+				fileStream.close();	
 				
 				controller = Controller.getInstance();
 				controller.addEventListener(CDMeyerEvent.ADD_BOTTOM_SCREEN, AddScreen);
@@ -82,9 +100,10 @@
 				controller.addEventListener(CDMeyerEvent.REMOVE_TOP_SCREEN, RemoveTopScr);
 				
 				controller.Atheles(athletesXML);
+				controller.Sports(sportsXML);
+				controller.Years(yearsXML);
 				
-				controller.Start(prefsXML);
-				
+				controller.Start(prefsXML, wnd1.width, wnd1.height);	
 			}
 			
 			private function AddScreen(e : CDMeyerEvent) : void
@@ -115,14 +134,21 @@
 			
 			private function wind2Complete(event : AIREvent) : void
 			{
+				var secondScreen : Screen;
+				
 				if(Screen.screens.length < 2)
-					return;
-				var secondScreen : Screen = Screen.screens[1];
+					secondScreen = Screen.screens[0];
+				else
+					secondScreen = Screen.screens[1];
 				wnd2.nativeWindow.x = secondScreen.visibleBounds.x;
 				wnd2.nativeWindow.y = secondScreen.visibleBounds.y;
 				wnd2.nativeWindow.width = secondScreen.visibleBounds.width;
 				wnd2.nativeWindow.height = secondScreen.visibleBounds.height;
-				wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+				//wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+				
+				wnd2Complete = true;
+				if(wnd1Complete)
+					Start();
 			}
 			
 			private function wind1Complete(event : AIREvent) : void
@@ -133,6 +159,10 @@
 				wnd1.nativeWindow.width = mainScreen.bounds.width;
 				wnd1.nativeWindow.height = mainScreen.bounds.height;
 				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+				
+				wnd1Complete = true;
+				if(wnd2Complete)
+					Start();
 			}
 			
 			private function AddedToStage() : void

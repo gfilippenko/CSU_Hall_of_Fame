@@ -19,7 +19,7 @@
 	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
-	<s:BitmapImage source.disabled="@Embed('../../../../../../resources/next_button_up.png')" 
+	<s:BitmapImage width="229.3" height="107.7" source.disabled="@Embed('../../../../../../resources/next_button_up.png')" 
 				   source.down="@Embed('../../../../../../resources/next_button_down.png')" 
 				   source.up="@Embed('../../../../../../resources/next_button_up.png')" 
 				   source.over="@Embed('../../../../../../resources/next_button_up.png')" />

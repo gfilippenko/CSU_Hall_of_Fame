@@ -1,14 +1,14 @@
 <sports>
-<item>volleyball</item>
-<item>M+W B-ball</item>
-<item>track</item>
-<item>golf</item>
-<item>football</item>
-<item>TENNIS</item>
-<item>BASEBALL</item>
-<item>softball</item>
-<item>gymnastics</item>
-<item>wrestling</item>
-<item>swiming + diving</item>
-<item>water polo</item>
+<item><![CDATA[volleyball]]></item>
+<item><![CDATA[M+W B-ball]]></item>
+<item><![CDATA[track]]></item>
+<item><![CDATA[golf]]></item>
+<item><![CDATA[football]]></item>
+<item><![CDATA[TENNIS]]></item>
+<item><![CDATA[BASEBALL]]></item>
+<item><![CDATA[softball]]></item>
+<item><![CDATA[gymnastics]]></item>
+<item><![CDATA[wrestling]]></item>
+<item><![CDATA[swiming + diving]]></item>
+<item><![CDATA[water polo]]></item>
 </sports>

@@ -4,6 +4,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.HomeButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
 	
 	import flash.desktop.NativeApplication;
@@ -33,11 +34,13 @@ package com.blogspot.jaggerm.cdmeyer.views
 	{
 		public static const mainButtonWidth : Number = 400;
 		public static const mainButtonHeight : Number = 400;
-		public static const backBtnHeight : Number = 200.25;
+		public static const backBtnHeight : Number = 241;
 		public static const listWidth : Number = 900;
 		public static const listHeight : Number = 615;
 		public static const sportButtonWidth : Number = 200;
+		public static const instructionsHeight : Number = 160;
 				
+		public var showHomeBtn : Boolean = false;
 		public var showBackBtn : Boolean = false;
 		public var backBtnEventType : String;
 		
@@ -55,6 +58,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 		
 		protected var backBtn : Button;
 		protected var nextBtn : Button;
+		protected var homeBtn : Button; 
 		
 		protected var backgroundImage : Image;
 		private var _settings : ScreenSettings;
@@ -99,6 +103,17 @@ package com.blogspot.jaggerm.cdmeyer.views
 				backBtn.x = 20;
 				backBtn.y = _screenHeight - ScreenView.backBtnHeight - 20;
 				addElement(backBtn);
+			}
+			
+			if(showHomeBtn)
+			{
+				homeBtn = new Button();
+				homeBtn.addEventListener(MouseEvent.CLICK, HomeClicked);
+				homeBtn.setStyle('skinClass',HomeButtonSkin);
+				homeBtn.useHandCursor = true;
+				homeBtn.x = 144 + 40;
+				homeBtn.y = _screenHeight - ScreenView.backBtnHeight - 20;
+				addElement(homeBtn);
 			}
 		}
 		
@@ -204,14 +219,14 @@ package com.blogspot.jaggerm.cdmeyer.views
 		{
 			instructionsText = new Text();
 			instructionsText.text = settings.instructions;
-			instructionsText.setStyle('fontFamily',"Swis721 Cn BT");
+			instructionsText.setStyle('fontFamily',"Swis721CnBT");
 			instructionsText.setStyle('fontWeight', "bold");
 			instructionsText.setStyle('fontSize', 14);
 			instructionsText.setStyle('color', 0xffffff);
 			instructionsText.x = 20;
 			instructionsText.y = 20;
 			instructionsText.width = 350;
-			instructionsText.height = 160;
+			instructionsText.height = ScreenView.instructionsHeight;
 			instructionsText.measuredWidth = 350;
 			instructionsText.measuredHeight = 160;
 			addElement(instructionsText);
@@ -242,6 +257,11 @@ package com.blogspot.jaggerm.cdmeyer.views
 		private function BackClicked(e : MouseEvent) : void
 		{
 			dispatchEvent(new CDMeyerEvent(backBtnEventType));
+		}
+		
+		private function HomeClicked(event : MouseEvent) : void
+		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
 		}
 	}
 }

@@ -10,6 +10,18 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->	
 		
 	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		
+		@font-face {
+			src:url("./resources/SWZ721BC.TTF");
+			fontFamily: Swis721CnBT;
+			fontWeight: 'bold';
+			embedAsCFF: true;
+		}
+	</fx:Style>
 	<fx:Script>
 		<![CDATA[
 			import com.blogspot.jaggerm.cdmeyer.Controller;

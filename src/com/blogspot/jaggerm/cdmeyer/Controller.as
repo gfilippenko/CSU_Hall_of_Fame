@@ -9,14 +9,17 @@ package com.blogspot.jaggerm.cdmeyer
 	import com.blogspot.jaggerm.cdmeyer.views.screens.TopScreen;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.InductionDecade;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.InductionYear;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.YearScreen;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen.MainScreen;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen.NamesScreen;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.sports.SportScreen;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.sports.SportsScreen;
 	
 	import flash.display.Screen;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
+	import flash.text.ReturnKeyLabel;
 	
 	import mx.controls.Alert;
 
@@ -99,7 +102,7 @@ package com.blogspot.jaggerm.cdmeyer
 			}
 		}
 		
-		public function CreateScreen(id : String) : void
+		public function CreateScreen(id : String, screenLabel : String = null, decade : Decade = null) : void
 		{	
 			if(screens['main_menu'] != undefined)
 			{
@@ -109,6 +112,13 @@ package com.blogspot.jaggerm.cdmeyer
 			
 			if(screens[id] != undefined)
 			{
+				if(id == 'sport')
+					SportScreen(screens[id].botScr).label = screenLabel;
+				if(id == 'year')
+					YearScreen(screens[id].botScr).label = screenLabel;
+				if(id == 'years_of_decade')
+					InductionYear(screens[id].botScr).decade = decade;
+				
 				AddPair(id, screens[id].topScr, screens[id].botScr); 
 				return;
 			}
@@ -141,16 +151,46 @@ package com.blogspot.jaggerm.cdmeyer
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='sports'));			
 					
 					bottomScreen = new SportsScreen(screenSettings, _screenWidth, _screenHeight);
-					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORT_SCREEN, ShowSportScreen);
+
 					SportsScreen(bottomScreen).sports = sports;
 					break;
 				
-				case 'years':
+				case 'decades':
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));			
 					
 					bottomScreen = new InductionDecade(screenSettings, _screenWidth, _screenHeight);										
-					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);	
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_OF_DECADE, ShowYearsOfDecadeScreen);
 					InductionDecade(bottomScreen).decades = decades;
+					break;
+				
+				case 'sport':
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='sports'));			
+					
+					bottomScreen = new SportScreen(screenSettings, _screenWidth, _screenHeight);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORTS_SCREEN, ShowSportsScreen);
+					
+					SportScreen(bottomScreen).label = screenLabel;
+					break;
+				
+				case 'years_of_decade':
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));			
+					
+					bottomScreen = new InductionYear(screenSettings, _screenWidth, _screenHeight);										
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);	
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_SCREEN, ShowYearsScreen);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORT_YEAR, ShowYearScreen);
+					InductionYear(bottomScreen).decade = decade;
+					break;
+				
+				case 'year':
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));
+					bottomScreen = new YearScreen(screenSettings, _screenWidth, _screenHeight);
+					YearScreen(bottomScreen).label = screenLabel;
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_OF_DECADE, ShowYearsOfDecadeScreen);
 					break;
 			}
 			
@@ -193,7 +233,22 @@ package com.blogspot.jaggerm.cdmeyer
 		
 		private function ShowYearsScreen(event : CDMeyerEvent) : void
 		{
-			CreateScreen('years');			
+			CreateScreen('decades');			
+		}
+		
+		private function ShowSportScreen(event : CDMeyerEvent) : void
+		{
+			CreateScreen('sport', event.screenLabel);
+		}
+		
+		private function ShowYearsOfDecadeScreen(event : CDMeyerEvent) : void
+		{
+			CreateScreen('years_of_decade', null, GetDecade(Number(event.decadeID)));
+		}
+		
+		private function ShowYearScreen(event : CDMeyerEvent) : void
+		{
+			CreateScreen('year', String(event.year));
 		}
 		
 		public function addEventListener(type:String, listener:Function,
@@ -229,6 +284,17 @@ package com.blogspot.jaggerm.cdmeyer
 		public function Notify(value : String) : void
 		{
 			Alert.show(value);
+		}
+		
+		public function GetDecade(id : uint) : Decade
+		{
+			for each(var d : Decade in decades)
+			{
+				if(d.id == id)
+					return d;
+			}
+			
+			return null;
 		}
 	}
 }

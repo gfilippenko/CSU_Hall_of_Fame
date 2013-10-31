@@ -59,7 +59,7 @@
              maxDisplayedLines="2"
              horizontalCenter="0" verticalCenter="1" verticalAlign="middle"
              left="10" right="10" top="2" bottom="2"
-			 fontFamily="Swis721 Cn BT" fontWeight="bold" fontSize="24" color="0xffffff">
+			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="24" color="0xffffff">
     </s:Label>
     
 </s:Skin>

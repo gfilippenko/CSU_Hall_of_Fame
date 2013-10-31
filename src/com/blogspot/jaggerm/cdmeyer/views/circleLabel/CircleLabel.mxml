@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="200" height="200">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="{ScreenView.mainButtonWidth}" height="{ScreenView.mainButtonHeight}">
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
-	<s:BitmapImage source="@Embed('../../../../../../resources/yellow_circle.png')"/>
-	<s:Label id="lbl" fontSize="24" fontWeight="bold" color="0xffffff" text="TEST">
+	<s:BitmapImage width="{ScreenView.mainButtonWidth}" height="{ScreenView.mainButtonHeight}" source="@Embed('../../../../../../resources/yellow_circle.png')"/>
+	<s:Label id="lbl" textAlign="center"
+			 maxDisplayedLines="2"
+			 horizontalCenter="0" verticalCenter="1" verticalAlign="middle"
+			 left="10" right="10" top="2" bottom="2"
+			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="48" color="0xffffff"/>
 </s:Group>

@@ -51,6 +51,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			for each(var item : Decade in _decades)
 			{
 				var btn : Button = new Button();
+				btn.id = String(item.id);
+				btn.addEventListener(MouseEvent.CLICK, DecadeBtnClicked);
 				btn.setStyle('skinClass', CircleButtonSkin);
 				btn.width = ScreenView.sportButtonWidth;
 				btn.height = ScreenView.sportButtonWidth;
@@ -67,6 +69,13 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				
 				addElement(btn);
 			}
+		}
+		
+		private function DecadeBtnClicked(e : MouseEvent) : void
+		{
+			var event : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_YEARS_OF_DECADE);
+			event.decadeID = Number(e.target.id);
+			dispatchEvent(event);
 		}
 	}
 }

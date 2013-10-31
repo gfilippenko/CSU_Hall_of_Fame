@@ -15,6 +15,7 @@ package com.blogspot.jaggerm.cdmeyer.events
 		public static const SHOW_NAMES_SCREEN : String = 'showNamesScreen';
 		public static const SHOW_SPORTS_SCREEN : String = 'showSportsScreen';
 		public static const SHOW_YEARS_SCREEN : String = 'showYearsScreen';
+		public static const SHOW_YEARS_OF_DECADE : String = 'showYearsOfDecade';
 		
 		public static const SHOW_SPORT_SCREEN : String = 'showSportScreen';
 		public static const SHOW_SPORT_YEAR : String = 'showYearScreen';
@@ -24,6 +25,8 @@ package com.blogspot.jaggerm.cdmeyer.events
 		public var screen : ScreenView;
 		public var sortParam : String;
 		public var screenLabel : String;
+		public var decadeID : uint;
+		public var year : uint;
 		
 		public function CDMeyerEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

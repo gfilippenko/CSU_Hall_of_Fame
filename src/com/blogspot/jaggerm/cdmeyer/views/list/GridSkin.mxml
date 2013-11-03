@@ -42,6 +42,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
     xmlns:s="library://ns.adobe.com/flex/spark" 
     xmlns:mx="library://ns.adobe.com/flex/mx"
     xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	xmlns:list="com.blogspot.jaggerm.cdmeyer.views.list.*"
     alpha.disabled="0.5" minWidth="89" minHeight="84">
     
     <fx:Metadata>
@@ -135,7 +136,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         <fx:Component id="columnSeparator">
             <s:Line>
                 <s:stroke>
-                    <s:SolidColorStroke color="0xE6E6E6" weight="1" caps="square"/>
+                    <s:SolidColorStroke color="0xE6E6E6" weight="1" caps="square" alpha="0"/>
                 </s:stroke>
             </s:Line>
         </fx:Component>
@@ -144,7 +145,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         <fx:Component id="headerColumnSeparator">
             <s:Line>
                 <s:stroke>
-                    <s:SolidColorStroke color="0x696969" weight="1" caps="square"/>
+                    <s:SolidColorStroke alpha="0" color="0x696969" weight="1" caps="square"/>
                 </s:stroke>
             </s:Line>
         </fx:Component>
@@ -152,7 +153,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         <!--- Defines the value of the headerRenderer property for the columnHeaderGroup. 
               The default is spark.skins.spark.DefaultGridHeaderRenderer -->
         <fx:Component id="headerRenderer">
-            <s:DefaultGridHeaderRenderer />
+            <list:ListHeaderRenderer alpha="0" />
         </fx:Component>
         
         <!--- @private -->
@@ -189,7 +190,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         <fx:Component id="rowSeparator">
             <s:Line>
                 <s:stroke>
-                    <s:SolidColorStroke color="0xE6E6E6" weight="1" caps="square"/>
+                    <s:SolidColorStroke color="0xE6E6E6" weight="1" caps="square" alpha="0"/>
                 </s:stroke>
             </s:Line>
         </fx:Component>
@@ -238,7 +239,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
     <fx:Script fb:purpose="styling">
     <![CDATA[
         static private const exclusions:Array = ["scroller", "background", "columnHeaderGroup"];
-        static private const contentFill:Array = ["bgFill"];
+//        static private const contentFill:Array = ["bgFill"];
         
         /**
          * @private
@@ -248,7 +249,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         /**
          * @private
          */
-        override public function get contentItems():Array {return contentFill};
+//        override public function get contentItems():Array {return contentFill};
         
         /**
          * @private
@@ -266,14 +267,14 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         {
             if (getStyle("borderVisible") == true)
             {
-                border.visible = true;
-                background.left = background.top = background.right = background.bottom = 1;
+                border.visible = false;
+//                background.left = background.top = background.right = background.bottom = 1;
                 scroller.minViewportInset = 1;
             }
             else
             {
                 border.visible = false;
-                background.left = background.top = background.right = background.bottom = 0;
+//                background.left = background.top = background.right = background.bottom = 0;
                 scroller.minViewportInset = 0;
             }
             
@@ -292,29 +293,39 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
         <s:GridColumnHeaderGroup id="columnHeaderGroup"
             paddingLeft="1" paddingTop="1" paddingRight="1" minHeight="21" 
             columnSeparator="{headerColumnSeparator}"
-            headerRenderer="{headerRenderer}"/>
+            headerRenderer="{headerRenderer}"
+			/>
 
         <s:Group height="100%">
             
             <!--- @private -->
-            <s:Rect id="background" left="1" right="1" top="1" bottom="1" >
+<!--            <s:Rect id="background" left="1" right="1" top="1" bottom="1" >
                 <s:fill>
-                    <!--- Defines the color of the background. The default color is 0xFFFFFF. -->
-                    <s:SolidColor id="bgFill" color="0xFFFFFF" />
+-->                    <!--- Defines the color of the background. The default color is 0xFFFFFF. -->
+<!--                    <s:SolidColor id="bgFill" color="0xFF000"/>
                 </s:fill>
             </s:Rect>
-            
+-->            
             <!-- header separator, scroller and grid -->
             <s:VGroup horizontalAlign="justify" height="100%" width="100%" gap="-1">
                 <!--- @private -->
-                <s:Line id="headerSeparator">
-                    <s:stroke>
-                        <s:SolidColorStroke color="0x696969" weight="1" caps="square"/>
-                    </s:stroke>
-                </s:Line>          
+				<s:HGroup>
+					<s:Line width="50%">
+						<s:stroke>
+							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
+						</s:stroke>
+					</s:Line>
+					<s:Spacer width="10%"/>
+					<s:Line id="headerSeparator" width="40%">
+						<s:stroke>
+							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
+						</s:stroke>
+					</s:Line>
+				</s:HGroup>
+                          
                 
                 <!--- @private -->
-                <s:Scroller id="scroller" minViewportInset="1" hasFocusableChildren="false" height="100%">
+                <s:Scroller id="scroller" minViewportInset="1" hasFocusableChildren="false" height="100%" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollSkin">
                     <!--- @private -->
                     <s:Grid id="grid" itemRenderer="spark.skins.spark.DefaultGridItemRenderer">
                         <s:GridLayer name="backgroundLayer"/>
@@ -324,6 +335,21 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
                         <s:GridLayer name="overlayLayer"/>
                     </s:Grid>                    
                 </s:Scroller>
+				
+				<s:HGroup>
+					<s:Line width="50%">
+						<s:stroke>
+							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
+						</s:stroke>
+					</s:Line>
+					<s:Spacer width="10%"/>
+					<s:Line width="40%">
+						<s:stroke>
+							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
+						</s:stroke>
+					</s:Line>
+				</s:HGroup>
+				
             </s:VGroup>
             
         </s:Group>
@@ -335,7 +361,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
     <s:Rect left="0" right="0" top="0" bottom="0" id="border">
         <s:stroke>
             <!--- @private -->
-            <s:SolidColorStroke id="borderStroke" weight="1"/>
+            <s:SolidColorStroke id="borderStroke" weight="0"/>
         </s:stroke>
     </s:Rect>    
 

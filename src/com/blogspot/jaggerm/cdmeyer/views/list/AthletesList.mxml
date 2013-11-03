@@ -22,7 +22,7 @@
 //				var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SORT_LIST);
 //				e.sortParam = event.target.id;
 //				dispatchEvent(e);		
-				Alert.show(event.target.id);
+//				Alert.show(event.target.id);
 				currentFilter = event.target.id;
 				ArrayCollection(list.dataProvider).filterFunction = FilterFunction;
 				ArrayCollection(list.dataProvider).disableAutoUpdate();
@@ -46,12 +46,13 @@
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
-	<s:DataGrid id="list" width="100%" height="100%">
+	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin"
+				>
 		<s:columns>
 			<s:ArrayList>
-				<s:GridColumn id="lastName" dataField="lastName"/>
-				<s:GridColumn id="firstName" dataField="firstName"/>
-				<s:GridColumn id="sport" dataField="sport"/>	
+				<s:GridColumn id="lastName" dataField="lastName" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
+				<s:GridColumn id="firstName" dataField="firstName" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
+				<s:GridColumn id="sport" dataField="sport" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>	
 			</s:ArrayList>			
 		</s:columns>
 	</s:DataGrid>

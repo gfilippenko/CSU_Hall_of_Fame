@@ -26,19 +26,25 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import spark.components.DataGrid;
 	import spark.components.Group;
 	import spark.components.Image;
+	import spark.components.Label;
 	import spark.components.WindowedApplication;
 	import spark.primitives.BitmapImage;
 	
 
 	public class ScreenView extends Group
 	{
-		public static const mainButtonWidth : Number = 400;
-		public static const mainButtonHeight : Number = 400;
+		public static const mainButtonWidth : Number = 428;
+		public static const mainButtonHeight : Number = 428;
 		public static const backBtnHeight : Number = 241;
 		public static const listWidth : Number = 900;
-		public static const listHeight : Number = 615;
-		public static const sportButtonWidth : Number = 200;
-		public static const instructionsHeight : Number = 160;
+		public static const listHeight : Number = 617;
+		public static const sportButtonWidth : Number = 265;
+		
+		public static const instructionsWidth : Number = 430;
+		public static const instructionsHeight : Number = 580;
+		
+		public static const instructionsX : Number = 111;
+		public static const instructionsY : Number = 177;
 				
 		public var showHomeBtn : Boolean = false;
 		public var showBackBtn : Boolean = false;
@@ -62,6 +68,10 @@ package com.blogspot.jaggerm.cdmeyer.views
 		
 		protected var backgroundImage : Image;
 		private var _settings : ScreenSettings;
+		
+		protected var logo : Label;
+		public static const screenlabelX : Number = 111;
+		public static const screenlabelY : Number = 30;
 		
 		
 		public function get settings() : ScreenSettings
@@ -189,16 +199,13 @@ package com.blogspot.jaggerm.cdmeyer.views
 		{
 			instructionsText = new Text();
 			instructionsText.text = settings.instructions;
-			instructionsText.setStyle('fontFamily',"Swis721CnBT");
-			instructionsText.setStyle('fontWeight', "bold");
-			instructionsText.setStyle('fontSize', 14);
+			instructionsText.setStyle('fontFamily',"Swis721CnBTnonCFF");
+			instructionsText.setStyle('fontSize', 36);
 			instructionsText.setStyle('color', 0xffffff);
-			instructionsText.x = 20;
-			instructionsText.y = 20;
-			instructionsText.width = 350;
+			instructionsText.x = ScreenView.instructionsX;
+			instructionsText.y = ScreenView.instructionsY;
+			instructionsText.width = ScreenView.instructionsWidth;
 			instructionsText.height = ScreenView.instructionsHeight;
-			instructionsText.measuredWidth = 350;
-			instructionsText.measuredHeight = 160;
 			addElement(instructionsText);
 		}
 		

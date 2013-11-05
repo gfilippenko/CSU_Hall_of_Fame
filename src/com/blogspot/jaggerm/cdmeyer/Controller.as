@@ -158,7 +158,7 @@ package com.blogspot.jaggerm.cdmeyer
 					break;
 				
 				case 'decades':
-					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));			
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='decades'));			
 					
 					bottomScreen = new InductionDecade(screenSettings, _screenWidth, _screenHeight);										
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);	
@@ -167,7 +167,7 @@ package com.blogspot.jaggerm.cdmeyer
 					break;
 				
 				case 'sport':
-					screenSettings = new ScreenSettings(_settings.screen.(@id=='sports'));			
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='sport'));			
 					
 					bottomScreen = new SportScreen(screenSettings, _screenWidth, _screenHeight);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORTS_SCREEN, ShowSportsScreen);
@@ -186,7 +186,7 @@ package com.blogspot.jaggerm.cdmeyer
 					break;
 				
 				case 'year':
-					screenSettings = new ScreenSettings(_settings.screen.(@id=='years'));
+					screenSettings = new ScreenSettings(_settings.screen.(@id=='year'));
 					bottomScreen = new YearScreen(screenSettings, _screenWidth, _screenHeight);
 					YearScreen(bottomScreen).label = screenLabel;
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);

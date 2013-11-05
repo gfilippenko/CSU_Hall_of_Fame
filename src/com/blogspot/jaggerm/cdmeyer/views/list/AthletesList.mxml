@@ -46,8 +46,7 @@
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
-	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin"
-				>
+	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin">
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn id="lastName" dataField="lastName" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>

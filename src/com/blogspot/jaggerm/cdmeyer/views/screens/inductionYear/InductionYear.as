@@ -13,6 +13,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	import mx.messaging.ConsumerMessageDispatcher;
 	
 	import spark.components.Button;
+	import spark.components.Label;
 	
 	public class InductionYear extends ScreenView
 	{
@@ -53,6 +54,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				if(_decadeChanged)			
 				{
 					DrawButtons();	
+					logo.text = 'YEAR: ' + decade.id + "'s";
 					_decadeChanged = false;
 				}
 			}			
@@ -66,6 +68,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			{
 				DrawInstructions();
 			}	
+			
+			logo = new Label();
+			logo.setStyle('fontFamily',"Swis721CnBT");
+			logo.setStyle('fontWeight', "bold");
+			logo.setStyle('fontSize', 104);
+			logo.setStyle('color', 0xffffff);
+			logo.x = ScreenView.screenlabelX;
+			logo.y = ScreenView.screenlabelY;
+			logo.text = 'YEAR';
+			addElement(logo);
 		}
 		
 		protected function DrawButtons():void
@@ -79,7 +91,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			var shiftX : Number = 20;
 			var shiftY : Number = 20;
 			
-			var startX : Number =  (_screenWidth - ((_decade.years.length * 200) + ((_decade.years.length - 1) * 20))) / 2;
+			var startX : Number = ScreenView.instructionsX + ScreenView.instructionsWidth + 20;
 			var nextX : Number = startX;
 			var nextY : Number = 150;
 			

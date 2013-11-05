@@ -28,6 +28,13 @@
 			fontWeight: normal;
 			embedAsCFF: true;
 		}
+		
+		@font-face {
+			src:url("./resources/SWZ721C.TTF");
+			fontFamily: Swis721CnBTnonCFF;
+			fontWeight: normal;
+			embedAsCFF: false;
+		}
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[

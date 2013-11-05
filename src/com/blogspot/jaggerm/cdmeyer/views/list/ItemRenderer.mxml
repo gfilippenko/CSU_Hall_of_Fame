@@ -5,7 +5,7 @@
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
-	<s:Label id="albumName" left="12" top="6" fontSize="24"
+	<s:Label id="albumName" left="12" top="6" fontSize="40.42"
 	width="100%" 
 	text="{String(data[column.dataField]).toUpperCase()}"  fontFamily="Swis721CnBT" color="0xffffff"/>
 </s:GridItemRenderer>

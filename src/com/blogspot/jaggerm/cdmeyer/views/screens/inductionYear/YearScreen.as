@@ -11,11 +11,13 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	import mx.collections.ArrayCollection;
 	import mx.states.OverrideBase;
 	
+	import spark.components.Label;
+	
 	public class YearScreen extends ScreenView
 	{
 		private var _label : String;
 		private var _labelChanged : Boolean = false;
-		private var logo : CircleLabel;
+		
 		
 		[Bindable]
 		public function set label(value : String) : void
@@ -48,7 +50,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			if(logo != null)
 				if(_labelChanged)
 				{
-					logo.lbl.text = label;
+					logo.text = label;
 					DrawList();
 					_labelChanged = false;
 				}
@@ -63,15 +65,19 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				DrawInstructions();
 			}
 			
-			logo = new CircleLabel();
-			logo.x = 50;
-			logo.y = ScreenView.instructionsHeight  + 50;
-			logo.lbl.text = label;
+			logo = new Label();
+			logo.setStyle('fontFamily',"Swis721CnBT");
+			logo.setStyle('fontWeight', "bold");
+			logo.setStyle('fontSize', 104);
+			logo.setStyle('color', 0xffffff);
+			logo.x = ScreenView.screenlabelX;
+			logo.y = ScreenView.screenlabelY;
+			logo.text = label;
 			addElement(logo);
 			
 			list = new AthletesList();
 			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = _screenHeight - ScreenView.listHeight - 20;			
+			list.y = 20;			
 			list.list.dataProvider = new ArrayCollection();
 			addElement(list);
 		}

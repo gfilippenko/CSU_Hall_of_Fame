@@ -35,11 +35,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 		{
 			super.draw();
 			
-			var startX : Number = 100;
-			var startY : Number = 300;
+			var startX : Number = 208;
+			var startY : Number = 290;
 			var shiftY : Number = 100;
 			
 			btn1 = new Button();
+			btn1.label = 'NAME';
 			btn1.x = startX;
 			btn1.y = startY;
 			btn1.setStyle('skinClass', Button1Skin);			
@@ -47,7 +48,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 			addElement(btn1);
 			
 			btn2 = new Button();
-			btn2.setStyle('skinClass', Button2Skin);
+			btn2.label = 'SPORT';
+			btn2.setStyle('skinClass', Button1Skin);
 			btn2.addEventListener(MouseEvent.CLICK, btn2Clicked);
 			var btn2X : Number = startX + ScreenView.mainButtonWidth + shiftY; 
 			btn2.x = btn2X; 
@@ -56,7 +58,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 			
 			
 			btn3 = new Button();
-			btn3.setStyle('skinClass', Button3Skin);
+			btn3.label = 'YEAR';
+			btn3.setStyle('skinClass', Button1Skin);
 			btn3.addEventListener(MouseEvent.CLICK, btn3Clicked);
 			btn3.x = btn2X + ScreenView.mainButtonWidth + shiftY;
 			btn3.y = startY;
@@ -64,10 +67,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 			
 			sortBy = new Image();
 			sortBy.source = sortByClass;				
-			sortBy.width = 221.5;
-			sortBy.height = 44;
-			sortBy.x = 400;
-			sortBy.y = 700;
+			sortBy.width = 129;
+			sortBy.height = 25;
+			sortBy.x = 300;
+			sortBy.y = 750;
 			addElement(sortBy);						
 		}
 		

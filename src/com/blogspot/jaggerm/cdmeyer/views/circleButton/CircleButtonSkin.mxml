@@ -48,7 +48,7 @@
     
    
 	
-	<s:BitmapImage width="200" height="200"  
+	<s:BitmapImage width="266" height="266"  
 				   source.down="@Embed('../../../../../../resources/yellow_circle_down.png')" 
 				   source.up="@Embed('../../../../../../resources/yellow_circle.png')" 
 				   source.over="@Embed('../../../../../../resources/yellow_circle.png')"/>
@@ -59,7 +59,7 @@
              maxDisplayedLines="2"
              horizontalCenter="0" verticalCenter="1" verticalAlign="middle"
              left="10" right="10" top="2" bottom="2"
-			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="24" color="0xffffff">
+			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="36.22" color="0xffffff">
     </s:Label>
     
 </s:Skin>

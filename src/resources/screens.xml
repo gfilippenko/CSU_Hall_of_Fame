@@ -8,24 +8,36 @@
 		<top_logo>names_top_logo.png</top_logo>
 		<top_bg>main_screen_backround_top.png</top_bg>
 		<bot_bg>main_screen_backround_bot.png</bot_bg>
-		<instructions><![CDATA[
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-		]]></instructions>
+		<instructions><![CDATA[Select a Last Name from the list of athletes on the right to see details for that particular athlete. Use the letter groups below the list of names to assist you in your search for other athletes, by last name.]]></instructions>
 	</screen>
 	<screen id="sports">
 		<top_logo>names_top_logo.png</top_logo>
 		<top_bg>main_screen_backround_top.png</top_bg>
 		<bot_bg>main_screen_backround_bot.png</bot_bg>
-		<instructions><![CDATA[
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-		]]></instructions>
+		<instructions><![CDATA[Select a sport to search for an athlete.]]></instructions>
 	</screen>
+	<screen id="decades">
+		<top_logo>names_top_logo.png</top_logo>
+		<top_bg>main_screen_backround_top.png</top_bg>
+		<bot_bg>main_screen_backround_bot.png</bot_bg>
+		<instructions><![CDATA[Select a Decade to view athletes by Induction Year.]]></instructions>
+	</screen>	
 	<screen id="years">
 		<top_logo>names_top_logo.png</top_logo>
 		<top_bg>main_screen_backround_top.png</top_bg>
 		<bot_bg>main_screen_backround_bot.png</bot_bg>
-		<instructions><![CDATA[
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-		]]></instructions>
+		<instructions><![CDATA[Select an Induction Year.]]></instructions>
+	</screen>	
+	<screen id="year">
+		<top_logo>names_top_logo.png</top_logo>
+		<top_bg>main_screen_backround_top.png</top_bg>
+		<bot_bg>main_screen_backround_bot.png</bot_bg>
+		<instructions><![CDATA[Select a Last Name from the list of athletes on the right to see details for that particular athlete. Use the letter groups below the list of names to assist you in your search for other athletes, by last name.]]></instructions>
+	</screen>	
+	<screen id="sport">
+		<top_logo>names_top_logo.png</top_logo>
+		<top_bg>main_screen_backround_top.png</top_bg>
+		<bot_bg>main_screen_backround_bot.png</bot_bg>
+		<instructions><![CDATA[Select a Last Name from the list of athletes on the right to see details for that particular athlete. Use the letter groups below the list of names to assist you in your search for other athletes, by last name.]]></instructions>
 	</screen>	
 </screens>

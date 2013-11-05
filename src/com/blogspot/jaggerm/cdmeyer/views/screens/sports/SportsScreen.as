@@ -11,6 +11,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	import mx.controls.Text;
 	
 	import spark.components.Button;
+	import spark.components.Label;
 	
 	public class SportsScreen extends ScreenView
 	{
@@ -38,6 +39,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 				DrawInstructions();
 			}
 			
+			logo = new Label();
+			logo.setStyle('fontFamily',"Swis721CnBT");
+			logo.setStyle('fontWeight', "bold");
+			logo.setStyle('fontSize', 104);
+			logo.setStyle('color', 0xffffff);
+			logo.x = ScreenView.screenlabelX;
+			logo.y = ScreenView.screenlabelY;
+			logo.text = 'SPORT';
+			addElement(logo);
+			
 			DrawButtons();
 		}
 		
@@ -53,8 +64,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			var shiftX : Number = 20;
 			var shiftY : Number = 20;
 			
-			var startX : Number = 20;
-			var nextX : Number = 20;
+			var startX : Number = ScreenView.instructionsX + ScreenView.instructionsWidth + 20;
+			var nextX : Number = startX;
 			var nextY : Number = 150;
 			
 			for each(var item : String in _sports)

@@ -17,6 +17,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	public class InductionYear extends ScreenView
 	{
 		private var _decade : Decade;
+		private var _decadeChanged : Boolean = false;
+		private var buttons : Array = [];
 		
 		[Bindable]
 		public function set decade(value : Decade) : void
@@ -24,6 +26,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			if(_decade != value)
 			{
 				_decade = value;
+				_decadeChanged = true;
 				invalidateProperties();
 			}
 		}
@@ -41,6 +44,20 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			showHomeBtn = true;
 		}
 		
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			
+			if(_decade != null)
+			{
+				if(_decadeChanged)			
+				{
+					DrawButtons();	
+					_decadeChanged = false;
+				}
+			}			
+		}
+		
 		override public function draw() : void
 		{
 			super.draw();
@@ -49,12 +66,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			{
 				DrawInstructions();
 			}	
-
-			DrawButtons();
 		}
 		
 		protected function DrawButtons():void
 		{
+			for each(var b : Button in buttons)
+			{
+				removeElement(b);
+			}
+			buttons.splice(0, buttons.length);
+			
 			var shiftX : Number = 20;
 			var shiftY : Number = 20;
 			
@@ -66,7 +87,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			{
 				var btn : Button = new Button();
 				btn.id = String(item);
-				btn.addEventListener(MouseEvent.CLICK, YearBtnClicked);
+				btn.addEventListener(MouseEvent.CLICK, YearBtnClicked, false, 0, true);
 				btn.setStyle('skinClass', CircleButtonSkin);
 				btn.width = ScreenView.sportButtonWidth;
 				btn.height = ScreenView.sportButtonWidth;
@@ -81,6 +102,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 					nextY = btn.y + btn.height + shiftY;
 				}
 				
+				buttons.push(btn);
 				addElement(btn);
 			}
 		}

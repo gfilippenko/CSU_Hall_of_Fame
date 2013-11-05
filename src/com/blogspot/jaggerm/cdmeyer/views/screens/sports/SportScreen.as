@@ -1,6 +1,8 @@
 package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 {
+	import com.blogspot.jaggerm.cdmeyer.Controller;
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.circleLabel.CircleLabel;
@@ -43,10 +45,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			super.commitProperties();
 			
 			if(logo != null)
-				if(_labelChanged)
+			{
+				if(_labelChanged)			
 				{
 					logo.lbl.text = label;
+					DrawList();	
+					_labelChanged = false;
 				}
+			}			
 		}
 		
 		override public function draw() : void
@@ -67,11 +73,23 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			
 			list = new AthletesList();
 			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = _screenHeight - ScreenView.listHeight - 20;			
-			
-			currentProvider = new ArrayCollection();
+			list.y = _screenHeight - ScreenView.listHeight - 20;	
+			list.list.dataProvider = new ArrayCollection();
 			addElement(list);
 		}
 		
+		override protected function DrawList() : void
+		{
+			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
+			list.list.dataProvider.removeAll();
+			
+			for each(var item : Athlete in Controller.getInstance().athletes)
+			{
+				if(item.sport.toUpperCase() == label.toUpperCase())
+					list.list.dataProvider.addItem(item);
+			}
+			
+			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+		}
 	}
 }

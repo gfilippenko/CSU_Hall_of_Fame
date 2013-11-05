@@ -135,37 +135,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 			backgroundImage.scaleMode = BitmapFillMode.SCALE;
 			backgroundImage.source = cdmeyer.APP_PATH + _settings.botBackgroundImage;
 			addElement(backgroundImage);
-		}
-		
-
-
-		
-//		override protected function measure() : void
-//		{
-//			super.measure();
-//			
-//			if(backBtn != null)
-//			{
-//				backBtn.x = 20;
-//				backBtn.y = height - backBtn.height - 20;
-//			}
-//			 
-//			
-//			if(instructionsText != null)
-//			{
-//				instructionsText.x = 20;
-//				instructionsText.y = 20;
-//				instructionsText.width = 350;
-//				instructionsText.height = 160;
-//			}
-//			
-//						
-//			if(list != null)
-//			{
-//				list.x = 450;
-//				list.y = 30;
-//			}			
-//		}
+		}	
 		
 		protected function DrawList() : void
 		{

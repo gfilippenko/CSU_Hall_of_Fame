@@ -61,38 +61,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			list.y = _screenHeight - ScreenView.listHeight - 20;			
 
 			currentProvider = new ArrayCollection();
-//			list.list.dataProvider = currentProvider;
-//			list.columns = new ArrayList();
-//			
-//			var col1 : GridColumn = new GridColumn();
-//			col1.dataField = 'lastName';
-//			var col2 : GridColumn = new GridColumn();
-//			col2.dataField = 'firstName';
-//			var col3 : GridColumn = new GridColumn();
-//			col3.dataField = 'sport';
-			
-//			list.columns.addItem(col1);
-//			list.columns.addItem(col2);
-//			list.columns.addItem(col3);
-			
 			addElement(list);
-			//pages = Math.ceil(listSource.length / listLimit);
-			//DrawListPage();
 			DrawList();
 		}
 		
-//		override protected function measure() : void
-//		{
-//			super.measure();
-//			
-//			
-//			if(logo != null)
-//			{
-//				logo.x = 50;
-//				logo.y = instructionsText.y + instructionsText.height + 20;
-//			}
-//		}
-		
-				
 	}
 }

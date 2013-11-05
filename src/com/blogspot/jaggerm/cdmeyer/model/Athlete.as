@@ -5,6 +5,7 @@ package com.blogspot.jaggerm.cdmeyer.model
 		public var firstName : String;
 		public var lastName : String;
 		public var sport : String;
+		public var year : String;
 		
 		public function Athlete(rawData : XML)
 		{
@@ -16,6 +17,7 @@ package com.blogspot.jaggerm.cdmeyer.model
 			firstName = rawData.f[0];
 			lastName = rawData.l[0];
 			sport = rawData.s[0];
+			year = rawData.year[0];
 		}
 	}
 }

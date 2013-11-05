@@ -1,12 +1,15 @@
 package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 {
+	import com.blogspot.jaggerm.cdmeyer.Controller;
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.circleLabel.CircleLabel;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	
 	import mx.collections.ArrayCollection;
+	import mx.states.OverrideBase;
 	
 	public class YearScreen extends ScreenView
 	{
@@ -46,6 +49,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				if(_labelChanged)
 				{
 					logo.lbl.text = label;
+					DrawList();
+					_labelChanged = false;
 				}
 		}
 		
@@ -62,15 +67,27 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			logo.x = 50;
 			logo.y = ScreenView.instructionsHeight  + 50;
 			logo.lbl.text = label;
-			//BindingUtils.bindProperty(logo.lbl, 'text', this, label);
 			addElement(logo);
 			
 			list = new AthletesList();
 			list.x = _screenWidth - ScreenView.listWidth - 20;
 			list.y = _screenHeight - ScreenView.listHeight - 20;			
-			
-			currentProvider = new ArrayCollection();
+			list.list.dataProvider = new ArrayCollection();
 			addElement(list);
+		}
+		
+		override protected function DrawList() : void
+		{
+			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
+			list.list.dataProvider.removeAll();
+			
+			for each(var item : Athlete in Controller.getInstance().athletes)
+			{
+				if(item.year.toUpperCase() == label.toUpperCase())
+					list.list.dataProvider.addItem(item);
+			}
+
+			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
 		}
 	}
 }

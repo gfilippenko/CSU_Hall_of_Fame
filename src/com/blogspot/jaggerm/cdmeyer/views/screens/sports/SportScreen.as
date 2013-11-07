@@ -76,7 +76,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			
 			list = new AthletesList();
 			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = 20;
+			list.y = _screenHeight - ScreenView.listHeight - 20;
 			list.list.dataProvider = new ArrayCollection();
 			addElement(list);
 		}

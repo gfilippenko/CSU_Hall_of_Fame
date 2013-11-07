@@ -7,6 +7,8 @@ package com.blogspot.jaggerm.cdmeyer
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.TopScreen;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.athlete.AthleteScreen;
+	import com.blogspot.jaggerm.cdmeyer.views.screens.athlete.AthleteTop;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.InductionDecade;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.InductionYear;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear.YearScreen;
@@ -143,7 +145,8 @@ package com.blogspot.jaggerm.cdmeyer
 					screenSettings = new ScreenSettings(_settings.screen.(@id=='names'));			
 					
 					bottomScreen = new NamesScreen(screenSettings, _screenWidth, _screenHeight);
-					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);										
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);	
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_ATHLETE, ShowAthleteScreen);
 					
 				break;
 				
@@ -171,7 +174,7 @@ package com.blogspot.jaggerm.cdmeyer
 					
 					bottomScreen = new SportScreen(screenSettings, _screenWidth, _screenHeight);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORTS_SCREEN, ShowSportsScreen);
-					
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_ATHLETE, ShowAthleteScreen);
 					SportScreen(bottomScreen).label = screenLabel;
 					break;
 				
@@ -191,6 +194,7 @@ package com.blogspot.jaggerm.cdmeyer
 					YearScreen(bottomScreen).label = screenLabel;
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_OF_DECADE, ShowYearsOfDecadeScreen);
+					bottomScreen.addEventListener(CDMeyerEvent.SHOW_ATHLETE, ShowAthleteScreen);
 					break;
 			}
 			
@@ -249,6 +253,73 @@ package com.blogspot.jaggerm.cdmeyer
 		private function ShowYearScreen(event : CDMeyerEvent) : void
 		{
 			CreateScreen('year', String(event.year));
+		}
+		
+		private function ShowAthleteScreen(event : CDMeyerEvent) : void
+		{
+			if(screens['main_menu'] != undefined)
+			{
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.REMOVE_BOTTOM_SCREEN));
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.REMOVE_TOP_SCREEN));
+			}
+			
+			if(screens['athlete'] != undefined)
+			{
+				AthleteScreen(screens['athlete'].botScr).athlete = GetAthlete(event.lastName, event.sport);
+				AthleteTop(screens['athlete'].topScr).athlete = GetAthlete(event.lastName, event.sport);
+				
+
+				
+				if(event.currentTarget is NamesScreen)
+					AthleteScreen(screens['athlete'].botScr).backScreen = 'names';
+				if(event.currentTarget is YearScreen)
+					AthleteScreen(screens['athlete'].botScr).backScreen = 'year';
+				if(event.currentTarget is SportScreen)
+					AthleteScreen(screens['athlete'].botScr).backScreen = 'sport';
+				
+				AddPair('athlete', screens['athlete'].topScr, screens['athlete'].botScr); 
+				return;
+			}
+			
+			var screenSettings : ScreenSettings = new ScreenSettings(_settings.screen.(@id=='athlete'));
+			
+			var athleteScreen : AthleteScreen = new AthleteScreen(screenSettings, _screenWidth, _screenHeight);
+			athleteScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen, false, 0, true);
+			athleteScreen.addEventListener(CDMeyerEvent.SHOW_NAMES_SCREEN, ShowNamesScreen, false, 0, true);
+			athleteScreen.addEventListener(CDMeyerEvent.SHOW_SPORT_YEAR, ShowYearScreen, false, 0, true);
+			athleteScreen.addEventListener(CDMeyerEvent.SHOW_SPORT_SCREEN, ShowSportScreen, false, 0, true);
+				
+			var athlete : Athlete = GetAthlete(event.lastName, event.sport); 
+			athleteScreen.athlete = athlete;
+			
+			if(event.currentTarget is NamesScreen)
+				athleteScreen.backScreen = 'names';
+			if(event.currentTarget is YearScreen)
+				athleteScreen.backScreen = 'year';
+			if(event.currentTarget is SportScreen)
+				athleteScreen.backScreen = 'sport';
+			
+			var athleteTop : AthleteTop = new AthleteTop(screenSettings, _screenWidth, _screenHeight);
+			athleteTop.athlete = athlete;
+						
+			var scrPair : ScreenPair = new ScreenPair();
+			scrPair.topScr = athleteTop;
+			scrPair.botScr = athleteScreen;
+			screens['athlete'] = scrPair;	
+			
+			
+			AddPair('athlete', athleteTop, athleteScreen);
+		}
+		
+		private function GetAthlete(lastName : String, sport : String) : Athlete
+		{
+			for each(var item : Athlete in athletes)
+			{
+				if(item.lastName.toUpperCase() == lastName.toUpperCase())
+					return item;
+			}
+			
+			return null
 		}
 		
 		public function addEventListener(type:String, listener:Function,

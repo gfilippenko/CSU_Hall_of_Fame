@@ -55,7 +55,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			
 			list = new AthletesList();
 			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = 20;			
+			list.y = _screenHeight - ScreenView.listHeight - 20;			
 
 			currentProvider = new ArrayCollection();
 			addElement(list);

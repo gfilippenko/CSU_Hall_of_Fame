@@ -35,6 +35,13 @@
 			fontWeight: normal;
 			embedAsCFF: false;
 		}
+		
+		@font-face {
+			src:url("./resources/SWZ721BC.TTF");
+			fontFamily: Swis721CnBTnonCFF;
+			fontWeight: bold;
+			embedAsCFF: false;
+		}
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
@@ -122,7 +129,7 @@
 				controller = Controller.getInstance();
 				controller.addEventListener(CDMeyerEvent.ADD_BOTTOM_SCREEN, AddScreen);
 				controller.addEventListener(CDMeyerEvent.ADD_TOP_SCREEN, AddTopScreen);
-				controller.addEventListener(CDMeyerEvent.REMOVE_BOTTOM_SCREEN, RemoveBottonScreen);
+				controller.addEventListener(CDMeyerEvent.REMOVE_BOTTOM_SCREEN, RemoveBottomScreen);
 				controller.addEventListener(CDMeyerEvent.REMOVE_TOP_SCREEN, RemoveTopScr);
 				
 				controller.Atheles(athletesXML);
@@ -148,7 +155,7 @@
 //					wnd2.removeElementAt(1);
 			}
 			
-			private function RemoveBottonScreen(e : CDMeyerEvent) : void
+			private function RemoveBottomScreen(e : CDMeyerEvent) : void
 			{
 				wnd1.removeElementAt(0);
 			}

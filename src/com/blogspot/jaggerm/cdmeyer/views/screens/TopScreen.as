@@ -40,11 +40,5 @@ package com.blogspot.jaggerm.cdmeyer.views.screens
 			addElement(backgroundImage);
 		}
 		
-//		override protected function measure():void
-//		{
-//			
-//			topLogo.x = (width - topLogo.width) / 2;
-//			topLogo.y = (height - topLogo.height) / 2;
-//		}
 	}
 }

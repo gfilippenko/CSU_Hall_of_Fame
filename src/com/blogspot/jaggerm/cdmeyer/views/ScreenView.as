@@ -1,6 +1,7 @@
 package com.blogspot.jaggerm.cdmeyer.views
 {
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
@@ -8,6 +9,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
 	
 	import flash.desktop.NativeApplication;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.ReturnKeyLabel;
 	import flash.ui.Mouse;
@@ -36,8 +38,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 		public static const mainButtonWidth : Number = 428;
 		public static const mainButtonHeight : Number = 428;
 		public static const backBtnHeight : Number = 241;
-		public static const listWidth : Number = 900;
-		public static const listHeight : Number = 617;
+		public static const listWidth : Number = 800;//1322;
+		public static const listHeight : Number = 600;//900; 
 		public static const sportButtonWidth : Number = 265;
 		
 		public static const instructionsWidth : Number = 430;
@@ -72,6 +74,33 @@ package com.blogspot.jaggerm.cdmeyer.views
 		protected var logo : Label;
 		public static const screenlabelX : Number = 111;
 		public static const screenlabelY : Number = 30;
+		
+		
+//		private var _athlete : Athlete;
+//		protected var _athleteChanged : Boolean = false;
+//		protected var backgroundPhoto : Image;
+//		
+//		public function get athletePath() : String
+//		{
+//			return cdmeyer.APP_PATH + 'info/' + _athlete.lastName + '_' 
+//				+ _athlete.firstName  + '/';
+//		}
+//		
+//		
+//		public function set athlete(value : Athlete) : void
+//		{
+//			if(_athlete != value)
+//			{
+//				_athleteChanged = true;
+//				_athlete = value;
+//				invalidateProperties();
+//			}			
+//		}
+//		
+//		public function get athlete() : Athlete
+//		{
+//			return _athlete;
+//		}
 		
 		
 		public function get settings() : ScreenSettings
@@ -145,7 +174,43 @@ package com.blogspot.jaggerm.cdmeyer.views
 			backgroundImage.scaleMode = BitmapFillMode.SCALE;
 			backgroundImage.source = cdmeyer.APP_PATH + _settings.botBackgroundImage;
 			addElement(backgroundImage);
-		}	
+		}
+		
+		
+//		protected function DrawBGPhoto(): void
+//		{
+//			if(backgroundPhoto == null)
+//			{
+//				backgroundPhoto = new Image();
+//				backgroundPhoto.addEventListener(Event.COMPLETE, BackgroundLoaded);
+//				backgroundPhoto.x = 0;
+//				backgroundPhoto.y = 0;		
+////				backgroundPhoto.scaleMde = BitmapFillMode.CLIP;
+//				backgroundPhoto.source = athletePath + athlete.backGroundImage;
+//				
+//				
+//				//				var mask : Image = new Image();
+//				//				mask.width = 1920;
+//				//				mask.height = 1080;
+//				//				mask.alpha = 0.5;
+//				////				backgroundImage.source = cdmeyer.APP_PATH + '';
+//				//				addElement(mask);
+//			}
+//			else 
+//			{
+////				removeElement(backgroundImage);
+//				backgroundPhoto.source = athletePath + athlete.backGroundImage;
+//			}
+//		}	
+//		
+//		protected function BackgroundLoaded(event : Event) : void
+//		{
+//			backgroundPhoto.width = 100;//backgroundPhoto.bitmapData.width;
+//			backgroundPhoto.height = 100;//backgroundPhoto.bitmapData.height;
+////			backgroundPhoto.x = (_screenWidth - backgroundPhoto.bitmapData.width) / 2;
+////			backgroundPhoto.y = 0;
+//			addElement(backgroundPhoto);
+//		}
 		
 		protected function DrawList() : void
 		{

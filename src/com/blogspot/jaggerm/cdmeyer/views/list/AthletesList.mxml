@@ -40,13 +40,26 @@
 				
 				return false;
 			}
+			
+			protected function list_clickHandler(event:MouseEvent):void
+			{
+				if(list.selectedIndex == -1)
+					return;
+					
+				var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_ATHLETE, true);
+				e.lastName = list.selectedItem.lastName;
+				e.sport = list.selectedItem.sport;
+				dispatchEvent(e);
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
-	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin">
+	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin" 
+				click="list_clickHandler(event)">
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn id="lastName" dataField="lastName" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>

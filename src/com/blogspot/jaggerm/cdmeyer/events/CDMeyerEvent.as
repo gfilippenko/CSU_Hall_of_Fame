@@ -22,12 +22,17 @@ package com.blogspot.jaggerm.cdmeyer.events
 		
 		public static const SORT_LIST : String = 'sortAthletesList';
 		
+		public static const SHOW_ATHLETE : String = 'showAthelete';
+		public static const SHOW_ATHLETE_VIDEO : String = 'showAtheleteVideo';
+		
 		public var screen : ScreenView;
 		public var sortParam : String;
 		public var screenLabel : String;
 		public var decadeID : uint;
 		public var year : uint;
-		
+		public var sport : String;
+		public var lastName : String;
+				
 		public function CDMeyerEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);

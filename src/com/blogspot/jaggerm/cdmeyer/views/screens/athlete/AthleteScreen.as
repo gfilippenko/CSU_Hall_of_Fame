@@ -6,15 +6,21 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	
+	import mx.controls.ButtonLabelPlacement;
 	import mx.core.IVisualElement;
 	import mx.graphics.BitmapFillMode;
+	import mx.rpc.events.HeaderEvent;
 	
+	import spark.components.Button;
+	import spark.components.Group;
 	import spark.components.Image;
 	import spark.components.Label;
+	import spark.components.TextArea;
 	
 	public class AthleteScreen extends ScreenView
 	{
@@ -35,6 +41,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		[Embed(source="../../../../../../../resources/black_shade.png")]
 		private var shade : Class;
+		
+		private var headshotHolder : Image;
+		private var images : Array = [];
+		private var imageCnt : Label;
+		private var currentImageIndex : uint = 0;
+		
+		private var info : TextArea;
+		
+		private var videos : Array = [];
+		private var videoBtn : Button;
 		
 		public function set athlete(value : Athlete) : void
 		{
@@ -74,14 +90,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			showHomeBtn = true;
 		}
 		
-		public function GetFileBytes(fileName : String) : XML
+		public function GetFileBytes(fileName : String) : String
 		{
 			var file:File = File.documentsDirectory.resolvePath(athletePath + fileName); 
 			
 			var fileStream:FileStream = new FileStream(); 
 			
 			fileStream.open(file, FileMode.READ); 
-			var answer:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+			var answer:String = fileStream.readUTFBytes(fileStream.bytesAvailable); 
 			fileStream.close();
 			
 			return answer;
@@ -172,7 +188,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				
 				hofLbl.text = 'Hall of Fame Class of ' + athlete.year;
 				
-				oacs = GetFileBytes('other.xml');
+				oacs = XML(GetFileBytes('other.xml'));
 				
 				for each(var dob : IVisualElement in oacLabels)
 				removeElement(dob);
@@ -194,7 +210,54 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 					addElement(lbl);
 					oacLabels.push(lbl);
 				}
+				
+				GetImagesFiles();
+				
+				info.text = GetFileBytes('info.txt');
+				
+				GetVideosFiles();
 			}
+		}
+		
+		private function GetImagesFiles() : void
+		{
+			images.splice(0, images.length);
+			
+			var file:File = File.documentsDirectory.resolvePath(athletePath);
+			var files : Array = file.getDirectoryListing();
+			for each(var item : File in files)
+			{
+				if((item.nativePath.indexOf('.jpg') != -1) || (item.nativePath.indexOf('.png') != -1))
+					images.push(item.nativePath);
+			}
+			
+			ShowImage(0);				
+		}
+		
+		private function GetVideosFiles() : void
+		{
+			videos.splice(0, images.length);
+			
+			var file:File = File.documentsDirectory.resolvePath(athletePath);
+			var files : Array = file.getDirectoryListing();
+			for each(var item : File in files)
+			{
+				if((item.nativePath.indexOf('.flv') != -1))
+					videos.push(item.nativePath);
+			}
+			
+			if(videos.length > 0)
+				videoBtn.visible = true;
+			else
+				videoBtn.visible = false;
+		}
+		
+		private function ShowImage(index : uint) : void
+		{
+			currentImageIndex = index;
+			headshotHolder.source = images[currentImageIndex];
+			imageCnt.text = String(Number(currentImageIndex + 1)) + '/' + images.length;
+			
 		}
 		
 		override protected function createChildren() : void
@@ -226,6 +289,76 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			bio.x = 113;
 			bio.y = 168;
 			addElement(bio);
+			
+			headshotHolder = new Image();
+			headshotHolder.width = 312;
+			headshotHolder.height = 459;
+			headshotHolder.x = 450;
+			headshotHolder.y = 160;
+			addElement(headshotHolder);
+			
+			var btnLeft : Button = new Button();
+			btnLeft.setStyle("skinClass", LeftButtonSkin );
+			btnLeft.addEventListener(MouseEvent.CLICK, BtnLeftClicked);
+			btnLeft.x = 450;
+			btnLeft.y = 627;
+			addElement(btnLeft);
+			
+			var btnRight : Button = new Button();
+			btnRight.setStyle("skinClass", RightButtonSkin );
+			btnRight.addEventListener(MouseEvent.CLICK, BtnRightClicked);
+			btnRight.x = 723;
+			btnRight.y = 627;
+			addElement(btnRight);
+			
+			imageCnt = new Label();
+			imageCnt.setStyle('fontFamily',"Swis721CnBT");
+			imageCnt.setStyle('fontWeight', "bold");
+			imageCnt.setStyle('fontSize', 27);
+			imageCnt.setStyle('color', 0xffffff);
+			imageCnt.x = 597;
+			imageCnt.y = 627;
+			addElement(imageCnt);
+			
+			info = new TextArea();
+			info.x = 825;
+			info.y = 70;
+			info.width = 730;
+			info.height = 900;
+
+//			info.width = 430;
+//			info.height = 380;
+			
+			info.setStyle("skinClass", AthleteInfoSkin );
+			info.setStyle('fontFamily',"Swis721MdBT");
+//			info.setStyle('fontWeight', "bold");
+			info.setStyle('fontSize', 16);
+			info.setStyle('color', 0xffffff);
+			addElement(info);
+			
+			videoBtn = new Button();
+			videoBtn.setStyle("skinClass", VideoButtonSkin );
+			videoBtn.x = _screenWidth - 160;
+			videoBtn.y = _screenHeight - 241 - 20;
+			videoBtn.visible = false;
+			addElement(videoBtn);
+		}
+	
+	
+		private function BtnLeftClicked(e : MouseEvent) : void
+		{
+			if(currentImageIndex == 0 )
+				return;
+			currentImageIndex--;
+			ShowImage(currentImageIndex);						
+		}
+		
+		private function BtnRightClicked(e : MouseEvent) : void
+		{
+			if(currentImageIndex == images.length - 1)
+				return;
+			currentImageIndex++;
+			ShowImage(currentImageIndex);	
 		}
 	}
 }

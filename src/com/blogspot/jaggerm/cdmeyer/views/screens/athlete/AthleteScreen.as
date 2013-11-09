@@ -15,12 +15,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	import mx.core.IVisualElement;
 	import mx.graphics.BitmapFillMode;
 	import mx.rpc.events.HeaderEvent;
+	import mx.utils.NameUtil;
 	
 	import spark.components.Button;
 	import spark.components.Group;
 	import spark.components.Image;
 	import spark.components.Label;
 	import spark.components.TextArea;
+	import spark.components.VideoPlayer;
 	
 	public class AthleteScreen extends ScreenView
 	{
@@ -29,7 +31,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var _backScreen : String;
 		private var _backScreenChanged : Boolean = false;
 		
-		protected var backgroundPhoto : Image;
+		
 		private var photoMask : Image;
 		
 		private var hofLbl : Label;
@@ -38,6 +40,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var oacLblbY : uint = 78;
 		private var oacLabels : Array = []; 
 		private var oacs : XML;
+		private var oacLblb : Label;
 		
 		[Embed(source="../../../../../../../resources/black_shade.png")]
 		private var shade : Class;
@@ -51,6 +54,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private var videos : Array = [];
 		private var videoBtn : Button;
+		private var videoView : Boolean = false;
+		private var videoPlayer : VideoPlayer;
+		private var currentVideoLbl : Label;
+		private var videoPlayerX : uint = 784;//180;//
+		private var videoButtons : Array = [];
 		
 		public function set athlete(value : Athlete) : void
 		{
@@ -117,6 +125,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				
 				photoMask = new Image();
 				photoMask.source = shade;
+				photoMask.scaleMode = BitmapFillMode.SCALE;
 				photoMask.x = 0;
 				photoMask.y = 0;
 				photoMask.width = _screenWidth;
@@ -132,12 +141,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function BackgroundLoaded(event : Event) : void
 		{
+			var w : Number = _screenWidth;
+			var h : Number = _screenHeight * 2;
 			var bgX : Number =  (_screenWidth - backgroundPhoto.bitmapData.width) / 2;
 			var bgY : Number = (_screenHeight - backgroundPhoto.bitmapData.height) / 2;
-			backgroundPhoto.width = backgroundPhoto.bitmapData.width;
-			backgroundPhoto.height = backgroundPhoto.bitmapData.height;
-			backgroundPhoto.x = bgX;
-			backgroundPhoto.y = bgY;		
+			backgroundPhoto.width = w;
+			backgroundPhoto.height = h;
+			backgroundPhoto.x = 0;
+			backgroundPhoto.y = -_screenHeight;		
 			
 //			shade.x = bgX;
 //			shade.y
@@ -215,6 +226,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				
 				info.text = GetFileBytes('info.txt');
 				
+				
+				if(videoView)
+					BtnVideoClicked(null);
+				
 				GetVideosFiles();
 			}
 		}
@@ -227,27 +242,54 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			var files : Array = file.getDirectoryListing();
 			for each(var item : File in files)
 			{
-				if((item.nativePath.indexOf('.jpg') != -1) || (item.nativePath.indexOf('.png') != -1))
+				if((item.nativePath.toLowerCase().indexOf('.jpg') != -1) || (item.nativePath.toLowerCase().indexOf('.png') != -1))
 					images.push(item.nativePath);
 			}
 			
 			ShowImage(0);				
 		}
 		
+		private function GetVideoTitle(path : String) : String
+		{
+			var tmp : Array = path.split('\\');
+			return tmp[tmp.length -1 ].substr(0, tmp[tmp.length -1 ].length - 4);
+		}
+		
 		private function GetVideosFiles() : void
 		{
-			videos.splice(0, images.length);
+			videos.splice(0, videos.length);
+			videoButtons.splice(0, videoButtons.length);
+			var startX : uint = videoPlayerX;
 			
 			var file:File = File.documentsDirectory.resolvePath(athletePath);
 			var files : Array = file.getDirectoryListing();
 			for each(var item : File in files)
 			{
-				if((item.nativePath.indexOf('.flv') != -1))
+				if((item.nativePath.toLowerCase().indexOf('.flv') != -1))
+				{
 					videos.push(item.nativePath);
+					var btn : Button = new Button();
+					btn.id = videoButtons.length.toString();
+					btn.visible = false;
+					btn.setStyle("skinClass", NextBideoBtnSkin );
+					btn.addEventListener(MouseEvent.CLICK, NextBideoBtnClicked);
+					btn.x = startX;
+					btn.y = _screenHeight - 106;
+					btn.label = GetVideoTitle(item.nativePath);
+					addElement(btn);
+					startX += 260;
+					videoButtons.push(btn);
+				}
+								
 			}
 			
 			if(videos.length > 0)
+			{
 				videoBtn.visible = true;
+				videoPlayer.source = videos[0];
+				
+				currentVideoLbl.text = GetVideoTitle(videos[0]);
+			}
 			else
 				videoBtn.visible = false;
 		}
@@ -274,7 +316,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			hofLbl.text = 'hofLbl';
 			addElement(hofLbl);	
 			
-			var oacLblb : Label = new Label();
+			oacLblb = new Label();
 			oacLblb.setStyle('fontFamily',"Swis721CnBT");
 			oacLblb.setStyle('fontWeight', "bold");
 			oacLblb.setStyle('fontSize', 16);
@@ -323,7 +365,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			info = new TextArea();
 			info.x = 825;
 			info.y = 70;
-			info.width = 730;
+			info.width = 700;
 			info.height = 900;
 
 //			info.width = 430;
@@ -338,10 +380,34 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			
 			videoBtn = new Button();
 			videoBtn.setStyle("skinClass", VideoButtonSkin );
+			videoBtn.addEventListener(MouseEvent.CLICK, BtnVideoClicked);
 			videoBtn.x = _screenWidth - 160;
 			videoBtn.y = _screenHeight - 241 - 20;
 			videoBtn.visible = false;
 			addElement(videoBtn);
+			
+			videoPlayer = new VideoPlayer();
+			videoPlayer.setStyle("skinClass", PlayerSkin );
+			videoPlayer.visible = false;
+			videoPlayer.x = videoPlayerX;
+			videoPlayer.y = 160;
+			videoPlayer.width = 1024;
+			videoPlayer.height = 576;
+			videoPlayer.autoDisplayFirstFrame = true;
+			videoPlayer.autoPlay = true;
+			addElement(videoPlayer);
+			
+			currentVideoLbl = new Label();
+			currentVideoLbl.setStyle('fontFamily',"Swis721CnBT");
+			currentVideoLbl.setStyle('fontWeight', "bold");
+			currentVideoLbl.setStyle('fontSize', 60);
+			currentVideoLbl.setStyle('color', 0xffffff);
+			currentVideoLbl.x = 784;
+			currentVideoLbl.y = 46;
+			currentVideoLbl.visible = false;
+			currentVideoLbl.text = 'Video Title';
+			addElement(currentVideoLbl);
+			
 		}
 	
 	
@@ -360,5 +426,53 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			currentImageIndex++;
 			ShowImage(currentImageIndex);	
 		}
+		
+		private function BtnVideoClicked(e : MouseEvent) : void
+		{
+			videoView = !videoView;
+			
+			if(videos.length > 0)
+				videoBtn.visible = !videoView;
+			else
+				videoBtn.visible = false;
+			
+			info.visible = !videoView;
+			oacLblb.visible = !videoView;
+			for each(var item : Label in oacLabels)
+			{
+				item.visible = !videoView;
+			}
+			
+			videoPlayer.visible = videoView;
+			currentVideoLbl.visible = videoView;
+			
+			for each(var btn : Button in videoButtons)
+			{
+				btn.visible = videoView;
+			}
+		}
+		
+		private function NextBideoBtnClicked(e : MouseEvent) : void
+		{
+			var source : String = videos[Number(e.target.id)]; 
+			videoPlayer.source = source;
+			var tmp : Array = source.split('\\');
+			currentVideoLbl.text = tmp[tmp.length -1 ].substr(0, tmp[tmp.length -1 ].length - 4);
+		}
+		
+		override protected function BackClicked(e : MouseEvent) : void
+		{
+//			if(videoBtn.visible)
+//			{
+				if(videoView)
+				{
+					BtnVideoClicked(new MouseEvent(MouseEvent.CLICK))
+					return;
+				}
+//			}
+			
+			super.BackClicked(e);
+		}
+	
 	}
 }

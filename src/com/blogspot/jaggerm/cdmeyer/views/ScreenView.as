@@ -35,11 +35,13 @@ package com.blogspot.jaggerm.cdmeyer.views
 
 	public class ScreenView extends Group
 	{
+		protected var backgroundPhoto : Image;
+		
 		public static const mainButtonWidth : Number = 428;
 		public static const mainButtonHeight : Number = 428;
 		public static const backBtnHeight : Number = 241;
-		public static const listWidth : Number = 800;//1322;
-		public static const listHeight : Number = 600;//900; 
+		public static const listWidth : Number = 1322;//800;//1322;
+		public static const listHeight : Number = 900; //600;//900; 
 		public static const sportButtonWidth : Number = 265;
 		
 		public static const instructionsWidth : Number = 430;
@@ -296,7 +298,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 			}
 		}
 		
-		private function BackClicked(e : MouseEvent) : void
+		protected function BackClicked(e : MouseEvent) : void
 		{
 			dispatchEvent(new CDMeyerEvent(backBtnEventType));
 		}

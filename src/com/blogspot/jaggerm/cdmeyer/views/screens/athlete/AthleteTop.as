@@ -6,12 +6,15 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	import com.blogspot.jaggerm.cdmeyer.views.screens.TopScreen;
 	
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	
 	import mx.core.IVisualElement;
+	import mx.graphics.BitmapFillMode;
 	
+	import spark.components.Image;
 	import spark.components.Label;
 	
 	
@@ -28,6 +31,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var sports : XML;
 		
 		private var firstNameY : Number = 200;
+		
+		private var photoMask : Image;
+		[Embed(source="../../../../../../../resources/black_shade.png")]
+		private var shade : Class;
 		
 		[Bindable]
 		public function set athlete(value : Athlete) : void
@@ -89,34 +96,53 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				}
 			}
 		}
-		
-//		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number) : void
-//		{
-//			super.updateDisplayList(unscaledWidth, unscaledHeight);
-//			
-//		
-//			for each(var dob : IVisualElement in sportsLabels)
-//				removeElement(dob);
-//				
-//			var startY = firstNameY;
-//			var startX = 111;
-//			for each(var item : XML in sports[0].item)
-//			{
-//				var lbl : Label = new Label();
-//				firstName.setStyle('fontFamily',"Swis721CnBT");
-//				firstName.setStyle('fontWeight', "bold");
-//				firstName.setStyle('fontSize', 48);
-//				firstName.setStyle('color', 0xb38807);
-//				firstName.x = startX;
-//				firstName.y = startY = startY - 20;
-//				firstName.text = item[0];
-//				addElement(firstName);	
-//			}
-//		}
 				
+		private function DrawBGPhoto(): void
+		{
+			if(backgroundPhoto == null)
+			{
+				backgroundPhoto = new Image();
+				backgroundPhoto.addEventListener(Event.COMPLETE, BackgroundLoaded);
+				backgroundPhoto.x = 0;
+				backgroundPhoto.y = 0;		
+				backgroundPhoto.scaleMode = BitmapFillMode.CLIP;
+				backgroundPhoto.source = athletePath + _athlete.backGroundImage;
+				addElement(backgroundPhoto);
+				
+				photoMask = new Image();
+				photoMask.source = shade;
+				photoMask.scaleMode = BitmapFillMode.SCALE;
+				photoMask.x = 0;
+				photoMask.y = 0;
+				photoMask.width = _screenWidth;
+				photoMask.height = _screenHeight;
+				addElement(photoMask);
+			}
+			else 
+			{
+				//				removeElement(backgroundPhoto);
+				backgroundPhoto.source = athletePath + _athlete.backGroundImage;
+			}
+		}	
+		
+		private function BackgroundLoaded(event : Event) : void
+		{
+			var w : Number = _screenWidth;
+			var h : Number = _screenHeight * 2;
+			var bgX : Number =  (_screenWidth - backgroundPhoto.bitmapData.width) / 2;
+			var bgY : Number = (_screenHeight - backgroundPhoto.bitmapData.height) / 2;
+			backgroundPhoto.width = w;
+			backgroundPhoto.height = h;
+			backgroundPhoto.x = 0;
+			backgroundPhoto.y = 0;		
+			
+			//			shade.x = bgX;
+			//			shade.y
+		}
+		
 		override public function draw() : void
 		{
-			
+			DrawBGPhoto();			
 		}
 		
 		override protected function createChildren() : void

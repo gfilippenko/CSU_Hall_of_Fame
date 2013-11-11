@@ -462,16 +462,15 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		override protected function BackClicked(e : MouseEvent) : void
 		{
-//			if(videoBtn.visible)
-//			{
-				if(videoView)
-				{
-					BtnVideoClicked(new MouseEvent(MouseEvent.CLICK))
-					return;
-				}
-//			}
+			if(videoView)
+			{
+				BtnVideoClicked(new MouseEvent(MouseEvent.CLICK))
+				return;
+			}
 			
-			super.BackClicked(e);
+			var event : CDMeyerEvent = new CDMeyerEvent(backBtnEventType);
+			event.year = Number(_athlete.year); 
+			dispatchEvent(event);
 		}
 	
 	}

@@ -93,6 +93,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 					lbl.text = item[0];
 					addElement(lbl);
 					sportsLabels.push(lbl);
+					
+					DrawBGPhoto();
 				}
 			}
 		}

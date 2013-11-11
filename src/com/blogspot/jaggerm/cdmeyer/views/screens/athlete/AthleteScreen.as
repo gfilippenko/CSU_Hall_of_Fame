@@ -57,7 +57,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var videoView : Boolean = false;
 		private var videoPlayer : VideoPlayer;
 		private var currentVideoLbl : Label;
-		private var videoPlayerX : uint = 784;//180;//
+		private var videoPlayerX : uint = 783;//784;//180;//
+		private var videoPlayerY : uint = 175;//160;
 		private var videoButtons : Array = [];
 		
 		public function set athlete(value : Athlete) : void
@@ -95,7 +96,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			super(value, _scrWidth, _scrHeight);
 			showBackBtn = true;
-			showHomeBtn = true;
+//			showHomeBtn = true;
 		}
 		
 		public function GetFileBytes(fileName : String) : String
@@ -259,7 +260,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			videos.splice(0, videos.length);
 			videoButtons.splice(0, videoButtons.length);
-			var startX : uint = videoPlayerX;
+			var startX : uint = videoPlayerX + 180;
 			
 			var file:File = File.documentsDirectory.resolvePath(athletePath);
 			var files : Array = file.getDirectoryListing();
@@ -277,7 +278,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 					btn.y = _screenHeight - 106;
 					btn.label = GetVideoTitle(item.nativePath);
 					addElement(btn);
-					startX += 260;
+					startX += 265;
 					videoButtons.push(btn);
 				}
 								
@@ -311,8 +312,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			hofLbl.setStyle('fontWeight', "bold");
 			hofLbl.setStyle('fontSize', 60.86);
 			hofLbl.setStyle('color', 0xb38807);
-			hofLbl.x = 109;
-			hofLbl.y = 46;
+			hofLbl.x = 108;
+			hofLbl.y = 48;
 			hofLbl.text = 'hofLbl';
 			addElement(hofLbl);	
 			
@@ -333,23 +334,23 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			addElement(bio);
 			
 			headshotHolder = new Image();
-			headshotHolder.width = 312;
+			headshotHolder.width = 313;
 			headshotHolder.height = 459;
-			headshotHolder.x = 450;
-			headshotHolder.y = 160;
+			headshotHolder.x = 444;
+			headshotHolder.y = videoPlayerY;
 			addElement(headshotHolder);
 			
 			var btnLeft : Button = new Button();
 			btnLeft.setStyle("skinClass", LeftButtonSkin );
 			btnLeft.addEventListener(MouseEvent.CLICK, BtnLeftClicked);
-			btnLeft.x = 450;
+			btnLeft.x = 455;
 			btnLeft.y = 627;
 			addElement(btnLeft);
 			
 			var btnRight : Button = new Button();
 			btnRight.setStyle("skinClass", RightButtonSkin );
 			btnRight.addEventListener(MouseEvent.CLICK, BtnRightClicked);
-			btnRight.x = 723;
+			btnRight.x = 715;
 			btnRight.y = 627;
 			addElement(btnRight);
 			
@@ -358,8 +359,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			imageCnt.setStyle('fontWeight', "bold");
 			imageCnt.setStyle('fontSize', 27);
 			imageCnt.setStyle('color', 0xffffff);
-			imageCnt.x = 597;
-			imageCnt.y = 627;
+			imageCnt.x = 592;
+			imageCnt.y = 634;
 			addElement(imageCnt);
 			
 			info = new TextArea();
@@ -390,7 +391,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoPlayer.setStyle("skinClass", PlayerSkin );
 			videoPlayer.visible = false;
 			videoPlayer.x = videoPlayerX;
-			videoPlayer.y = 160;
+			videoPlayer.y = videoPlayerY;
 			videoPlayer.width = 1024;
 			videoPlayer.height = 576;
 			videoPlayer.autoDisplayFirstFrame = true;

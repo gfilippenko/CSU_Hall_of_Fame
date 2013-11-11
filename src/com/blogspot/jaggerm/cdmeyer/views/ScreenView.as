@@ -40,8 +40,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 		public static const mainButtonWidth : Number = 428;
 		public static const mainButtonHeight : Number = 428;
 		public static const backBtnHeight : Number = 241;
-		public static const listWidth : Number = 1322;//800;//1322;
-		public static const listHeight : Number = 900; //600;//900; 
+		public static const listWidth : Number = 800;//1322;
+		public static const listHeight : Number = 600;//900; 
 		public static const sportButtonWidth : Number = 265;
 		
 		public static const instructionsWidth : Number = 430;
@@ -141,8 +141,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 				backBtn.addEventListener(MouseEvent.CLICK, BackClicked);
 				backBtn.setStyle('skinClass',BackButtonSkin);
 				backBtn.useHandCursor = true;
-				backBtn.x = 20;
-				backBtn.y = _screenHeight - ScreenView.backBtnHeight - 20;
+				backBtn.x = 83;
+				backBtn.y = _screenHeight - ScreenView.backBtnHeight - 75;
 				addElement(backBtn);
 			}
 			

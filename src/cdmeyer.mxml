@@ -56,6 +56,8 @@
 			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 			import com.blogspot.jaggerm.cdmeyer.views.WindowSkin;
+			import com.blogspot.jaggerm.cdmeyer.views.Wnd;
+			import com.blogspot.jaggerm.cdmeyer.views.WndTop;
 			
 			import mx.controls.Alert;
 			import mx.events.AIREvent;
@@ -71,15 +73,15 @@
 			
 			private var controller : Controller;
 			
-			private var wnd1 : Window;
-			private var wnd2 : Window;
+			private var wnd1 : Wnd;
+			private var wnd2 : WndTop;
 			
 			private var wnd1Complete : Boolean = false;
 			private var wnd2Complete : Boolean = false;
 			
 			private function CreationComplete(event : FlexEvent) : void
 			{				
-				wnd1  = new Window();											
+				wnd1  = new Wnd();											
 				wnd1.minimizable = false;
 				wnd1.maximizable = false;
 				wnd1.resizable = false;
@@ -88,7 +90,7 @@
 				wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);				
 				wnd1.open();
 				
-				wnd2 = new Window();
+				wnd2 = new WndTop();
 				wnd2.minimizable = false;
 				wnd2.maximizable = false;
 				wnd2.resizable = false;
@@ -184,6 +186,11 @@
 				wnd2.nativeWindow.y = secondScreen.visibleBounds.y;
 				wnd2.nativeWindow.width = secondScreen.visibleBounds.width;
 				wnd2.nativeWindow.height = secondScreen.visibleBounds.height;
+				
+				wnd2.stage.scaleMode = StageScaleMode.NO_SCALE;				
+				wnd2.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+				
 				//wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
 				
 				wnd2Complete = true;
@@ -199,6 +206,10 @@
 				wnd1.nativeWindow.width = mainScreen.bounds.width;
 				wnd1.nativeWindow.height = mainScreen.bounds.height;
 				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
+				
+				wnd1.stage.scaleMode = StageScaleMode.NO_SCALE;				
+				wnd1.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);	
 				
 				wnd1Complete = true;
 				if(wnd2Complete)

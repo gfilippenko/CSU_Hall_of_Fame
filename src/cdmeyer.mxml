@@ -3,8 +3,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   width="1" height="1" 
-					   creationComplete="CreationComplete(event)" 
-					   addedToStage="AddedToStage()"
+					   creationComplete="CreationComplete(event)" 					   
 					   applicationComplete="ApplicationComplete()">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->	
@@ -73,8 +72,8 @@
 			
 			private var controller : Controller;
 			
-			private var wnd1 : Wnd;
-			private var wnd2 : WndTop;
+			private var wnd1 : Window;
+			private var wnd2 : Window;
 			
 			private var wnd1Complete : Boolean = false;
 			private var wnd2Complete : Boolean = false;
@@ -149,8 +148,9 @@
 			}
 			
 			private function AddScreen(e : CDMeyerEvent) : void
-			{				
-				wnd1.addElement(e.screen);
+			{	
+				wnd1.addEventListener(Event.ADDED_TO_STAGE, AddedToStage, false, 0, true);
+				callLater(wnd1.addElement, [e.screen]);
 				
 //				if(wnd1.numChildren > 1)
 //					wnd1.removeElementAt(1);				
@@ -158,20 +158,18 @@
 			
 			private function AddTopScreen(e : CDMeyerEvent) : void
 			{
-				wnd2.addElement(e.screen);
-				
-//				if(wnd2.numChildren > 1)
-//					wnd2.removeElementAt(1);
+				wnd2.addEventListener(Event.ADDED_TO_STAGE, AddedToStage, false, 0, true);
+				callLater(wnd2.addElement, [e.screen]);
 			}
 			
 			private function RemoveBottomScreen(e : CDMeyerEvent) : void
 			{
-				wnd1.removeElementAt(0);
+//				wnd1.removeElementAt(0);
 			}
 			
 			private function RemoveTopScr(e : CDMeyerEvent) : void
 			{
-				wnd2.removeElementAt(0);
+//				wnd2.removeElementAt(0);
 			}
 			
 			private function wind2Complete(event : AIREvent) : void
@@ -216,9 +214,15 @@
 					Start();
 			}
 			
-			private function AddedToStage() : void
+			private function AddedToStage(e : Event) : void
 			{
-//				wnd1.stage.addChild(scr);
+				var wnd : Window;
+				if(e.target is Window)
+				{
+					wnd = e.target as Window;
+					if(wnd.numElements > 1)
+						wnd.removeElementAt(0);
+				}
 			}
 			
 			private function ApplicationComplete() : void

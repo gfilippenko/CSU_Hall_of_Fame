@@ -15,6 +15,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens
 		public function TopScreen(value : ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
 			super(value, _scrWidth, _scrHeight);
+			backgroundImage = new Image();
+			backgroundImage.percentWidth = 100;
+			backgroundImage.percentHeight = 100;
+			backgroundImage.x = 0;
+			backgroundImage.y = 0;		
+			backgroundImage.scaleMode = BitmapFillMode.SCALE;
+			backgroundImage.source = cdmeyer.APP_PATH + settings.topBackgroundImage;
+			addElement(backgroundImage);
 		}
 		
 		override protected function DrawTopLogo() : void
@@ -30,14 +38,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens
 		
 		override protected function DrawBG(): void
 		{
-			backgroundImage = new Image();
-			backgroundImage.percentWidth = 100;
-			backgroundImage.percentHeight = 100;
-			backgroundImage.x = 0;
-			backgroundImage.y = 0;		
-			backgroundImage.scaleMode = BitmapFillMode.SCALE;
-			backgroundImage.source = cdmeyer.APP_PATH + settings.topBackgroundImage;
-			addElement(backgroundImage);
+//			backgroundImage = new Image();
+//			backgroundImage.percentWidth = 100;
+//			backgroundImage.percentHeight = 100;
+//			backgroundImage.x = 0;
+//			backgroundImage.y = 0;		
+//			backgroundImage.scaleMode = BitmapFillMode.SCALE;
+//			backgroundImage.source = cdmeyer.APP_PATH + settings.topBackgroundImage;
+//			addElement(backgroundImage);
 		}
 		
 	}

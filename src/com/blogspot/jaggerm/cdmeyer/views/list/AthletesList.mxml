@@ -56,7 +56,7 @@
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
 	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin" 
-				click="list_clickHandler(event)" selectionColor="0xb38807" rollOverColor="0xb79d4e" caretColor="0xb38807">
+				click="list_clickHandler(event)" selectionMode="none" selectionColor="0xb38807" rollOverColor="0xb79d4e" caretColor="0xb38807">
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn id="lastName" dataField="lastName" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>

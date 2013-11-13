@@ -67,7 +67,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			var startX : Number = ScreenView.instructionsX + ScreenView.instructionsWidth + 20;
 			var nextX : Number = startX;
 			var nextY : Number = 150;
-			
+			var counter : uint = 1;
 			for each(var item : String in _sports)
 			{
 				var btn : Button = new Button();
@@ -80,13 +80,13 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 				btn.addEventListener(MouseEvent.CLICK, SportButtonClicked);
 				
 				nextX = btn.x + btn.width + shiftX;
-				if(nextX > (stage.width - btn.width))
+				if((counter%4) == 0)
 				{
 					nextX = startX;
 					nextY = btn.y + btn.height + shiftY;
-				}
-											
+				}											
 				buttons.push(btn);
+				counter++;
 			}
 			
 			for each(var b : Button in buttons)

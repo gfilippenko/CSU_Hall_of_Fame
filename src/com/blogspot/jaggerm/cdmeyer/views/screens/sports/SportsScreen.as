@@ -61,12 +61,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 		{
 			var buttons : Array = [];
 			var startBtnIndex : uint = 0;
-			var shiftX : Number = 20;
-			var shiftY : Number = 20;
+			var shiftX : Number = 55;
+			var shiftY : Number = 47;
 			
-			var startX : Number = ScreenView.instructionsX + ScreenView.instructionsWidth + 20;
+			var startX : Number = 583;
 			var nextX : Number = startX;
-			var nextY : Number = 150;
+			var nextY : Number = 90;
 			var counter : uint = 1;
 			for each(var item : String in _sports)
 			{

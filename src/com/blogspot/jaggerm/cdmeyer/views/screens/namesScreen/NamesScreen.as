@@ -54,8 +54,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			listSource = Controller.getInstance().athletes;
 			
 			list = new AthletesList();
-			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = _screenHeight - ScreenView.listHeight - 20;			
+			list.x = 553;
+			list.y = 4;			
 
 			currentProvider = new ArrayCollection();
 			addElement(list);

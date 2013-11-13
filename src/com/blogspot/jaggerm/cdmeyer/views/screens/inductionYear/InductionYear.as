@@ -88,12 +88,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			}
 			buttons.splice(0, buttons.length);
 			
-			var shiftX : Number = 20;
-			var shiftY : Number = 20;
+			var shiftX : Number = 42;
+			var shiftY : Number = 48;
 			
-			var startX : Number = ScreenView.instructionsX + ScreenView.instructionsWidth + 20;
+			var startX : Number = 349;
 			var nextX : Number = startX;
-			var nextY : Number = 150;
+			var nextY : Number = 256;
 			var counter : uint = 1;
 			for each(var item : uint in _decade.years)
 			{
@@ -108,7 +108,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				btn.y = nextY;
 				
 				nextX = btn.x + btn.width + shiftX;
-				if((counter%4) == 0)
+				if((counter%5) == 0)
 				{
 					nextX = startX;
 					nextY = btn.y + btn.height + shiftY;

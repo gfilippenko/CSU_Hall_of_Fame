@@ -34,6 +34,6 @@
 			 maxDisplayedLines="2"
 			 horizontalCenter="0" verticalCenter="1" verticalAlign="bottom"
 			 left="10" right="10" top="2" bottom="2"
-			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="17.67" color="0xffffff"/>
+			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="27.67" color="0xffffff"/>
 		</s:Group>
 </s:Skin>

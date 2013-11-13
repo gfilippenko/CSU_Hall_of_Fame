@@ -108,6 +108,7 @@
         <!-- There's a minimum size for the video and controls.  If we go below that
              we are clipped. -->
         <s:Group minWidth="263" minHeight="184" left="0" right="0" top="0" bottom="0">
+
             
             <!-- background when the videoDisplay doesn't fill its whole spot -->
             <s:Rect bottom="1" left="1" right="1" top="1"
@@ -122,100 +123,7 @@
             <s:VideoDisplay id="videoDisplay" bottom="24" left="1" right="1" top="1" 
                             bottom.fullScreenStates="0" left.fullScreenStates="0" 
                             right.fullScreenStates="0" top.fullScreenStates="0" />
-            
-            <!-- video player controls -->
-            <s:Group left="0" right="0" height="24" bottom="0" bottom.fullScreenStates="150">
-                
-                <!-- actual controls with a maxWidth in non-fullScreen mode -->
-                <!--- @copy spark.components.VideoPlayer#playerControls -->
-                <s:Group bottom="0" horizontalCenter="0" left="0" right="0" maxWidth.fullScreenStates="755" id="playerControls">
-                
-                    <!--- @copy spark.components.VideoPlayer#playPauseButton -->
-                    <s:ToggleButton id="playPauseButton" left="0" bottom="0" 
-                            skinClass="spark.skins.spark.mediaClasses.normal.PlayPauseButtonSkin" 
-                            skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.PlayPauseButtonSkin"
-                            layoutDirection="ltr"
-                            focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
-                    
-                    <!-- scrubbar + the currentTime/duration labels -->
-                    <s:Group left="39" right="0" top="0" bottom="0">
-                          
-                        <!-- background for scrubbar + the currentTime/duration -->
-                        <s:Rect left="0" right="0" top="0" bottom="0">
-                            <s:fill>
-                                <s:LinearGradient rotation="90">
-                                    <s:GradientEntry color="0xFFFFFF" color.fullScreenStates="0x585858" alpha.fullScreenStates="0.55"/>
-                                    <s:GradientEntry color="0xDCDCDC" color.fullScreenStates="0x1E1E1E" alpha.fullScreenStates="0.55"/>
-                                </s:LinearGradient>
-                            </s:fill>
-                        </s:Rect>
-    
-                        <!-- fill highlight  (exclude in fullScreen) -->
-                        <s:Rect left="1" right="1" top="1" height="11" excludeFrom="fullScreenStates">
-                            <s:fill>
-                                <s:SolidColor color="0xFFFFFF" alpha="0.3" />
-                            </s:fill>
-                        </s:Rect>
-                        
-                        <!-- one pixel border -->
-                        <s:Rect left="1" right="1" top="1" bottom="1">
-                            <s:stroke>
-                                <s:LinearGradientStroke weight="1" rotation="90">
-                                    <s:GradientEntry color="0xFEFEFE" color.fullScreenStates="0xFFFFFF" alpha.fullScreenStates="0.12" />
-                                    <s:GradientEntry color="0xEAEAEA" color.fullScreenStates="0xFFFFFF" alpha.fullScreenStates="0.09" />
-                                </s:LinearGradientStroke>
-                            </s:stroke>
-                        </s:Rect>
-                        
-                        <!-- border for the scrubbar/time label controls -->
-                        <s:Rect left="-1" right="0" top="0" bottom="0">
-                            <s:stroke>
-                                <s:SolidColorStroke color="0x131313" color.fullScreenStates="0x222222" alpha.fullScreenStates="0.66"  />
-                            </s:stroke>
-                        </s:Rect>
-                        
-                        <!-- scrub bar + currentTime/duration in a HorizontalLayout -->
-                        <s:Group left="0" right="0" height="23" bottom="0">
-                            <s:layout>
-                                <s:HorizontalLayout verticalAlign="middle" gap="1" />
-                            </s:layout>
-                            
-                            <!-- spacer -->
-                            <s:Rect width="7" height="1" />
-                            
-                            <!--- @copy spark.components.VideoPlayer#scrubBar -->
-                            <s:ScrubBar id="scrubBar" width="100%" liveDragging="true"
-                                skinClass="spark.skins.spark.mediaClasses.normal.ScrubBarSkin"
-                                skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.ScrubBarSkin" />
-                            
-                            <!-- spacer -->
-                            <s:Rect width="8" height="1" />
-                            
-                            <!--- @copy spark.components.VideoPlayer#currentTimeDisplay -->
-                            <s:Label id="currentTimeDisplay" color.fullScreenStates="0xFFFFFF" />
-                            
-                            <!--- @private -->
-                            <s:Label id="timeDivider" text="/" color.fullScreenStates="0xFFFFFF" />
-                            
-                            <!--- @copy spark.components.VideoPlayer#durationDisplay -->
-                            <s:Label id="durationDisplay" color.fullScreenStates="0xFFFFFF" />
-                            
-                            <!-- spacer -->
-                            <s:Rect width="8" height="1" />
-                        </s:Group>
-                    
-                    </s:Group>
-                    
-                    <!--- @copy spark.components.VideoPlayer#volumeBar -->
-                    <s:VolumeBar id="volumeBar" snapInterval=".01" stepSize=".01" liveDragging="true"
-                            right="0" bottom="0" 
-                            layoutDirection="ltr"
-                            skinClass="spark.skins.spark.mediaClasses.normal.VolumeBarSkin"
-                            skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.VolumeBarSkin"
-                            focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
-                </s:Group>
-                
-            </s:Group>
+           
             
             <!-- border -->
             <s:Rect left="0" right="0" top="0" bottom="0" excludeFrom="fullScreenStates">
@@ -225,5 +133,42 @@
             </s:Rect>
     
         </s:Group>
-    </s:Group>
+   
+	</s:Group>
+	
+	<!-- video player controls -->
+	<s:Group left="0" right="0" height="24" bottom="-156" bottom.fullScreenStates="150">
+		
+		<!-- actual controls with a maxWidth in non-fullScreen mode -->
+		<!--- @copy spark.components.VideoPlayer#playerControls -->
+		<s:VGroup bottom="0" horizontalCenter="0" left="0" right="0" maxWidth.fullScreenStates="755" id="playerControls">
+			
+			<s:ScrubBar id="scrubBar" width="100%" liveDragging="true"
+					skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VideoScrubBar"
+					skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.ScrubBarSkin" />
+			<s:Spacer height="22"/>
+			<s:HGroup>
+							
+			<!--- @copy spark.components.VideoPlayer#playPauseButton -->
+			<s:ToggleButton id="playPauseButton" left="0" bottom="0" 
+							skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PlayPauseBtnSkin" 
+							skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.PlayPauseButtonSkin"
+							layoutDirection="ltr"
+							focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
+			<s:Spacer width="48"/>
+				<s:VGroup>
+					<s:Spacer height="15"/>
+				
+			<!--- @copy spark.components.VideoPlayer#volumeBar -->
+			<s:VolumeBar rotation="90" id="volumeBar" snapInterval=".01" stepSize=".01" liveDragging="true"
+						 right="0" bottom="0" top="20" 
+						 layoutDirection="ltr"
+						 skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VolSkin"
+						 skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.VolumeBarSkin"
+						 focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
+				</s:VGroup>
+			</s:HGroup>
+		</s:VGroup>
+		
+	</s:Group>
 </s:SparkSkin>

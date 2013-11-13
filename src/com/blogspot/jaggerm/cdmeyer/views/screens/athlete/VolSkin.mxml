@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    ADOBE SYSTEMS INCORPORATED
+    Copyright 2008 Adobe Systems Incorporated
+    All Rights Reserved.
+
+    NOTICE: Adobe permits you to use, modify, and distribute this file
+    in accordance with the terms of the license agreement accompanying it.
+ 
+-->
+
+<!--- The default skin class for the volume bar of a Spark VideoPlayer component
+      in the normal skin state. The normal skin state means the component is not in 
+      one of the <code>fullScreen</code> skin states.  
+
+      @see spark.components.VideoPlayer
+        
+      @langversion 3.0
+      @playerversion Flash 10
+      @playerversion AIR 1.5
+      @productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled=".5"> 
+
+    <!-- host component -->
+    <fx:Metadata>
+        /** 
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("spark.components.mediaClasses.VolumeBar")]
+    </fx:Metadata>
+    
+    
+
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="open" />
+        <s:State name="disabled" />
+    </s:states>
+	
+	<!--- The PopUpAnchor control that contains the drop-down slider control. -->
+<!--	<s:PopUpAnchor id="popup"  displayPopUp.normal="false" displayPopUp.open="true" includeIn="open"
+				   left="0" right="0" top="0" bottom="0" popUpPosition="above" itemDestructionPolicy="auto">-->
+		
+		<!--- @copy spark.components.mediaClasses.VolumeBar#dropDown -->
+		<s:Group id="dropDown" width="1" height="174" verticalCenter="0">
+  
+			<!--- The skin pat that defines the drop-down slider track.  -->
+		    <s:Button id="track" right="-11" top="0" bottom="6"
+                      skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VolTrkSkin" />
+            
+            <!--- The skin pat that defines the thumb in the drop-down slider track.  -->
+            <s:Button id="thumb" verticalCenter="0" left="-9" width="11" height="11" 
+                      skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VolButtonSkin" />			
+		</s:Group>
+<!--	</s:PopUpAnchor>-->
+	
+	<!--- @copy spark.components.mediaClasses.VolumeBar#muteButton -->
+<!--	<s:MuteButton id="muteButton" left="0" right="0" top="0" bottom="0" focusEnabled="false"
+				  skinClass="spark.skins.spark.mediaClasses.normal.MuteButtonSkin" />-->
+    
+</s:SparkSkin>

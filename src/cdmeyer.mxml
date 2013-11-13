@@ -55,8 +55,6 @@
 			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 			import com.blogspot.jaggerm.cdmeyer.views.WindowSkin;
-			import com.blogspot.jaggerm.cdmeyer.views.Wnd;
-			import com.blogspot.jaggerm.cdmeyer.views.WndTop;
 			
 			import mx.controls.Alert;
 			import mx.events.AIREvent;
@@ -80,7 +78,7 @@
 			
 			private function CreationComplete(event : FlexEvent) : void
 			{				
-				wnd1  = new Wnd();											
+				wnd1  = new Window();											
 				wnd1.minimizable = false;
 				wnd1.maximizable = false;
 				wnd1.resizable = false;
@@ -89,7 +87,7 @@
 				wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);				
 				wnd1.open();
 				
-				wnd2 = new WndTop();
+				wnd2 = new Window();
 				wnd2.minimizable = false;
 				wnd2.maximizable = false;
 				wnd2.resizable = false;

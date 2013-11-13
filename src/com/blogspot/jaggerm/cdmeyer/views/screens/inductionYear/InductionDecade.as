@@ -52,12 +52,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 		
 		protected function DrawButtons():void
 		{
-			var shiftX : Number = 20;
-			var shiftY : Number = 20;
+			var shiftX : Number = 55;
+			var shiftY : Number = 47;
 			
-			var startX : Number =  ScreenView.instructionsX + ScreenView.instructionsWidth + 20;
+			var startX : Number =  348;
 			var nextX : Number = startX;
-			var nextY : Number = 150;
+			var nextY : Number = 294;
 			var counter : uint = 1;
 			for each(var item : Decade in _decades)
 			{

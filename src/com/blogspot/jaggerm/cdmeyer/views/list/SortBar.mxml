@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1183" height="50">
+	<s:layout>
+		<s:HorizontalLayout gap="30"/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+			
+			import mx.collections.ArrayCollection;
+			private var list : AthletesList;
+			private var currentFilter : String;
+			
+			protected function clickHandler(event:MouseEvent):void
+			{
+//								var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SORT_LIST);
+//								e.sortParam = event.target.id;
+//								dispatchEvent(e);		
+
+				//				Alert.show(event.target.id);
+				currentFilter = event.target.id;
+
+				ArrayCollection(list.list.dataProvider).filterFunction = FilterFunction;
+				ArrayCollection(list.list.dataProvider).disableAutoUpdate();
+				ArrayCollection(list.list.dataProvider).refresh();
+				ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			}
+			
+			public function addSortListeners(value : AthletesList) : void
+			{
+				list = value;
+			}
+			
+			public function FilterFunction(item : Object) : Boolean
+			{
+				var f : String = currentFilter.substr(0,1);
+				var s : String = currentFilter.substr(1,1);
+				if(String(item.lastName).toLowerCase().indexOf(f) == 0 ||
+					String(item.lastName).toLowerCase().indexOf(s) == 0)
+					return true;
+				
+				return false;
+			}
+		]]>
+	</fx:Script>
+	<s:Button id="ab" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="cd" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.CDSkin" click="clickHandler(event)"/>
+	<s:Button id="ef" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.EFSkin" click="clickHandler(event)"/>
+	<s:Button id="gh" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GHSkin" click="clickHandler(event)"/>
+	<s:Button id="ij" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.IJSkin" click="clickHandler(event)"/>
+	<s:Button id="kl" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.KLSkin" click="clickHandler(event)"/>
+	<s:Button id="mn" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.MNSkin" click="clickHandler(event)"/>
+	<s:Button id="op" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.OPSkin" click="clickHandler(event)"/>
+	<s:Button id="qr" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.QRSkin" click="clickHandler(event)"/>
+	<s:Button id="st" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.STSkin" click="clickHandler(event)"/>
+	<s:Button id="uv" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.UVSkin" click="clickHandler(event)"/>
+	<s:Button id="wx" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.WXSkin" click="clickHandler(event)"/>
+	<s:Button id="yz" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.YZSkin" click="clickHandler(event)"/>
+</s:Group>

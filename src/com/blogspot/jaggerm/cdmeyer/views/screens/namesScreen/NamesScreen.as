@@ -5,6 +5,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
+	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
 	
@@ -24,6 +25,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 	
 	public class NamesScreen extends ScreenView
 	{
+		private var sortButtons : SortBar;
 		
 		public function NamesScreen(value : ScreenSettings, _scrWidth : Number, _scrHeight : Number)
 		{
@@ -53,13 +55,18 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			
 			listSource = Controller.getInstance().athletes;
 			
-			list = new AthletesList();
+			list = new AthletesList();			
 			list.x = 553;
 			list.y = 4;			
-
 			currentProvider = new ArrayCollection();
 			addElement(list);
 			DrawList();
+			
+			sortButtons = new SortBar();
+			sortButtons.x = 634;
+			sortButtons.y = 846;
+			sortButtons.addSortListeners(list);
+			addElement(sortButtons);
 		}
 		
 	}

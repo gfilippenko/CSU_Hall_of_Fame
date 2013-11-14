@@ -7,6 +7,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.circleLabel.CircleLabel;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
+	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
@@ -17,6 +18,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	{
 		private var _label : String;
 		private var _labelChanged : Boolean = false;
+		private var sortButtons : SortBar;
 		
 		[Bindable]
 		public function set label(value : String) : void
@@ -75,10 +77,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			addElement(logo);
 			
 			list = new AthletesList();
-			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = _screenHeight - ScreenView.listHeight - 20;
+			list.x = 644;
+			list.y = 124;
 			list.list.dataProvider = new ArrayCollection();
 			addElement(list);
+			
+			sortButtons = new SortBar();
+			sortButtons.x = 465;
+			sortButtons.y = 969;
+			sortButtons.addSortListeners(list);
+			addElement(sortButtons);
 		}
 		
 		override protected function DrawList() : void

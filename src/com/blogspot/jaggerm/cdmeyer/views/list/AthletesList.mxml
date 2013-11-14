@@ -3,7 +3,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="{ScreenView.listWidth}" height="{ScreenView.listHeight}">
 	<s:layout>
-		<s:VerticalLayout/>
+		<s:VerticalLayout gap="52"/>
 	</s:layout>
 	
 	<fx:Script>
@@ -17,18 +17,7 @@
 			
 			private var currentFilter : String;
 			
-			protected function clickHandler(event:MouseEvent):void
-			{
-//				var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SORT_LIST);
-//				e.sortParam = event.target.id;
-//				dispatchEvent(e);		
-//				Alert.show(event.target.id);
-				currentFilter = event.target.id;
-				ArrayCollection(list.dataProvider).filterFunction = FilterFunction;
-				ArrayCollection(list.dataProvider).disableAutoUpdate();
-				ArrayCollection(list.dataProvider).refresh();
-				ArrayCollection(list.dataProvider).enableAutoUpdate();
-			}
+			
 			
 			public function FilterFunction(item : Object) : Boolean
 			{
@@ -39,15 +28,7 @@
 					return true;
 				
 				return false;
-			}
-			
-			protected function list_clickHandler(event:MouseEvent):void
-			{
-//				if(list.selectedIndex == -1)
-//					return;
-//					
-//				
-			}
+			}			
 			
 		]]>
 	</fx:Script>
@@ -56,7 +37,7 @@
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
 	<s:DataGrid id="list" width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin" 
-				click="list_clickHandler(event)" selectionMode="none" selectionColor="0xb38807" rollOverColor="0xb79d4e" caretColor="0xb38807">
+				selectionMode="none" selectionColor="0xb38807" rollOverColor="0xb79d4e" caretColor="0xb38807">
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn id="lastName" dataField="lastName" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
@@ -67,20 +48,8 @@
 	</s:DataGrid>
 	<s:Group>
 		<s:layout>
-			<s:HorizontalLayout/>
+			<s:HorizontalLayout gap="30"/>
 		</s:layout>
-		<s:Button id="ab" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-		<s:Button id="cd" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.CDSkin" click="clickHandler(event)"/>
-		<s:Button id="ef" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.EFSkin" click="clickHandler(event)"/>
-		<s:Button id="gh" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GHSkin" click="clickHandler(event)"/>
-		<s:Button id="ij" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.IJSkin" click="clickHandler(event)"/>
-		<s:Button id="kl" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.KLSkin" click="clickHandler(event)"/>
-		<s:Button id="mn" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.MNSkin" click="clickHandler(event)"/>
-		<s:Button id="op" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.OPSkin" click="clickHandler(event)"/>
-		<s:Button id="qr" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.QRSkin" click="clickHandler(event)"/>
-		<s:Button id="st" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.STSkin" click="clickHandler(event)"/>
-		<s:Button id="uv" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.UVSkin" click="clickHandler(event)"/>
-		<s:Button id="wx" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.WXSkin" click="clickHandler(event)"/>
-		<s:Button id="yz" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.YZSkin" click="clickHandler(event)"/>
+		
 	</s:Group>
 </s:Group>

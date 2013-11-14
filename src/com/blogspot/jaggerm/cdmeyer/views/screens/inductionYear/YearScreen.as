@@ -7,6 +7,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.circleLabel.CircleLabel;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
+	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	
 	import mx.collections.ArrayCollection;
 	import mx.states.OverrideBase;
@@ -17,7 +18,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	{
 		private var _label : String;
 		private var _labelChanged : Boolean = false;
-		
+		private var sortButtons : SortBar;
 		
 		[Bindable]
 		public function set label(value : String) : void
@@ -76,10 +77,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			addElement(logo);
 			
 			list = new AthletesList();
-			list.x = _screenWidth - ScreenView.listWidth - 20;
-			list.y = _screenHeight - ScreenView.listHeight - 20;			
+			list.x = 552;
+			list.y = 3;			
 			list.list.dataProvider = new ArrayCollection();
 			addElement(list);
+			
+			sortButtons = new SortBar();
+			sortButtons.x = 633;
+			sortButtons.y = 840;
+			sortButtons.addSortListeners(list);
+			addElement(sortButtons);
 		}
 		
 		override protected function DrawList() : void

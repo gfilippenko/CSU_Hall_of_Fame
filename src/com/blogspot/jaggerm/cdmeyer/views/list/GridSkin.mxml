@@ -54,17 +54,19 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
           @playerversion AIR 1.5
           @productversion Flex 4
          */
-        [HostComponent("spark.components.DataGrid")]
+        [HostComponent("com.blogspot.jaggerm.cdmeyer.views.list.AtheltesGrid")]
     ]]>
     </fx:Metadata>
     
     <s:states>
         <s:State name="normal" />
         <s:State name="disabled" />
+		<s:State name="sportHided"/>
     </s:states>
 	
-	<s:BitmapImage width="100%" height="100%" source.normal="@Embed('../../../../../../resources/list_bg.png')" 
+	<s:BitmapImage width="100%" height="100%" left="-78" source.normal="@Embed('../../../../../../resources/list_bg.png')" 
 				   source.disabled="@Embed('../../../../../../resources/list_bg.png')"/>
+	<s:BitmapImage visible="{hostComponent.sport.visible}"/>
     
     <fx:Declarations>
         <!--- @private -->        
@@ -328,9 +330,11 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
                           
                 
                 <!--- @private -->
-                <s:Scroller id="scroller" minViewportInset="1" hasFocusableChildren="false" height="100%" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollSkin">
+                <s:Scroller id="scroller" minViewportInset="1" hasFocusableChildren="false" 
+							right="50" height="100%" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollSkin"
+							layoutDirection="rtl">
                     <!--- @private -->
-                    <s:Grid id="grid" itemRenderer="spark.skins.spark.DefaultGridItemRenderer">
+                    <s:Grid left="50" id="grid" itemRenderer="spark.skins.spark.DefaultGridItemRenderer">
                         <s:GridLayer name="backgroundLayer"/>
                         <s:GridLayer name="selectionLayer"/>
                         <s:GridLayer name="editorIndicatorLayer"/>                            

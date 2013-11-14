@@ -77,9 +77,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			addElement(logo);
 			
 			list = new AthletesList();
-			list.x = 644;
+			list.x = 722;
 			list.y = 124;
 			list.list.dataProvider = new ArrayCollection();
+			list.sport.visible = false;
 			addElement(list);
 			
 			sortButtons = new SortBar();

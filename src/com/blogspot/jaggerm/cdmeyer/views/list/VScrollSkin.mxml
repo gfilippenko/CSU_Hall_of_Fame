@@ -65,28 +65,28 @@ VScrollBarThumbSkin and VScrollBarTrackSkin classes, respectively.
     <!---  The default skin class is VScrollBarTrackSkin.  
             @copy spark.components.supportClasses.TrackBase#track 
             @see spark.skins.spark.VScrollBarTrackSkin -->
-    <s:Button id="track" top="16" bottom="15" height="54"
+    <s:Button id="track" right="-41" top="16" bottom="15" height="54"
               focusEnabled="false" tabEnabled="false"
               skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollTrackSkin" />
     
     <!--- The default skin class is VScrollBarThumbSkin.
             @copy spark.components.supportClasses.TrackBase#thumb 
             @see spark.skins.spark.VScrollBarThumbSkin -->
-    <s:Button id="thumb" 
+    <s:Button id="thumb" right="-50"
               focusEnabled="false" visible.inactive="false" tabEnabled="false"
               skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollThumbSkin" />
     
     <!--- The default skin class is ScrollBarUpButtonSkin. 
             @copy spark.components.supportClasses.ScrollBarBase#decrementButton 
             @see spark.skins.spark.ScrollBarUpButtonSkin -->
-    <s:Button id="decrementButton" top="0" enabled.inactive="false"
+    <s:Button  right="-50" id="decrementButton" top="0" enabled.inactive="false"
               focusEnabled="false" tabEnabled="false"
               skinClass="com.blogspot.jaggerm.cdmeyer.views.list.DecrementButtonSkin" />
     
     <!---  The default skin class is ScrollBarDownButtonSkin. 
             @copy spark.components.supportClasses.ScrollBarBase#incrementButton
             @see spark.skins.spark.ScrollBarDownButtonSkin -->
-    <s:Button id="incrementButton" bottom="0" enabled.inactive="false"
+    <s:Button right="-50" id="incrementButton" bottom="0" enabled.inactive="false"
               focusEnabled="false" tabEnabled="false"
               skinClass="com.blogspot.jaggerm.cdmeyer.views.list.IncrementButtonSkin" />
 

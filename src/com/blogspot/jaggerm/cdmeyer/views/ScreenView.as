@@ -40,7 +40,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 		public static const mainButtonWidth : Number = 428;
 		public static const mainButtonHeight : Number = 428;
 		public static const backBtnHeight : Number = 241;
-		public static const listWidth : Number = 1322;//800;//1322;
+		public static const listWidth : Number = 1272;//800;//1322;
 		public static const listHeight : Number = 820;//600;//900; 
 		public static const sportButtonWidth : Number = 265;
 		

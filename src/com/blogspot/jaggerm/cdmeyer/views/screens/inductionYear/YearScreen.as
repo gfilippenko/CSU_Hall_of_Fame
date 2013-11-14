@@ -77,7 +77,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			addElement(logo);
 			
 			list = new AthletesList();
-			list.x = 552;
+			list.x = 630;
 			list.y = 3;			
 			list.list.dataProvider = new ArrayCollection();
 			addElement(list);

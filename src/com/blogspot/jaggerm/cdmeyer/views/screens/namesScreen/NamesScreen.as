@@ -56,7 +56,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			listSource = Controller.getInstance().athletes;
 			
 			list = new AthletesList();			
-			list.x = 553;
+			list.x = 631;
 			list.y = 4;			
 			currentProvider = new ArrayCollection();
 			addElement(list);

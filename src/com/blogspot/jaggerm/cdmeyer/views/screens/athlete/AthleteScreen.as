@@ -57,8 +57,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var videoView : Boolean = false;
 		private var videoPlayer : VideoPlayer;
 		private var currentVideoLbl : Label;
-		private var videoPlayerX : uint = 783;//784;//180;//
-		private var videoPlayerY : uint = 175;//160;
+		private var videoPlayerX : uint = 783;//783;
+		private var videoPlayerY : uint = 175;//175;
 		private var videoButtons : Array = [];
 		
 		public function set athlete(value : Athlete) : void
@@ -206,7 +206,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				removeElement(dob);
 				oacLabels.splice(0,oacLabels.length);
 				
-				var startY : uint = oacLblbY + 20;
+				var startY : uint = oacLblbY + 26;
 				var startX : uint = 111;
 				for each(var item : XML in oacs[0].item)
 				{
@@ -216,9 +216,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 					lbl.setStyle('fontSize', 16);
 					lbl.setStyle('color', 0xffffff);
 					lbl.x = oacLblbX;
-					startY = startY + 20;
+					startY = startY + 26;
 					lbl.y = startY; 
-					lbl.text = '●    ' + item[0];
+					lbl.text = item[0];
 					addElement(lbl);
 					oacLabels.push(lbl);
 				}
@@ -364,10 +364,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			addElement(imageCnt);
 			
 			info = new TextArea();
-			info.x = 825;
+			info.x = 878;
 			info.y = 70;
-			info.width = 700;
-			info.height = 900;
+			info.width = 593;
+			info.height = 800;
 
 //			info.width = 430;
 //			info.height = 380;
@@ -382,8 +382,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoBtn = new Button();
 			videoBtn.setStyle("skinClass", VideoButtonSkin );
 			videoBtn.addEventListener(MouseEvent.CLICK, BtnVideoClicked);
-			videoBtn.x = _screenWidth - 160;
-			videoBtn.y = _screenHeight - 241 - 20;
+			videoBtn.x = 1668;
+			videoBtn.y = 764;
 			videoBtn.visible = false;
 			addElement(videoBtn);
 			

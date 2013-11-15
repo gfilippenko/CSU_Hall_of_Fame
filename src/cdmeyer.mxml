@@ -48,6 +48,14 @@
 			fontWeight: bold;
 			embedAsCFF: false;
 		}
+		
+		@font-face {
+			src:url("./resources/SWZ721B.TTF");
+			fontFamily: Swis721BT;
+			fontWeight: bold;
+			embedAsCFF: true;
+		}
+
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[

@@ -9,6 +9,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	
+	import flash.events.Event;
+	
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 	
@@ -18,7 +20,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	{
 		private var _label : String;
 		private var _labelChanged : Boolean = false;
-		private var sortButtons : SortBar;
+//		private var sortButtons : SortBar;
 		
 		[Bindable]
 		public function set label(value : String) : void
@@ -41,6 +43,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			super(value, _scrWidth, _scrHeight);
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_SPORTS_SCREEN;
+			addEventListener(Event.ADDED_TO_STAGE, Added);
 		}
 		
 		override protected function commitProperties():void
@@ -56,6 +59,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 					_labelChanged = false;
 				}
 			}			
+		}
+		
+		private function Added(e : Event) : void
+		{
+			if(list != null)
+				DrawList();
 		}
 		
 		override public function draw() : void
@@ -105,6 +114,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			}
 			
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 	}
 }

@@ -9,6 +9,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	
+	import flash.events.Event;
+	
 	import mx.collections.ArrayCollection;
 	import mx.states.OverrideBase;
 	
@@ -18,7 +20,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 	{
 		private var _label : String;
 		private var _labelChanged : Boolean = false;
-		private var sortButtons : SortBar;
+//		private var sortButtons : SortBar;
 		
 		[Bindable]
 		public function set label(value : String) : void
@@ -42,6 +44,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_YEARS_OF_DECADE;
 			showHomeBtn = true;
+			addEventListener(Event.ADDED_TO_STAGE, Added);
 		}
 		
 		override protected function commitProperties():void
@@ -55,6 +58,12 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 					DrawList();
 					_labelChanged = false;
 				}
+		}
+		
+		private function Added(e : Event) : void
+		{
+			if(list != null)
+				DrawList();
 		}
 		
 		override public function draw() : void
@@ -96,11 +105,18 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			
 			for each(var item : Athlete in Controller.getInstance().athletes)
 			{
+				if(HasItem(list.list.dataProvider, item))
+				{
+					item.fN = '';
+					item.lN = '';
+				}
+				
 				if(item.year.toUpperCase() == label.toUpperCase())
 					list.list.dataProvider.addItem(item);
 			}
 
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 	}
 }

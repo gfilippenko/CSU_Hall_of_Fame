@@ -20,8 +20,15 @@
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
 	
-	<s:BitmapImage width="63" height="28" source.disabled="@Embed('../../../../../../resources/ab.png')" 
-				   source.down="@Embed('../../../../../../resources/ab.png')" 
-				   source.up="@Embed('../../../../../../resources/ab.png')" 
-				   source.over="@Embed('../../../../../../resources/ab.png')" />
+<!--	<s:BitmapImage width="63" height="28" source.disabled="@Embed('../../../../../../resources/ab_disabled.png')" 
+				   source.down="@Embed('../../../../../../resources/ab_disabled.png')" 
+				   source.up="@Embed('../../../../../../resources/ab_disabled.png')" 
+				   source.over="@Embed('../../../../../../resources/ab_disabled.png')" />-->
+	
+	<s:Label id="labelDisplay"
+			 textAlign="center"
+			 maxDisplayedLines="2"
+			 horizontalCenter="0" verticalCenter="1" verticalAlign="middle"
+			 left="10" right="10" top="2" bottom="2"
+			 fontFamily="Swis721BT" fontWeight="bold" fontSize="35.42" color="0xffffff" color.disabled="0x666666"/>
 </s:Skin>

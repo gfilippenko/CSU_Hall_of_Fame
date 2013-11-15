@@ -4,6 +4,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
+	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.HomeButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
@@ -21,6 +22,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import mx.containers.Canvas;
 	import mx.controls.Alert;
 	import mx.controls.Text;
+	import mx.events.FlexEvent;
 	import mx.graphics.BitmapFillMode;
 	import mx.states.OverrideBase;
 	
@@ -78,6 +80,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 		public static const screenlabelX : Number = 113;
 		public static const screenlabelY : Number = 30;
 		
+		protected var sortButtons : SortBar;
+		
 		public function get settings() : ScreenSettings
 		{
 			return _settings;
@@ -104,6 +108,14 @@ package com.blogspot.jaggerm.cdmeyer.views
 			measuredHeight = _scrHeight;
 			width = _scrWidth;
 			height = _scrHeight;
+			
+			addEventListener(FlexEvent.CREATION_COMPLETE, CreationComplete);
+		}
+		
+		private function CreationComplete(e : FlexEvent) : void
+		{
+			if(list != null)
+				EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 		
 		public function draw() : void
@@ -169,7 +181,60 @@ package com.blogspot.jaggerm.cdmeyer.views
 				}
 				list.list.dataProvider.addItem(item);
 			}
-			ArrayCollection(list.list.dataProvider).enableAutoUpdate();			
+			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			
+			EnableSortBar(list.list.dataProvider as ArrayCollection);
+		}
+		
+		protected function EnableSortBar(data : ArrayCollection) : void
+		{
+			if(sortButtons == null)
+				return;
+			var len : uint = sortButtons.numElements;
+			
+			for(var i:uint =0;i<len;i++)
+			{
+				if(sortButtons.getElementAt(i) is Button)
+					Button(sortButtons.getElementAt(i)).enabled = false;	
+			}
+//			sortButtons.ab.enabled = false;
+//			sortButtons.cd.enabled = false;
+//			sortButtons.ef.enabled = false;
+//			sortButtons.gh.enabled = false;
+//			sortButtons.ij.enabled = false;
+//			sortButtons.kl.enabled = false;
+//			sortButtons.mn.enabled = false;
+//			sortButtons.op.enabled = false;
+//			sortButtons.qr.enabled = false;
+//			sortButtons.st.enabled = false;
+//			sortButtons.uv.enabled = false;
+//			sortButtons.wx.enabled = false;
+//			sortButtons.yz.enabled = false;
+			
+			for each(var item : Athlete in data)
+			{
+				CheckListItem(item);
+			}
+		}
+		
+		protected function CheckListItem(item : Athlete) : void
+		{
+			var len : uint = sortButtons.numElements;
+			
+			for(var i:uint =0;i<len;i++)
+			{
+				if(sortButtons.getElementAt(i) is Button)
+				{
+					var btn : Button = sortButtons.getElementAt(i) as Button;
+					var f : String = btn.id.substr(0,1);
+					var s : String = btn.id.substr(1,1);
+					if(String(item.lastName).toLowerCase().indexOf(f) == 0 ||
+						String(item.lastName).toLowerCase().indexOf(s) == 0)
+							Button(sortButtons.getElementAt(i)).enabled = true;
+//					else					
+//						Button(sortButtons.getElementAt(i)).enabled = false;	
+				}
+			}
 		}
 		
 		protected function HasItem(list : IList, item : Athlete) : Boolean

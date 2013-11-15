@@ -80,7 +80,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			list.x = 722;
 			list.y = 124;
 			list.list.dataProvider = new ArrayCollection();
-			list.sport.visible = false;
+			list.list.sport.visible = false;
 			addElement(list);
 			
 			sortButtons = new SortBar();
@@ -97,6 +97,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			
 			for each(var item : Athlete in Controller.getInstance().athletes)
 			{
+				item.lN = item.lastName;
+				item.fN = item.firstName;
+				
 				if(item.sport.toUpperCase() == label.toUpperCase())
 					list.list.dataProvider.addItem(item);
 			}

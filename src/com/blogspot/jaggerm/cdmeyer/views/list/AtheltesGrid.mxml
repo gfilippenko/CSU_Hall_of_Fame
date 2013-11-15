@@ -7,10 +7,15 @@
 	<s:columns>
 		<s:ArrayList>								
 			<s:GridColumn id="sport" dataField="sport" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
-			<s:GridColumn id="firstName" dataField="firstName"   itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
-			<s:GridColumn id="lastName" dataField="lastName" width="360"  itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
+			<s:GridColumn id="firstName" dataField="fN"   itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
+			<s:GridColumn id="lastName" dataField="lN" width="360"  itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
 		</s:ArrayList>			
 	</s:columns>
+	<fx:Script>
+		<![CDATA[
+//			skin..sportBg.visible = false;
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>

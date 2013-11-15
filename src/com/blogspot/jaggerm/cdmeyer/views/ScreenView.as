@@ -17,6 +17,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 	import mx.collections.ArrayList;
+	import mx.collections.IList;
 	import mx.containers.Canvas;
 	import mx.controls.Alert;
 	import mx.controls.Text;
@@ -153,7 +154,35 @@ package com.blogspot.jaggerm.cdmeyer.views
 		
 		protected function DrawList() : void
 		{
-			list.list.dataProvider = new ArrayCollection(listSource);
+			if(list.list.dataProvider == null)
+				list.list.dataProvider = new ArrayCollection();
+			
+			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
+			ArrayCollection(list.list.dataProvider).removeAll();
+			var arr : Array = [];
+			for each(var item : Athlete in listSource)
+			{
+				if(HasItem(list.list.dataProvider, item))
+				{
+					item.fN = '';
+					item.lN = '';
+				}
+				list.list.dataProvider.addItem(item);
+			}
+			ArrayCollection(list.list.dataProvider).enableAutoUpdate();			
+		}
+		
+		protected function HasItem(list : IList, item : Athlete) : Boolean
+		{
+			var len : uint = list.length;
+			for (var i:uint=0; i<len; i++)
+			{
+				var a : Athlete = list.getItemAt(i) as Athlete;
+				if(a.firstName == item.firstName && a.lastName == item.lastName)
+					return true;
+			}
+			
+			return false;
 		}
 		
 		/*

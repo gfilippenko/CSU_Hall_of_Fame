@@ -58,7 +58,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			list = new AthletesList();			
 			list.x = 631;
 			list.y = 4;			
-			currentProvider = new ArrayCollection();
+			//currentProvider = new ArrayCollection();
 			addElement(list);
 			DrawList();
 			

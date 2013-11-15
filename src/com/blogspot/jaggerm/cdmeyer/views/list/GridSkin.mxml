@@ -64,9 +64,9 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
 		<s:State name="sportHided"/>
     </s:states>
 	
-	<s:BitmapImage width="100%" height="100%" left="-78" source.normal="@Embed('../../../../../../resources/list_bg.png')" 
+	<s:BitmapImage width="57%" height="100%" left="-78" bottom="-18" source.normal="@Embed('../../../../../../resources/list_bg.png')" 
 				   source.disabled="@Embed('../../../../../../resources/list_bg.png')"/>
-	<s:BitmapImage visible="{hostComponent.sport.visible}"/>
+	<s:BitmapImage id="sportBg" visible="{hostComponent.sport.visible}" right="-40" width="45%" bottom="-18" height="100%" source.normal="@Embed('../../../../../../resources/list_bg_sport.png')"/>
     
     <fx:Declarations>
         <!--- @private -->        
@@ -321,7 +321,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
 						</s:stroke>
 					</s:Line>
 					<s:Spacer width="10%"/>
-					<s:Line id="headerSeparator" width="40%">
+					<s:Line id="headerSeparator" width="40%" visible="{hostComponent.sport.visible}">
 						<s:stroke>
 							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
 						</s:stroke>
@@ -350,9 +350,9 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
 						</s:stroke>
 					</s:Line>
 					<s:Spacer width="10%"/>
-					<s:Line width="40%">
+					<s:Line width="40%" visible="{hostComponent.sport.visible}">
 						<s:stroke>
-							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
+							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square" />
 						</s:stroke>
 					</s:Line>
 				</s:HGroup>

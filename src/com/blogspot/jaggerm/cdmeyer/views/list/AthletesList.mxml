@@ -39,13 +39,13 @@
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
 	<list:AtheltesGrid id="list">
-		<list:columns>
+		<!--<list:columns>
 			<s:ArrayList>								
 				<s:GridColumn id="sport" dataField="sport" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
 				<s:GridColumn id="firstName" dataField="firstName"   itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
 				<s:GridColumn id="lastName" dataField="lastName" width="360"  itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>
 			</s:ArrayList>			
-		</list:columns>
+		</list:columns>-->
 	</list:AtheltesGrid>
 <!--	<s:Group>
 		<s:layout>

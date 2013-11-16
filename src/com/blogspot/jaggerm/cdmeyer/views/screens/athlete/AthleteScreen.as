@@ -334,10 +334,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			addElement(bio);
 			
 			headshotHolder = new Image();
-			headshotHolder.width = 313;
-			headshotHolder.height = 459;
-			headshotHolder.x = 444;
-			headshotHolder.y = videoPlayerY;
+			headshotHolder.width = 300;
+			headshotHolder.height = 450;
+			headshotHolder.x = 453;
+			headshotHolder.y = 169;
+			headshotHolder.scaleMode = BitmapFillMode.SCALE;
 			addElement(headshotHolder);
 			
 			var btnLeft : Button = new Button();
@@ -396,6 +397,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoPlayer.height = 576;
 			videoPlayer.autoDisplayFirstFrame = true;
 			videoPlayer.autoPlay = true;
+			videoPlayer.scaleMode = 'zoom';
 			addElement(videoPlayer);
 			
 			currentVideoLbl = new Label();

@@ -3,6 +3,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
+	import com.blogspot.jaggerm.cdmeyer.model.Video;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	
 	import flash.events.Event;
@@ -58,7 +59,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var videoPlayer : VideoPlayer;
 		private var currentVideoLbl : Label;
 		private var videoPlayerX : uint = 783;//783;
-		private var videoPlayerY : uint = 175;//175;
+		private var videoPlayerY : uint = 169;//175;
 		private var videoButtons : Array = [];
 		
 		private var btnLeft : Button;
@@ -105,7 +106,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		public function GetFileBytes(fileName : String) : String
 		{
 			var file:File = File.documentsDirectory.resolvePath(athletePath + fileName); 
-			
+			if(!file.exists)
+				return null;
 			var fileStream:FileStream = new FileStream(); 
 			
 			fileStream.open(file, FileMode.READ); 
@@ -253,46 +255,43 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			ShowImage(0);				
 		}
 		
-		private function GetVideoTitle(path : String) : String
+		private function SetVideoPlayerSource(video : Video) : void
 		{
-			var tmp : Array = path.split('\\');
-			return tmp[tmp.length -1 ].substr(0, tmp[tmp.length -1 ].length - 4);
+			videoPlayer.source = athletePath + video.file;			
+			currentVideoLbl.text = video.title;
 		}
 		
 		private function GetVideosFiles() : void
 		{
 			videos.splice(0, videos.length);
 			videoButtons.splice(0, videoButtons.length);
-			var startX : uint = videoPlayerX + 180;
+			var startX : uint = videoPlayerX + 207;
 			
-			var file:File = File.documentsDirectory.resolvePath(athletePath);
-			var files : Array = file.getDirectoryListing();
-			for each(var item : File in files)
+			var files : XML = XML(GetFileBytes('video.xml'));
+			for each(var item : XML in files[0].item)
 			{
-				if((item.nativePath.toLowerCase().indexOf('.flv') != -1))
-				{
-					videos.push(item.nativePath);
-					var btn : Button = new Button();
-					btn.id = videoButtons.length.toString();
-					btn.visible = false;
-					btn.setStyle("skinClass", NextBideoBtnSkin );
-					btn.addEventListener(MouseEvent.CLICK, NextBideoBtnClicked);
-					btn.x = startX;
-					btn.y = _screenHeight - 106;
-					btn.label = GetVideoTitle(item.nativePath);
-					addElement(btn);
-					startX += 265;
-					videoButtons.push(btn);
-				}
+				var video : Video = new Video(item);
+				
+				videos.push(video);
+				var btn : Button = new Button();
+				btn.id = videoButtons.length.toString();
+				btn.visible = false;
+				btn.setStyle("skinClass", NextBideoBtnSkin );
+				btn.addEventListener(MouseEvent.CLICK, NextBideoBtnClicked);
+				btn.x = startX;
+				btn.y = _screenHeight - 106;
+				btn.label = video.title;
+				addElement(btn);
+				startX += 235;
+				videoButtons.push(btn);
+				
 								
 			}
 			
 			if(videos.length > 0)
 			{
 				videoBtn.visible = true;
-				videoPlayer.source = videos[0];
-				
-				currentVideoLbl.text = GetVideoTitle(videos[0]);
+				SetVideoPlayerSource(videos[0] as Video);
 			}
 			else
 				videoBtn.visible = false;
@@ -387,7 +386,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoBtn = new Button();
 			videoBtn.setStyle("skinClass", VideoButtonSkin );
 			videoBtn.addEventListener(MouseEvent.CLICK, BtnVideoClicked);
-			videoBtn.x = 1668;
+			videoBtn.x = 1676;
 			videoBtn.y = 764;
 			videoBtn.visible = false;
 			addElement(videoBtn);
@@ -473,10 +472,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function NextBideoBtnClicked(e : MouseEvent) : void
 		{
-			var source : String = videos[Number(e.target.id)]; 
-			videoPlayer.source = source;
-			var tmp : Array = source.split('\\');
-			currentVideoLbl.text = tmp[tmp.length -1 ].substr(0, tmp[tmp.length -1 ].length - 4);
+			SetVideoPlayerSource(videos[Number(e.target.id)] as Video); 
 		}
 		
 		override protected function BackClicked(e : MouseEvent) : void

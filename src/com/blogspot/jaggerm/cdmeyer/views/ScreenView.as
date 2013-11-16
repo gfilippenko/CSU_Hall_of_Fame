@@ -171,6 +171,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 			
 			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
 			ArrayCollection(list.list.dataProvider).removeAll();
+			
 			var arr : Array = [];
 			for each(var item : Athlete in listSource)
 			{
@@ -181,7 +182,10 @@ package com.blogspot.jaggerm.cdmeyer.views
 				}
 				list.list.dataProvider.addItem(item);
 			}
+			
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			list.list.scroller.verticalScrollBar.value = 0;
+			
 			
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
@@ -197,19 +201,6 @@ package com.blogspot.jaggerm.cdmeyer.views
 				if(sortButtons.getElementAt(i) is Button)
 					Button(sortButtons.getElementAt(i)).enabled = false;	
 			}
-//			sortButtons.ab.enabled = false;
-//			sortButtons.cd.enabled = false;
-//			sortButtons.ef.enabled = false;
-//			sortButtons.gh.enabled = false;
-//			sortButtons.ij.enabled = false;
-//			sortButtons.kl.enabled = false;
-//			sortButtons.mn.enabled = false;
-//			sortButtons.op.enabled = false;
-//			sortButtons.qr.enabled = false;
-//			sortButtons.st.enabled = false;
-//			sortButtons.uv.enabled = false;
-//			sortButtons.wx.enabled = false;
-//			sortButtons.yz.enabled = false;
 			
 			for each(var item : Athlete in data)
 			{
@@ -253,45 +244,45 @@ package com.blogspot.jaggerm.cdmeyer.views
 		/*
 		* drows limited number of items
 		*/
-		protected function DrawListPage(page : uint  = 1) : void
-		{
-			currentProvider.disableAutoUpdate();
-			currentProvider.removeAll();
-			
-			var end : uint = page * listLimit;
-			var start : uint = end - listLimit;
-			
-			if(end > listSource.length)
-			{
-				end = listSource.length - 1;
-				if(nextBtn != null)
-					nextBtn.visible = false;
-			}
-			else
-				if(nextBtn == null)
-				{
-					DrawNextButton();
-				}
-			
-				if(!nextBtn.visible)
-					nextBtn.visible = true;
-			
-			for(var i:uint=start;i<end;i++)
-			{				
-				currentProvider.addItem(listSource[i]);
-			}
-			
-			currentProvider.enableAutoUpdate();
-			currentProvider.refresh();
-		}
+//		protected function DrawListPage(page : uint  = 1) : void
+//		{
+//			currentProvider.disableAutoUpdate();
+//			currentProvider.removeAll();
+//			
+//			var end : uint = page * listLimit;
+//			var start : uint = end - listLimit;
+//			
+//			if(end > listSource.length)
+//			{
+//				end = listSource.length - 1;
+//				if(nextBtn != null)
+//					nextBtn.visible = false;
+//			}
+//			else
+//				if(nextBtn == null)
+//				{
+//					DrawNextButton();
+//				}
+//			
+//				if(!nextBtn.visible)
+//					nextBtn.visible = true;
+//			
+//			for(var i:uint=start;i<end;i++)
+//			{				
+//				currentProvider.addItem(listSource[i]);
+//			}
+//			
+//			currentProvider.enableAutoUpdate();
+//			currentProvider.refresh();
+//		}
 		
-		private function NextBtnClicked(e : MouseEvent) : void
-		{
-			if(currentPage == listPages)
-				return;
-			currentPage++;
-			DrawListPage(currentPage);
-		}
+//		private function NextBtnClicked(e : MouseEvent) : void
+//		{
+//			if(currentPage == listPages)
+//				return;
+//			currentPage++;
+//			DrawListPage(currentPage);
+//		}
 		
 		protected function DrawInstructions() : void
 		{
@@ -317,18 +308,18 @@ package com.blogspot.jaggerm.cdmeyer.views
 			
 		}
 		
-		protected function DrawNextButton() : void
-		{
-			nextBtn = new Button();			
-			nextBtn.addEventListener(MouseEvent.CLICK, NextBtnClicked);
-			nextBtn.setStyle('skinClass',NextButtonSkin);
-			addElement(nextBtn);			
-			if(nextBtn != null)
-			{
-				nextBtn.x = width - nextBtn.width - 20;
-				nextBtn.y = height - nextBtn.height - 20;
-			}
-		}
+//		protected function DrawNextButton() : void
+//		{
+//			nextBtn = new Button();			
+//			nextBtn.addEventListener(MouseEvent.CLICK, NextBtnClicked);
+//			nextBtn.setStyle('skinClass',NextButtonSkin);
+//			addElement(nextBtn);			
+//			if(nextBtn != null)
+//			{
+//				nextBtn.x = width - nextBtn.width - 20;
+//				nextBtn.y = height - nextBtn.height - 20;
+//			}
+//		}
 		
 		protected function BackClicked(e : MouseEvent) : void
 		{

@@ -114,6 +114,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			}
 			
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			list.list.scroller.verticalScrollBar.value = 0;
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 	}

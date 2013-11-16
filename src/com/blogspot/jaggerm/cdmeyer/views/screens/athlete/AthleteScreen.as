@@ -61,6 +61,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var videoPlayerY : uint = 175;//175;
 		private var videoButtons : Array = [];
 		
+		private var btnLeft : Button;
+		private var btnRight : Button;
+		
 		public function set athlete(value : Athlete) : void
 		{
 			if(_athlete != value)
@@ -341,14 +344,15 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			headshotHolder.scaleMode = BitmapFillMode.SCALE;
 			addElement(headshotHolder);
 			
-			var btnLeft : Button = new Button();
+			btnLeft = new Button();
 			btnLeft.setStyle("skinClass", LeftButtonSkin );
 			btnLeft.addEventListener(MouseEvent.CLICK, BtnLeftClicked);
 			btnLeft.x = 455;
 			btnLeft.y = 627;
+			btnLeft.visible = false;
 			addElement(btnLeft);
 			
-			var btnRight : Button = new Button();
+			btnRight = new Button();
 			btnRight.setStyle("skinClass", RightButtonSkin );
 			btnRight.addEventListener(MouseEvent.CLICK, BtnRightClicked);
 			btnRight.x = 715;
@@ -416,18 +420,30 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	
 		private function BtnLeftClicked(e : MouseEvent) : void
 		{
-			if(currentImageIndex == 0 )
-				return;
+			if(!btnRight.visible)
+				btnRight.visible = true;
+			
 			currentImageIndex--;
-			ShowImage(currentImageIndex);						
+			ShowImage(currentImageIndex);
+			
+			if(currentImageIndex == 0 )
+			{
+				btnLeft.visible = false;
+			}
+									
 		}
 		
 		private function BtnRightClicked(e : MouseEvent) : void
 		{
-			if(currentImageIndex == images.length - 1)
-				return;
+			if(!btnLeft.visible)
+				btnLeft.visible = true;
 			currentImageIndex++;
-			ShowImage(currentImageIndex);	
+			ShowImage(currentImageIndex);
+			
+			if(currentImageIndex == images.length - 1)
+			{
+				btnRight.visible = false;
+			}				
 		}
 		
 		private function BtnVideoClicked(e : MouseEvent) : void

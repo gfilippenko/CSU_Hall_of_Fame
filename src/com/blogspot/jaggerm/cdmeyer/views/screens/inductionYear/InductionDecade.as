@@ -68,6 +68,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				btn.width = ScreenView.sportButtonWidth;
 				btn.height = ScreenView.sportButtonWidth;
 				btn.label = item.id.toString() + "`s";
+				if(item.years.length == 0)
+					btn.enabled = false;
 				btn.x = nextX;
 				btn.y = nextY;
 				

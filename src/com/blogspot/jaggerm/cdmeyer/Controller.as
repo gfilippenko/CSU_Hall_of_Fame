@@ -185,6 +185,7 @@ package com.blogspot.jaggerm.cdmeyer
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_MAIN_SCREEN, ShowMainScreen);	
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_YEARS_SCREEN, ShowYearsScreen);
 					bottomScreen.addEventListener(CDMeyerEvent.SHOW_SPORT_YEAR, ShowYearScreen);
+					InductionYear(bottomScreen).SetController(this);
 					InductionYear(bottomScreen).decade = decade;
 					break;
 				
@@ -207,6 +208,17 @@ package com.blogspot.jaggerm.cdmeyer
 			screens[id] = scrPair;
 			
 			AddPair(id, topScr, bottomScreen);
+		}
+		
+		public function HasYear(year : String) : Boolean
+		{
+			for each(var item : Athlete in athletes)
+			{
+				if(item.year == year)
+					return true;
+			}
+			
+			return false;
 		}
 		
 		private function ShowMainScreen(e : CDMeyerEvent) : void

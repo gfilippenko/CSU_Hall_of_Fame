@@ -1,5 +1,6 @@
 package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 {
+	import com.blogspot.jaggerm.cdmeyer.Controller;
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.Decade;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
@@ -20,6 +21,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 		private var _decade : Decade;
 		private var _decadeChanged : Boolean = false;
 		private var buttons : Array = [];
+		public var controller : Controller;
 		
 		[Bindable]
 		public function set decade(value : Decade) : void
@@ -43,6 +45,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_YEARS_SCREEN;
 			showHomeBtn = true;
+		}
+		
+		public function SetController(value :  Controller) : void
+		{
+			controller = value;
 		}
 		
 		override protected function commitProperties():void
@@ -106,7 +113,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				btn.label = String(item);
 				btn.x = nextX;
 				btn.y = nextY;
-				
+				btn.enabled = controller.HasYear(String(item));
 				nextX = btn.x + btn.width + shiftX;
 				if((counter%5) == 0)
 				{

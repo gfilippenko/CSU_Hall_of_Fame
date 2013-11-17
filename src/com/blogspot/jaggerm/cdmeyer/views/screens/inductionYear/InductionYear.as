@@ -129,6 +129,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 		
 		private function YearBtnClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			var event : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_SPORT_YEAR);
 			event.year = Number(e.target.id);
 			dispatchEvent(event);

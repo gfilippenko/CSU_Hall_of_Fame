@@ -87,6 +87,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 		
 		private function DecadeBtnClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			var event : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_YEARS_OF_DECADE);
 			event.decadeID = Number(e.target.id);
 			dispatchEvent(event);

@@ -79,10 +79,17 @@
 			private var controller : Controller;
 			
 			private var wnd1 : Window;
-			private var wnd2 : Window;
+			private var wnd2 : Window;			
 			
 			private var wnd1Complete : Boolean = false;
 			private var wnd2Complete : Boolean = false;
+			
+			[Embed(source="./resources/csu_button_click.mp3")]
+			[Bindable]
+			public var sndCls:Class;
+			
+			public var snd:Sound = new sndCls() as Sound; 
+			public var sndChannel:SoundChannel;
 			
 			private function CreationComplete(event : FlexEvent) : void
 			{				
@@ -106,6 +113,8 @@
 				
 				
 				nativeWindow.close();
+				
+				
 				
 //				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
 //				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
@@ -214,7 +223,7 @@
 				wnd1.stage.scaleMode = StageScaleMode.NO_SCALE;				
 				wnd1.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);	
-				
+				wnd1.stage.addEventListener(CDMeyerEvent.PLAY_BTN_SOUND, PlayBtnSound);
 				wnd1Complete = true;
 				if(wnd2Complete)
 					Start();
@@ -250,6 +259,11 @@
 					wnd2.close();
 				}
 			}	
+			
+			private function PlayBtnSound(e : CDMeyerEvent) : void
+			{
+				sndChannel=snd.play();				
+			}
 		]]>
 	</fx:Script>
 	<s:layout>

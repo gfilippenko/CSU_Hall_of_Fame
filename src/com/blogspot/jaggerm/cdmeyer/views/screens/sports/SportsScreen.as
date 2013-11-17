@@ -97,6 +97,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 		
 		private function SportButtonClicked(event : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_SPORT_SCREEN);
 			e.screenLabel = event.target.label;
 			dispatchEvent(e);

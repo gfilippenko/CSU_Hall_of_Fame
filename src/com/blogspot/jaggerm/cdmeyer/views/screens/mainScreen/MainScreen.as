@@ -76,16 +76,19 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 		
 		private function btn1Clicked(event : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_NAMES_SCREEN));
 		}
 		
 		private function btn2Clicked(event : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_SPORTS_SCREEN));
 		}
 		
 		private function btn3Clicked(event : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_YEARS_SCREEN));
 		}
 	}

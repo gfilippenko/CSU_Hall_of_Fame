@@ -323,11 +323,13 @@ package com.blogspot.jaggerm.cdmeyer.views
 		
 		protected function BackClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(backBtnEventType));
 		}
 		
 		private function HomeClicked(event : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
 		}
 	}

@@ -401,6 +401,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoPlayer.autoDisplayFirstFrame = true;
 			videoPlayer.autoPlay = true;
 			videoPlayer.scaleMode = 'zoom';
+//			videoPlayer.addEventListener(MouseEvent.CLICK, vdieoPlayer);
 			addElement(videoPlayer);
 			
 			currentVideoLbl = new Label();
@@ -419,6 +420,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	
 		private function BtnLeftClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			if(!btnRight.visible)
 				btnRight.visible = true;
 			
@@ -434,6 +437,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function BtnRightClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			if(!btnLeft.visible)
 				btnLeft.visible = true;
 			currentImageIndex++;
@@ -447,6 +452,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function BtnVideoClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			videoView = !videoView;
 			
 			if(videos.length > 0)
@@ -472,6 +479,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function NextBideoBtnClicked(e : MouseEvent) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+			
 			SetVideoPlayerSource(videos[Number(e.target.id)] as Video); 
 		}
 		
@@ -483,7 +492,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				return;
 			}
 			
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			var event : CDMeyerEvent = new CDMeyerEvent(backBtnEventType);
+			event.screenLabel = _athlete.sport;
 			event.year = Number(_athlete.year); 
 			dispatchEvent(event);
 		}

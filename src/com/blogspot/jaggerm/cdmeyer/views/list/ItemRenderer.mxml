@@ -8,6 +8,8 @@
 			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 			protected function griditemrenderer1_clickHandler(event:MouseEvent):void
 			{
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+				
 				var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_ATHLETE, true);
 				e.lastName = data.lastName;
 				e.sport = data.sport;

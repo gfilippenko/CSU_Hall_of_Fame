@@ -74,6 +74,11 @@
 				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			}
 			
+			protected function rewindBtn_clickHandler(event:MouseEvent):void
+			{
+				hostComponent.seek(0);
+			}
+			
 		]]>
 
     </fx:Script>
@@ -162,6 +167,8 @@
 								skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.PlayPauseButtonSkin"
 								layoutDirection="ltr"
 								focusIn="event.target.depth=1" focusOut="event.target.depth=0" click="playPauseButton_clickHandler(event)" />
+				<s:Spacer width="48"/>
+				<s:Button id="rewindBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.RewindBtnSkin" click="rewindBtn_clickHandler(event)"/>
 				<s:Spacer width="48"/>
 				<s:VGroup>
 						<s:Spacer height="23"/>

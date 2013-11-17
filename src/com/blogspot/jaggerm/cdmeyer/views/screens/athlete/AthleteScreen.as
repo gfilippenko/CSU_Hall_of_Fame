@@ -265,7 +265,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			videos.splice(0, videos.length);
 			videoButtons.splice(0, videoButtons.length);
-			var startX : uint = videoPlayerX + 207;
+			var startX : uint = videoPlayerX + 200;
 			
 			var files : XML = XML(GetFileBytes('video.xml'));
 			for each(var item : XML in files[0].item)
@@ -279,7 +279,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				btn.setStyle("skinClass", NextBideoBtnSkin );
 				btn.addEventListener(MouseEvent.CLICK, NextBideoBtnClicked);
 				btn.x = startX;
-				btn.y = _screenHeight - 106;
+				btn.y = 930;
 				btn.label = video.title;
 				addElement(btn);
 				startX += 235;
@@ -410,7 +410,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			currentVideoLbl.setStyle('fontSize', 60);
 			currentVideoLbl.setStyle('color', 0xffffff);
 			currentVideoLbl.x = 784;
-			currentVideoLbl.y = 46;
+			currentVideoLbl.y = 48;
 			currentVideoLbl.visible = false;
 			currentVideoLbl.text = 'Video Title';
 			addElement(currentVideoLbl);

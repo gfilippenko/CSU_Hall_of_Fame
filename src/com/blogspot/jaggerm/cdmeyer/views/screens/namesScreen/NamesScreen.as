@@ -65,8 +65,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			DrawList();
 			
 			sortButtons = new SortBar();
-			sortButtons.x = 634;
-			sortButtons.y = 846;
+			sortButtons.x = 628;
+			sortButtons.y = 848;
 			sortButtons.addSortListeners(list);
 			addElement(sortButtons);
 			

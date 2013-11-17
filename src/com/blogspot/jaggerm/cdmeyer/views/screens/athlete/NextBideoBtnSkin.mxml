@@ -28,7 +28,7 @@
 				   source.down="@Embed('../../../../../../../resources/next_video.png')" 
 				   source.up="@Embed('../../../../../../../resources/next_video.png')" 
 				   source.over="@Embed('../../../../../../../resources/next_video.png')" />
-	
+	<s:Spacer height="20"/>
 	<s:Label id="labelDisplay"
 			 textAlign="center"
 			 maxDisplayedLines="2"

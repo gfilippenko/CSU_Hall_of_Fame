@@ -144,7 +144,7 @@
 	</s:Group>
 	
 	<!-- video player controls -->
-	<s:Group left="0" right="0" height="24" bottom="-156" bottom.fullScreenStates="150">
+	<s:Group left="0" right="0" height="24" bottom="-140" bottom.fullScreenStates="150">
 		
 		<!-- actual controls with a maxWidth in non-fullScreen mode -->
 		<!--- @copy spark.components.VideoPlayer#playerControls -->
@@ -153,26 +153,26 @@
 			<s:ScrubBar id="scrubBar" width="100%" liveDragging="true"
 					skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VideoScrubBar"
 					skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.ScrubBarSkin" />
-			<s:Spacer height="22"/>
+			<s:Spacer height="14"/>
 			<s:HGroup>
 							
-			<!--- @copy spark.components.VideoPlayer#playPauseButton -->
-			<s:ToggleButton id="playPauseButton" left="0" bottom="0" 
-							skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PlayPauseBtnSkin" 
-							skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.PlayPauseButtonSkin"
-							layoutDirection="ltr"
-							focusIn="event.target.depth=1" focusOut="event.target.depth=0" click="playPauseButton_clickHandler(event)" />
-			<s:Spacer width="48"/>
+				<!--- @copy spark.components.VideoPlayer#playPauseButton -->
+				<s:ToggleButton id="playPauseButton" left="0" bottom="0" 
+								skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PlayPauseBtnSkin" 
+								skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.PlayPauseButtonSkin"
+								layoutDirection="ltr"
+								focusIn="event.target.depth=1" focusOut="event.target.depth=0" click="playPauseButton_clickHandler(event)" />
+				<s:Spacer width="48"/>
 				<s:VGroup>
-					<s:Spacer height="15"/>
-				
-			<!--- @copy spark.components.VideoPlayer#volumeBar -->
-			<s:VolumeBar rotation="90" id="volumeBar" snapInterval=".01" stepSize=".01" liveDragging="true"
-						 right="0" bottom="0" top="20" 
-						 layoutDirection="ltr"
-						 skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VolSkin"
-						 skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.VolumeBarSkin"
-						 focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
+						<s:Spacer height="23"/>
+					
+						<!--- @copy spark.components.VideoPlayer#volumeBar -->
+						<s:VolumeBar rotation="90" id="volumeBar" snapInterval=".01" stepSize=".01" liveDragging="true"
+								 right="0" bottom="0" top="20" 
+								 layoutDirection="ltr"
+							 	skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VolSkin"
+							 	skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.VolumeBarSkin"
+							 	focusIn="event.target.depth=1" focusOut="event.target.depth=0" />
 				</s:VGroup>
 			</s:HGroup>
 		</s:VGroup>

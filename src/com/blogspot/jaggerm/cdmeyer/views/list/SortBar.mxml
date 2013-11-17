@@ -49,17 +49,17 @@
 			}
 		]]>
 	</fx:Script>
-	<s:Button id="ab" label="A B" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="cd" label="C D" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="ef" label="E F" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="gh" label="G H" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="ij" label="I J" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="kl" label="K L" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="mn" label="M N" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="op" label="O P" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="qr" label="Q R" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="st" label="S T" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="uv" label="U V" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="wx" label="W X" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
-	<s:Button id="yz" label="Y Z" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="ab" label="A-B" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="cd" label="C-D" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="ef" label="E-F" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="gh" label="G-H" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="ij" label="I-J" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="kl" label="K-L" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="mn" label="M-N" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="op" label="O-P" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="qr" label="Q-R" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="st" label="S-T" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="uv" label="U-V" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="wx" label="W-X" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="yz" label="Y-Z" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
 </s:Group>

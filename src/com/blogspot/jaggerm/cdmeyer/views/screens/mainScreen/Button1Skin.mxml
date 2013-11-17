@@ -31,8 +31,8 @@
 	
 	<s:Label id="labelDisplay"
 			 textAlign="center"
-			 maxDisplayedLines="2"
-			 horizontalCenter="0" verticalCenter="1" verticalAlign="middle"
-			 left="10" right="10" top="2" bottom="2"
+			 maxDisplayedLines="1"
+			 horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
+			 top="146" left="77"
 			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="104" color="0xffffff"/>
 </s:Skin>

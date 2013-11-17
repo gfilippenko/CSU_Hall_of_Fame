@@ -35,9 +35,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 		{
 			super.draw();
 			
-			var startX : Number = 306;
-			var startY : Number = 292;
-			var shiftY : Number = 50;
+			var startX : Number = 298;
+			var startY : Number = 282;
+			var shiftY : Number = 32;
 			
 			btn1 = new Button();
 			btn1.label = 'NAME';
@@ -69,8 +69,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.mainScreen
 			sortBy.source = sortByClass;				
 			sortBy.width = 129;
 			sortBy.height = 25;
-			sortBy.x = 307;
-			sortBy.y = 707;
+			sortBy.x = 309;
+			sortBy.y = 705;
 			addElement(sortBy);						
 		}
 		

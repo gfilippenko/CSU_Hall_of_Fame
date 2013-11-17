@@ -100,11 +100,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 		
 		override protected function DrawList() : void
 		{
-			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
-			list.list.dataProvider.removeAll();
+			list.list.dataProvider = new ArrayCollection();
+			sortButtons.currentFilter = '';
+			sortButtons.addSortListeners(list);			
 			
-			for each(var item : Athlete in Controller.getInstance().athletes)
+			var len : uint = Controller.getInstance().athletes.length;
+			for(var i:uint=0;i<len;i++)
 			{
+				var item : Athlete = Controller.getInstance().athletes[i];
 				if(HasItem(list.list.dataProvider, item))
 				{
 					item.fN = '';
@@ -115,7 +118,6 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 					list.list.dataProvider.addItem(item);
 			}
 
-			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
 			list.list.scroller.verticalScrollBar.value = 0;
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}

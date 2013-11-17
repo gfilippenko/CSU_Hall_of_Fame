@@ -55,22 +55,20 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			logo.text = 'NAME';
 			addElement(logo);
 			
-			listSource = Controller.getInstance().athletes;
-			
-			list = new AthletesList();			
-			list.x = 631;
-			list.y = 4;			
-			//currentProvider = new ArrayCollection();
-			addElement(list);
-			DrawList();
-			
 			sortButtons = new SortBar();
 			sortButtons.x = 628;
 			sortButtons.y = 848;
-			sortButtons.addSortListeners(list);
+			
 			addElement(sortButtons);
-			
-			
+						
+			list = new AthletesList();			
+			list.x = 631;
+			list.y = 4;		
+			list.list.dataProvider = new ArrayCollection();
+			sortButtons.addSortListeners(list);
+
+			addElement(list);
+			DrawList();
 		}
 		
 		private function Added(e : Event) : void

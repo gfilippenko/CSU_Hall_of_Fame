@@ -14,31 +14,27 @@
 			
 			import mx.collections.ArrayCollection;
 			private var list : AthletesList;
-			private var currentFilter : String;
+			public var currentFilter : String;
 			
 			protected function clickHandler(event:MouseEvent):void
 			{
 				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
-//								var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SORT_LIST);
-//								e.sortParam = event.target.id;
-//								dispatchEvent(e);		
-
-				//				Alert.show(event.target.id);
 				currentFilter = event.target.id;
 
-				ArrayCollection(list.list.dataProvider).filterFunction = FilterFunction;
-				ArrayCollection(list.list.dataProvider).disableAutoUpdate();
 				ArrayCollection(list.list.dataProvider).refresh();
-				ArrayCollection(list.list.dataProvider).enableAutoUpdate();
 			}
 			
 			public function addSortListeners(value : AthletesList) : void
 			{
 				list = value;
+				ArrayCollection(list.list.dataProvider).filterFunction = FilterFunction;
 			}
 			
 			public function FilterFunction(item : Object) : Boolean
 			{
+				if(currentFilter == '')
+					return true;
+				
 				var f : String = currentFilter.substr(0,1);
 				var s : String = currentFilter.substr(1,1);
 				if(String(item.lastName).toLowerCase().indexOf(f) == 0 ||

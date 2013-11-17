@@ -1,5 +1,6 @@
 package com.blogspot.jaggerm.cdmeyer.views
 {
+	import com.blogspot.jaggerm.cdmeyer.Controller;
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
@@ -163,27 +164,26 @@ package com.blogspot.jaggerm.cdmeyer.views
 			addElement(backgroundImage);
 		}
 		
-		
+
 		protected function DrawList() : void
 		{
-			if(list.list.dataProvider == null)
-				list.list.dataProvider = new ArrayCollection();
+			list.list.dataProvider = new ArrayCollection();
+			sortButtons.currentFilter = '';
+			sortButtons.addSortListeners(list);
 			
-			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
-			ArrayCollection(list.list.dataProvider).removeAll();
-			
-			var arr : Array = [];
-			for each(var item : Athlete in listSource)
+			var len : uint = Controller.getInstance().athletes.length;
+			for(var i:uint=0;i<len;i++)
 			{
+				var item : Athlete = Controller.getInstance().athletes[i];
 				if(HasItem(list.list.dataProvider, item))
 				{
 					item.fN = '';
-					item.lN = '';
+					item.lN = '';			
 				}
 				list.list.dataProvider.addItem(item);
 			}
 			
-			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+			
 			list.list.scroller.verticalScrollBar.value = 0;
 			
 			
@@ -240,50 +240,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 			
 			return false;
 		}
-		
-		/*
-		* drows limited number of items
-		*/
-//		protected function DrawListPage(page : uint  = 1) : void
-//		{
-//			currentProvider.disableAutoUpdate();
-//			currentProvider.removeAll();
-//			
-//			var end : uint = page * listLimit;
-//			var start : uint = end - listLimit;
-//			
-//			if(end > listSource.length)
-//			{
-//				end = listSource.length - 1;
-//				if(nextBtn != null)
-//					nextBtn.visible = false;
-//			}
-//			else
-//				if(nextBtn == null)
-//				{
-//					DrawNextButton();
-//				}
-//			
-//				if(!nextBtn.visible)
-//					nextBtn.visible = true;
-//			
-//			for(var i:uint=start;i<end;i++)
-//			{				
-//				currentProvider.addItem(listSource[i]);
-//			}
-//			
-//			currentProvider.enableAutoUpdate();
-//			currentProvider.refresh();
-//		}
-		
-//		private function NextBtnClicked(e : MouseEvent) : void
-//		{
-//			if(currentPage == listPages)
-//				return;
-//			currentPage++;
-//			DrawListPage(currentPage);
-//		}
-		
+				
 		protected function DrawInstructions() : void
 		{
 			instructionsText = new Text();
@@ -307,19 +264,6 @@ package com.blogspot.jaggerm.cdmeyer.views
 		{
 			
 		}
-		
-//		protected function DrawNextButton() : void
-//		{
-//			nextBtn = new Button();			
-//			nextBtn.addEventListener(MouseEvent.CLICK, NextBtnClicked);
-//			nextBtn.setStyle('skinClass',NextButtonSkin);
-//			addElement(nextBtn);			
-//			if(nextBtn != null)
-//			{
-//				nextBtn.x = width - nextBtn.width - 20;
-//				nextBtn.y = height - nextBtn.height - 20;
-//			}
-//		}
 		
 		protected function BackClicked(e : MouseEvent) : void
 		{

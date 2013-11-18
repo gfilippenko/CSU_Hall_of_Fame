@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="600"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.events.CSUAdminEvent;
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Decade;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			private var decadeWnd : DecadePropsWindow;
+			private var addWnd : AddDecadeWnd;
+			
+			protected function btnAdd_clickHandler(event:MouseEvent):void
+			{				
+				ShowAddWnd();
+			}
+			
+			private function ShowWnd() : void
+			{
+				if(decadeWnd == null)
+				{
+					decadeWnd = PopUpManager.createPopUp(this, DecadePropsWindow, true) as DecadePropsWindow;
+					PopUpManager.centerPopUp(decadeWnd);
+				}	
+				else 
+					PopUpManager.addPopUp(decadeWnd, this, true);
+			}
+			
+			private function ShowAddWnd() : void
+			{
+				if(addWnd == null)
+				{
+					addWnd = PopUpManager.createPopUp(this, AddDecadeWnd, true) as AddDecadeWnd;
+					PopUpManager.centerPopUp(addWnd);
+				}	
+				else 
+					PopUpManager.addPopUp(addWnd, this, true);
+			}
+			
+			public function PopulateList(decades : Array) : void
+			{
+				ArrayCollection(table.dataProvider).disableAutoUpdate();
+				ArrayCollection(table.dataProvider).removeAll();
+				
+				for each(var item : Decade in decades)
+				{
+					table.dataProvider.addItem(item);
+				}
+				
+				ArrayCollection(table.dataProvider).enableAutoUpdate();
+			}
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				table.addEventListener(CSUAdminEvent.DELETE_ITEM, DeleteItem);
+				table.addEventListener(CSUAdminEvent.EDIT_ITEM, EditItem);
+			}
+			
+			private function EditItem(e : CSUAdminEvent) : void
+			{
+				ShowWnd();
+			}
+			
+			private function DeleteItem(e : CSUAdminEvent) : void
+			{
+				
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
+	</fx:Declarations>
+	<s:Button id="btnAdd" label="Add Decade" click="btnAdd_clickHandler(event)"/>
+	<s:DataGrid id="table" dataProvider="{new ArrayCollection()}">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn id="decadeName" width="80" dataField="id" headerText="Decade"/>
+				<s:GridColumn id="editDecade" width="80" headerText="Edit" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.EditButtomRenderer"/>
+				<s:GridColumn id="deleteDecade" width="80" headerText="Delete" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.DeleteButtonItemRenderer"/>	
+			</s:ArrayList>			
+		</s:columns>
+	</s:DataGrid>
+</s:Group>

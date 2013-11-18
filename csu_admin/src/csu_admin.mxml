@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" 
+					   width="800"
+					   height="600"
+					   creationComplete="windowedapplication1_creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.decade.DecadesView;
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Decade;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			public static var APP_PATH : String = "";
+			
+			public static var athletes : Array = [];
+			public static var sports : Array = [];
+			public static var decades : Array = [];
+			private var alertShowed : Boolean= false;
+			
+			protected function btnDecade_clickHandler(event:MouseEvent):void
+			{
+				if(contentContainer.numElements > 0)
+					contentContainer.removeAllElements();
+					
+				switch(String(event.target.id))
+				{
+					case 'btnDecade':
+						var dec : DecadesView = new DecadesView();
+						dec.PopulateList(decades);
+						contentContainer.addElement(dec);
+						title = 'Decades management';
+						break;
+					case 'btnYear':
+						break;
+					case 'btnAthlete':
+						break;
+				}				
+			}
+			
+			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+//				var baseDir : File = new File();
+				//File.applicationDirectory.resolvePath(settingsPathTxt.text);
+//				var baseDir : File = File.applicationDirectory.resolvePath('.');
+				csu_admin.APP_PATH = settingsPathTxt.text;//baseDir.nativePath;// + '/resource/';
+//				settingsPathTxt.text = baseDir.nativePath + '/resources/';
+				GetSettings();
+			}
+			
+			private function GetSettings() : void
+			{
+				var athletesXML:XML = GetXML('names.xml');						
+				var sportsXML:XML = GetXML('sports.xml');					
+				var yearsXML:XML = GetXML('years.xml');	
+				
+				Years(yearsXML);
+				
+				if(sportsXML.toString() != '')
+				{
+					btnDecade.enabled = true;
+					btnYear.enabled = true;
+					btnAthlete.enabled = true;
+				}
+				else
+				{
+					btnDecade.enabled = false;
+					btnYear.enabled = false;
+					btnAthlete.enabled = false;
+				}
+			}
+			
+			public function GetXML(fileName : String) : XML
+			{
+				var file:File = new File();
+				file.nativePath = csu_admin.APP_PATH + fileName;
+				//File.documentsDirectory.resolvePath(csu_admin.APP_PATH + fileName); 
+				var fileStream:FileStream = new FileStream(); 
+		
+				try
+				{
+					fileStream.open(file, FileMode.READ);
+				}
+				catch(e : Error)
+				{
+					if(!alertShowed)
+						Alert.show('Please select the CSU HOF resources folder', 'Warning');
+					alertShowed = true;
+					return new XML();
+				}
+				var prefsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+				fileStream.close();
+				alertShowed = false;
+				return prefsXML;
+			}
+			
+			private function Years(rawData : XML) : void
+			{
+				for each(var item : XML in rawData[0].decade)
+				{
+					var d : Decade = new Decade();
+					d.id = Number(item.@id);
+					for each(var year : XML in item[0].year)
+					{
+						d.years.push(Number(year));
+					}
+					decades.push(d);
+				}
+			}
+			
+			protected function settingsBtn_clickHandler(event:MouseEvent):void
+			{
+				var file:File = new File(); 
+				file.addEventListener(Event.SELECT, dirSelected); 
+				file.browseForDirectory("Select a directory"); 
+				
+			}
+			
+			private function dirSelected(e:Event):void 
+			{ 
+				var path : String = File(e.target).nativePath;
+				settingsPathTxt.text = path + '/';
+				csu_admin.APP_PATH = path + '/'; 
+				GetSettings();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
+	</fx:Declarations>
+	<s:VGroup top="8" left="8">
+		<s:HGroup>
+			<s:Label text="Path to the CSU HOF resources folder"/>
+			<s:TextInput id="settingsPathTxt" text="C:/Program Files (x86)/CSU_HOF/CSU_HOF/resources/" width="340"/>
+			<s:Button id="settingsBtn" label="Select folder" click="settingsBtn_clickHandler(event)"/>		 
+		</s:HGroup>
+		
+		<s:HGroup >	
+			<s:Button id="btnDecade" label="Decade" click="btnDecade_clickHandler(event)" enabled="false"/>
+			<s:Button id="btnYear" label="Year" click="btnDecade_clickHandler(event)" enabled="false"/>
+			<s:Button id="btnAthlete" label="Athelte" click="btnDecade_clickHandler(event)" enabled="false"/>		
+		</s:HGroup>
+		<s:Group id="contentContainer" width="100%" height="100%">
+		
+		</s:Group>
+	</s:VGroup>
+</s:WindowedApplication>

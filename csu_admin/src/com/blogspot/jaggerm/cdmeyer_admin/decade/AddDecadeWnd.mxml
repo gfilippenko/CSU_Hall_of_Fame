@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="240" height="100" title="Add Decade"
+			   close="btnCancel_clickHandler()">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.events.CSUAdminEvent;
+			
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			
+			protected function btnCancel_clickHandler(event:MouseEvent = null):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		
+			protected function btnSubmit_clickHandler(event:MouseEvent):void
+			{
+				var val : String = String(decadeTxt.value);
+				if(val.substr(3, 1) != '0')
+				{
+					Alert.show('Please make sure your decade ends with a zero (i.e. 1950).', 'Warning');
+					return;
+				}
+				
+				var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.ADD_ITEM);
+				e.itemID = String(decadeTxt.value);
+				dispatchEvent(e);
+				
+				
+				Alert.show('You successfully created the decade ' + decadeTxt.value , 'Warning');
+				btnCancel_clickHandler(event);
+			}
+			
+			protected function decadeTxt_changeHandler(event:FocusEvent):void
+			{
+				var val : String = String(decadeTxt.value);
+				if(val.substr(3, 1) != '0')
+				{
+					Alert.show('Please make sure your decade ends with a zero (i.e. 1950).', 'Warning');
+					return;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+<!--		<s:NumberValidator id="numberValidator" source='{decadeTxt}' 
+						   property="text" trigger='{btnSubmit}'
+						   triggerEvent="click" minValue="1900"/>-->
+	</fx:Declarations>
+	<s:VGroup left="8" top="8" bottom="8" right="8">
+		
+	
+	<s:HGroup>
+		<s:Label id="lbl" text="Enter Decade (i.e. 1950):"/>
+		<!--<s:TextInput id="decadeTxt" maxChars="4"/>		-->
+		<s:NumericStepper id="decadeTxt" focusOut="decadeTxt_changeHandler(event)" maxChars="4" minimum="1900" snapInterval="10" stepSize="10" value="1990" maximum="2200"/>
+	</s:HGroup>
+		<s:HGroup>
+			<s:Spacer width="40"/>
+			<s:Button id="btnCancel" label="Cancel" click="btnCancel_clickHandler(event)"/>
+			
+			<s:Button id="btnSubmit" label="Submit" click="btnSubmit_clickHandler(event)"/>			
+		</s:HGroup>
+	</s:VGroup>
+
+</s:TitleWindow>

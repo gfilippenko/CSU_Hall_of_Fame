@@ -231,7 +231,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				GetImagesFiles();
 				
 				info.text = GetFileBytes('info.txt');
-				
+				btnLeft.visible = false;
+				btnRight.visible = true;
+				currentImageIndex = 0;
 				
 				if(videoView)
 					BtnVideoClicked(null);
@@ -245,6 +247,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			images.splice(0, images.length);
 			
 			var file:File = File.documentsDirectory.resolvePath(athletePath);
+			if(!file.exists)
+				return;
+			
 			var files : Array = file.getDirectoryListing();
 			for each(var item : File in files)
 			{
@@ -340,7 +345,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			headshotHolder.height = 450;
 			headshotHolder.x = 453;
 			headshotHolder.y = 169;
-			headshotHolder.scaleMode = BitmapFillMode.SCALE;
+			headshotHolder.scaleMode = mx.graphics.BitmapScaleMode.LETTERBOX;
+			headshotHolder.horizontalAlign = 'center';
 			addElement(headshotHolder);
 			
 			btnLeft = new Button();

@@ -175,7 +175,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		public function GetFileBytes(fileName : String) : XML
 		{
 			var file:File = File.documentsDirectory.resolvePath(athletePath + fileName); 
-			
+			if(!file.exists)
+				return new XML();
 			var fileStream:FileStream = new FileStream(); 
 			
 			fileStream.open(file, FileMode.READ); 

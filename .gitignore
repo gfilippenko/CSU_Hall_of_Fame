@@ -1,0 +1,10 @@
+.actionScriptProperties
+.flexProperties
+**./idea
+.idea/
+**/tmp
+.project
+.settings/org.eclipse.core.resources.prefs
+**/bin-debug/
+**/html-template
+**/docs

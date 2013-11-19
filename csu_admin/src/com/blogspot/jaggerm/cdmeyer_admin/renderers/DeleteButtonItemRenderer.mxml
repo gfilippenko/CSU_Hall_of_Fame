@@ -11,8 +11,8 @@
 			import mx.events.CloseEvent;
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
-				Alert.show('Are you sure you want to delete decade ' + data.id + '\'s', 'Warning!', 
-					Alert.YES | Alert.CANCEL,this, AlertHandler);
+//				Alert.show('Are you sure you want to delete decade ' + data.id + '\'s', 'Warning!', 
+//					Alert.YES | Alert.CANCEL,this, AlertHandler);
 				var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.DELETE_ITEM, true);
 				e.itemID = data.id;
 				dispatchEvent(e);

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="500">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Athlete;
+			
+			import mx.collections.ArrayCollection;
+			
+			public function PopulateList(atheltes : Array) : void
+			{
+				ArrayCollection(table.dataProvider).disableAutoUpdate();
+				ArrayCollection(table.dataProvider).removeAll();
+				
+				for each(var item : Athlete in atheltes)
+				{
+					table.dataProvider.addItem(item);
+				}
+				
+				ArrayCollection(table.dataProvider).enableAutoUpdate();
+			}
+			
+			protected function btnAdd_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Button id="btnAdd" label="Add Athlete" click="btnAdd_clickHandler(event)"/>
+	<s:DataGrid id="table" dataProvider="{new ArrayCollection()}" width="100%" height="100%">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn id="firstName" width="300" dataField="firstName" headerText="First Name"/>
+				<s:GridColumn id="lastName" width="300" dataField="lastName" headerText="Last Name"/>
+				<s:GridColumn id="editDecade" width="80" headerText="Edit" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.EditButtomRenderer"/>
+				<s:GridColumn id="deleteDecade" width="80" headerText="Delete" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.DeleteButtonItemRenderer"/>	
+			</s:ArrayList>			
+		</s:columns>
+	</s:DataGrid>
+</s:Group>

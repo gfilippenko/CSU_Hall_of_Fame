@@ -8,7 +8,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.athlete.AthletesTable;
 			import com.blogspot.jaggerm.cdmeyer_admin.decade.DecadesView;
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Athlete;
 			import com.blogspot.jaggerm.cdmeyer_admin.model.Decade;
 			
 			import mx.controls.Alert;
@@ -36,17 +38,18 @@
 					case 'btnYear':
 						break;
 					case 'btnAthlete':
+						title = 'Athletes management';
+						var ath : AthletesTable = new AthletesTable();
+						ath.PopulateList(athletes);
+						contentContainer.addElement(ath);
+						title = 'Athletes management';
 						break;
 				}				
 			}
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
-//				var baseDir : File = new File();
-				//File.applicationDirectory.resolvePath(settingsPathTxt.text);
-//				var baseDir : File = File.applicationDirectory.resolvePath('.');
-				csu_admin.APP_PATH = settingsPathTxt.text;//baseDir.nativePath;// + '/resource/';
-//				settingsPathTxt.text = baseDir.nativePath + '/resources/';
+				csu_admin.APP_PATH = settingsPathTxt.text;
 				GetSettings();
 			}
 			
@@ -57,6 +60,7 @@
 				var yearsXML:XML = GetXML('years.xml');	
 				
 				Years(yearsXML);
+				Athletes(athletesXML);
 				
 				if(sportsXML.toString() != '')
 				{
@@ -76,7 +80,6 @@
 			{
 				var file:File = new File();
 				file.nativePath = csu_admin.APP_PATH + fileName;
-				//File.documentsDirectory.resolvePath(csu_admin.APP_PATH + fileName); 
 				var fileStream:FileStream = new FileStream(); 
 		
 				try
@@ -109,6 +112,20 @@
 					decades.push(d);
 				}
 			}
+			private function Athletes(rawData : XML) : void
+			{
+				for each(var item : XML in rawData[0].item)
+				{
+					var d : Athlete = new Athlete(item);
+//					d.firstName = item[0].f;
+//					d.lastName = item[0].l;
+//					for each(var year : XML in item[0].year)
+//					{
+//						d.years.push(Number(year));
+//					}
+					athletes.push(d);
+				}
+			}
 			
 			protected function settingsBtn_clickHandler(event:MouseEvent):void
 			{
@@ -126,6 +143,30 @@
 				GetSettings();
 			}
 			
+//			public static function SaveDecades() : void
+//			{
+//				
+//			}
+			
+			public static function SaveDecades() : void
+			{
+				var file:File = new File();
+				file.nativePath = csu_admin.APP_PATH + 'years.xml';
+				var fileStream:FileStream = new FileStream();
+				
+				if(!file.exists)
+					return;
+				
+				fileStream.open(file, FileMode.WRITE);
+				fileStream.writeUTFBytes('<years>');
+				for each(var item : Decade in csu_admin.decades)
+				{
+					fileStream.writeUTFBytes(item.toXML());
+				}
+				fileStream.writeUTFBytes('</years>');
+				fileStream.close();
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -141,8 +182,9 @@
 		
 		<s:HGroup >	
 			<s:Button id="btnDecade" label="Decade" click="btnDecade_clickHandler(event)" enabled="false"/>
-			<s:Button id="btnYear" label="Year" click="btnDecade_clickHandler(event)" enabled="false"/>
-			<s:Button id="btnAthlete" label="Athelte" click="btnDecade_clickHandler(event)" enabled="false"/>		
+			<s:Button id="btnAthlete" label="Athelte" click="btnDecade_clickHandler(event)" enabled="false"/>	
+			<s:Button id="btnYear" label="Year" click="btnDecade_clickHandler(event)" enabled="false" visible="false"/>
+				
 		</s:HGroup>
 		<s:Group id="contentContainer" width="100%" height="100%">
 		

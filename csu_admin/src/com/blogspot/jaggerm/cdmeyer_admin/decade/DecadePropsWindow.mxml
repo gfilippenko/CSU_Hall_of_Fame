@@ -1,17 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300"			   
-			   close="handleCloseEvent()">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="260" height="480"			   
+			   close="handleCloseEvent()" creationComplete="titlewindow1_creationCompleteHandler(event)">
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.events.CSUAdminEvent;
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Decade;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
+						
+			private var decade : Decade;
+			private var wnd : YearWnd;
+			
 			private function handleCloseEvent():void {
 				PopUpManager.removePopUp(this);
-			} 
+			}
+			
+			private function ShowWnd() : void
+			{
+				if(wnd == null)
+				{
+					wnd = PopUpManager.createPopUp(this, YearWnd, true) as YearWnd;
+					wnd.addEventListener(CSUAdminEvent.EDIT_ITEM, EditYear);
+					wnd.addEventListener(CSUAdminEvent.ADD_ITEM, AddYear);
+					PopUpManager.centerPopUp(wnd);
+				}	
+				else 
+					PopUpManager.addPopUp(wnd, this, true);
+			}
+			
+			public function Populate(value : Decade) : void
+			{
+				decade = value;
+				title = 'Years of decade : ' + decade.id + ' ' ;
+				
+				ArrayCollection(table.dataProvider).disableAutoUpdate();
+				ArrayCollection(table.dataProvider).removeAll();	
+				for each(var item : uint in decade.years)
+				{
+					table.dataProvider.addItem({'id' : item});
+				}
+				ArrayCollection(table.dataProvider).enableAutoUpdate();
+			}
+			
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				table.addEventListener(CSUAdminEvent.DELETE_ITEM, DeleteItem);
+				table.addEventListener(CSUAdminEvent.EDIT_ITEM, EditItem);
+			}
+			
+			private function EditItem(e : CSUAdminEvent) : void
+			{
+				ShowWnd();
+				wnd.Populate(Number(e.itemID), decade);
+			}
+			
+			private var yarToDelete : uint;
+			
+			private function DeleteItem(e : CSUAdminEvent) : void
+			{
+				var btnW : Number = Alert.buttonWidth;
+				Alert.buttonWidth = 160;
+				yarToDelete = Number(e.itemID);
+				Alert.yesLabel = 'I agree – delete ' + e.itemID +'.';
+				Alert.show('Are you sure you want to delete year ' + e.itemID 
+					+ '? All respective data within that year will be deleted permanently!', 'Alert',
+					Alert.YES | Alert.CANCEL, this, DeleteAlertClosed, null, Alert.CANCEL);
+				
+				Alert.buttonWidth = btnW;
+				Alert.yesLabel = 'Yes';
+			}
+			
+			private function DeleteAlertClosed(e : CloseEvent) : void
+			{
+				if(e.detail == Alert.YES)
+				{
+					var len : uint = decade.years.length;
+					var i : uint;
+					var item : Decade; 
+					for(i=0;i<len;i++)
+					{
+						if(decade.years[i] == yarToDelete)
+						{
+							decade.years.splice(i, 1);
+							csu_admin.SaveDecades();
+							Populate(decade);
+							Alert.show('You successfully deleted year ' + yarToDelete + '.' , 'Message');
+							break;
+						}
+					}					
+				}
+			}
+			
+			private function btnAdd_clickHandler(event:MouseEvent):void
+			{				
+				ShowWnd();
+				wnd.Clear(decade);
+			}
+			
+			private function EditYear(e : CSUAdminEvent) : void
+			{
+				for each(var year : uint in decade.years)
+				{
+					if(year == Number(e.itemID))
+					{
+						Alert.show('Year ' + year + ' already exists within decade', 'Alert');
+						return;
+					}
+				}
+				
+				var len : uint = decade.years.length;
+				var i : uint;
+				for (i=0;i<len;i++)
+				{					
+					if(decade.years[i] == Number(e.prevID))
+					{
+						decade.years[i] = Number(e.itemID);
+						Populate(decade);
+						csu_admin.SaveDecades();
+						Alert.show('Year successfully updated', 'Message');
+						return;
+					}
+				}
+			}
+			
+			private function AddYear(e : CSUAdminEvent) : void
+			{
+				for each(var year : uint in decade.years)
+				{
+					if(year == Number(e.itemID))
+					{
+						Alert.show('Year ' + year + ' already exists within decade', 'Alert');
+						return;
+					}
+				}
+				
+				
+				decade.years.push(Number(e.itemID));
+				Populate(decade);
+				csu_admin.SaveDecades();
+				Alert.show('You successfully created year ' + e.itemID + '.', 'Message');
+			}
+			
 		]]>
 	</fx:Script>
+	<s:VGroup left="8" top="8" bottom="8" right="8">
+		<s:Button id="btnAdd" label="Add Year" click="btnAdd_clickHandler(event)"/>
+		<s:DataGrid id="table" dataProvider="{new ArrayCollection()}" height="400">
+			<s:columns>
+				<s:ArrayList>
+					<s:GridColumn id="yearName" width="80" dataField="id" headerText="Year"/>
+					<s:GridColumn id="editDecade" width="80" headerText="Edit" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.EditButtomRenderer"/>
+					<s:GridColumn id="deleteDecade" width="80" headerText="Delete" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.DeleteButtonItemRenderer"/>	
+				</s:ArrayList>			
+			</s:columns>
+		</s:DataGrid>
+	</s:VGroup>
 </s:TitleWindow>

@@ -12,6 +12,8 @@
 			import com.blogspot.jaggerm.cdmeyer_admin.model.Decade;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			private var decadeWnd : DecadePropsWindow;
@@ -38,6 +40,7 @@
 				if(addWnd == null)
 				{
 					addWnd = PopUpManager.createPopUp(this, AddDecadeWnd, true) as AddDecadeWnd;
+					addWnd.addEventListener(CSUAdminEvent.ADD_ITEM, AddDecade);
 					PopUpManager.centerPopUp(addWnd);
 				}	
 				else 
@@ -65,15 +68,70 @@
 			
 			private function EditItem(e : CSUAdminEvent) : void
 			{
-				ShowWnd();
+				for each(var item : Decade in csu_admin.decades)
+				{
+					if(item.id == Number(e.itemID))
+					{
+						ShowWnd();
+						decadeWnd.Populate(item);
+						break;
+					}
+				}				
 			}
+			
+			private var decadeToDelete : uint;
 			
 			private function DeleteItem(e : CSUAdminEvent) : void
 			{
+				var btnW : Number = Alert.buttonWidth;
+				Alert.buttonWidth = 160;
+				decadeToDelete = Number(e.itemID);
+				Alert.yesLabel = 'I agree – delete ' + e.itemID +'’s.';
+				Alert.show('Are you sure you want to delete decade ' + e.itemID 
+					+ '’s? All Years within that decade will be deleted permanently!', 'Alert',
+						Alert.YES | Alert.CANCEL, this, DeleteAlertClosed, null, Alert.CANCEL);
 				
+				Alert.buttonWidth = btnW;
+				Alert.yesLabel = 'Yes';
 			}
 			
+			private function DeleteAlertClosed(e : CloseEvent) : void
+			{
+				if(e.detail == Alert.YES)
+				{
+					var len : uint = csu_admin.decades.length;
+					var i : uint;
+					var item : Decade; 
+					for(i=0;i<len;i++)
+					{
+						if(csu_admin.decades[i].id == decadeToDelete)
+						{
+							csu_admin.decades.splice(i, 1);
+							csu_admin.SaveDecades();
+							PopulateList(csu_admin.decades);
+							Alert.show('You successfully deleted decade ' + decadeToDelete + '’s.' , 'Message');
+							break;
+						}
+					}					
+				}
+			}
 			
+			private function AddDecade(e : CSUAdminEvent) : void
+			{
+				for each(var item : Decade in csu_admin.decades)
+				{
+					if(item.id == e.decade.id)
+					{
+						Alert.show('Decade ' + e.decade.id + ' already exists.' , 'Warning');
+						return;
+					}
+				}
+				
+				csu_admin.decades.push(e.decade);
+				PopulateList(csu_admin.decades);
+				csu_admin.SaveDecades();
+				Alert.show('You successfully created the decade ' + e.decade.id + '.' , 'Message');				
+			}
 			
 		]]>
 	</fx:Script>

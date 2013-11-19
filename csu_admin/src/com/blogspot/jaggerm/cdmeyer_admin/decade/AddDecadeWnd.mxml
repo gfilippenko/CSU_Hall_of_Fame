@@ -7,6 +7,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.blogspot.jaggerm.cdmeyer_admin.events.CSUAdminEvent;
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Decade;
 			
 			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
@@ -26,11 +27,11 @@
 				}
 				
 				var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.ADD_ITEM);
-				e.itemID = String(decadeTxt.value);
+				var decade : Decade = new Decade(); 
+				decade.id = Number(decadeTxt.value);
+				e.decade = decade;
 				dispatchEvent(e);
 				
-				
-				Alert.show('You successfully created the decade ' + decadeTxt.value , 'Warning');
 				btnCancel_clickHandler(event);
 			}
 			

@@ -13,6 +13,9 @@
 			import com.blogspot.jaggerm.cdmeyer_admin.model.Athlete;
 			
 			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			
+			private var athleteWnd : AthleteWindow;
 			
 			public function PopulateList(atheltes : Array) : void
 			{
@@ -27,9 +30,20 @@
 				ArrayCollection(table.dataProvider).enableAutoUpdate();
 			}
 			
+			private function ShowWnd() : void
+			{
+				if(athleteWnd == null)
+				{
+					athleteWnd = PopUpManager.createPopUp(this, AthleteWindow, true) as AthleteWindow;
+					PopUpManager.centerPopUp(athleteWnd);
+				}	
+				else 
+					PopUpManager.addPopUp(athleteWnd, this, true);
+			}
+			
 			protected function btnAdd_clickHandler(event:MouseEvent):void
 			{
-				
+				ShowWnd();
 			}
 		]]>
 	</fx:Script>

@@ -2,7 +2,7 @@
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="260" height="480"			   
-			   close="handleCloseEvent()" creationComplete="titlewindow1_creationCompleteHandler(event)">
+			   close="handleCloseEvent()" creationComplete="titlewindow1_creationCompleteHandler(event)" top="8">
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>

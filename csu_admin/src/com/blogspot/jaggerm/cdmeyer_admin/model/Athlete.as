@@ -4,6 +4,7 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 	{
 		public var firstName : String;
 		public var lastName : String;
+		public var sports : Array = [];
 		public var sport : String;
 		public var year : String;
 		public var backGroundImage : String;

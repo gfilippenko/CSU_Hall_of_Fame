@@ -2,7 +2,7 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx" 
-					   width="800"
+					   width="1000"
 					   height="600"
 					   creationComplete="windowedapplication1_creationCompleteHandler(event)">
 	
@@ -61,6 +61,7 @@
 				
 				Years(yearsXML);
 				Athletes(athletesXML);
+				Sports(sportsXML);
 				
 				if(sportsXML.toString() != '')
 				{
@@ -112,19 +113,30 @@
 					decades.push(d);
 				}
 			}
+			
 			private function Athletes(rawData : XML) : void
 			{
 				for each(var item : XML in rawData[0].item)
 				{
 					var d : Athlete = new Athlete(item);
-//					d.firstName = item[0].f;
-//					d.lastName = item[0].l;
-//					for each(var year : XML in item[0].year)
-//					{
-//						d.years.push(Number(year));
-//					}
-					athletes.push(d);
+
+					AddAthlete(d);
 				}
+			}
+			
+			private function AddAthlete(value : Athlete) : void
+			{
+				for each(var item : Athlete in csu_admin.athletes)
+				{
+					if(item.firstName.toLowerCase() == value.firstName.toLowerCase() &&
+						item.lastName.toLowerCase() == value.lastName.toLowerCase())
+						{
+							item.sports.push(value.sport);
+							return;
+						}
+				}
+				
+				csu_admin.athletes.push(value);
 			}
 			
 			protected function settingsBtn_clickHandler(event:MouseEvent):void
@@ -143,11 +155,6 @@
 				GetSettings();
 			}
 			
-//			public static function SaveDecades() : void
-//			{
-//				
-//			}
-			
 			public static function SaveDecades() : void
 			{
 				var file:File = new File();
@@ -165,6 +172,14 @@
 				}
 				fileStream.writeUTFBytes('</years>');
 				fileStream.close();
+			}
+			
+			private function Sports(rawData : XML) : void
+			{
+				for each(var item : XML in rawData[0].item)
+				{
+					sports.push(item[0]);
+				}
 			}
 			
 		]]>

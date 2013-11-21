@@ -106,7 +106,7 @@ in accordance with the terms of the license agreement accompanying it.
 	<s:Path horizontalCenter="0" verticalCenter="-1" id="arrow"
 			data="M 10.5 0.0 L 21.0 21.0 L 0.0 21.0 L 10.5 0.0">
 		<s:fill>
-			<s:SolidColor color="0xb38807"/>
+			<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f"/>
 		</s:fill>
 	</s:Path>              
 </s:SparkSkin>

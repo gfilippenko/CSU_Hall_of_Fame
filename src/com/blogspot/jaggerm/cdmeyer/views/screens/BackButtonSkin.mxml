@@ -26,7 +26,7 @@
 	-->
 	
 	<s:BitmapImage width="144" height="{ScreenView.backBtnHeight}" source.disabled="@Embed('../../../../../../resources/back_button_up.png')" 
-				   source.down="@Embed('../../../../../../resources/back_button_up.png')" 
+				   source.down="@Embed('../../../../../../resources/back_button_down.png')" 
 				   source.up="@Embed('../../../../../../resources/back_button_up.png')" 
 				   source.over="@Embed('../../../../../../resources/back_button_up.png')" />
 </s:Skin>

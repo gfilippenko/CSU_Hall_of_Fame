@@ -100,7 +100,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			super(value, _scrWidth, _scrHeight);
 			showBackBtn = true;
-//			showHomeBtn = true;
+			showHomeBtn = true;
 		}
 		
 		public function GetFileBytes(fileName : String) : String

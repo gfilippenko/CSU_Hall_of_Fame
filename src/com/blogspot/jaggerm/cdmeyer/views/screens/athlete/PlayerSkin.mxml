@@ -76,7 +76,20 @@
 			
 			protected function rewindBtn_clickHandler(event:MouseEvent):void
 			{
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 				hostComponent.seek(0);
+			}
+			
+			protected function playBtn_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+				hostComponent.play();
+			}
+			
+			protected function pauseBtn_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
+				hostComponent.pause();
 			}
 			
 		]]>
@@ -162,11 +175,15 @@
 			<s:HGroup>
 							
 				<!--- @copy spark.components.VideoPlayer#playPauseButton -->
-				<s:ToggleButton id="playPauseButton" left="0" bottom="0" 
+<!--				<s:ToggleButton id="playPauseButton" left="0" bottom="0" 
 								skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PlayPauseBtnSkin" 
 								skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.PlayPauseButtonSkin"
 								layoutDirection="ltr"
 								focusIn="event.target.depth=1" focusOut="event.target.depth=0" click="playPauseButton_clickHandler(event)" />
+-->				
+				<s:Button id="playBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PlayBtnSkin" click="playBtn_clickHandler(event)"/>
+				<s:Spacer width="48"/>
+				<s:Button id="pauseBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PauseBtnSkin" click="pauseBtn_clickHandler(event)"/>
 				<s:Spacer width="48"/>
 				<s:Button id="rewindBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.RewindBtnSkin" click="rewindBtn_clickHandler(event)"/>
 				<s:Spacer width="48"/>

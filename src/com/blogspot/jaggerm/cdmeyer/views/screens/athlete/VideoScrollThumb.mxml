@@ -21,7 +21,7 @@
 	-->
 	
 	<s:BitmapImage width="36" height="36" source.disabled="@Embed('../../../../../../../resources/video_scroller_thumb.png')" 
-				   source.down="@Embed('../../../../../../../resources/video_scroller_thumb.png')" 
+				   source.down="@Embed('../../../../../../../resources/video_scroller_thumb_down.png')" 
 				   source.up="@Embed('../../../../../../../resources/video_scroller_thumb.png')" 
 				   source.over="@Embed('../../../../../../../resources/video_scroller_thumb.png')" />
 </s:Skin>

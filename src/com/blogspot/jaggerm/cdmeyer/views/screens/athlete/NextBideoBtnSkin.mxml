@@ -25,7 +25,7 @@
 		</s:layout>
 		
 	<s:BitmapImage width="76" height="76" source.disabled="@Embed('../../../../../../../resources/next_video.png')" 
-				   source.down="@Embed('../../../../../../../resources/next_video.png')" 
+				   source.down="@Embed('../../../../../../../resources/next_video_down.png')" 
 				   source.up="@Embed('../../../../../../../resources/next_video.png')" 
 				   source.over="@Embed('../../../../../../../resources/next_video.png')" />
 	<s:Spacer height="20"/>

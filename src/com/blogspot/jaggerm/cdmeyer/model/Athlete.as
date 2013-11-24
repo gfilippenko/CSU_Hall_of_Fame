@@ -8,6 +8,7 @@ package com.blogspot.jaggerm.cdmeyer.model
 		public var firstName : String;
 		public var lastName : String;
 		public var sport : String;
+		public var sports : Array = [];
 		public var year : String;
 		public var backGroundImage : String;
 		
@@ -26,6 +27,18 @@ package com.blogspot.jaggerm.cdmeyer.model
 			sport = rawData.s[0];
 			year = rawData.year[0];
 			backGroundImage = rawData.bg[0];
+			sports = sport.split(',');
+		}
+		
+		public function hasSport(value : String) : Boolean
+		{
+			for each(var item : String in sports)
+			{
+				if(item.toLowerCase() == value.toLowerCase())
+					return true;
+			}
+			
+			return false;
 		}
 	}
 }

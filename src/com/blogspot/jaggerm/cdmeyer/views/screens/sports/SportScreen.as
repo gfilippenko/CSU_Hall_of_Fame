@@ -54,7 +54,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			{
 				if(_labelChanged)			
 				{
-					logo.text = label;
+					logo.text = label.toUpperCase();
 					DrawList();	
 					_labelChanged = false;
 				}
@@ -113,11 +113,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 				item.lN = item.lastName;
 				item.fN = item.firstName;
 				
-				if(item.sport.toUpperCase() == label.toUpperCase())
+//				if(item.sport.toUpperCase() == label.toUpperCase())
+				if(item.hasSport(label))
 					list.list.dataProvider.addItem(item);
 			}
 			
 			list.list.scroller.verticalScrollBar.value = 0;
+			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
+			list.list.sortByColumns(columnIndexes, true);
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 	}

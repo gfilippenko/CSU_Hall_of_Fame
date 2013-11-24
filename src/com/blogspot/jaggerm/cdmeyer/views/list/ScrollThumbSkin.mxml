@@ -51,12 +51,20 @@ in accordance with the terms of the license agreement accompanying it.
 	</s:states>
 	
 	<!-- background -->
-	<s:Rect left="1" top="6" right="0" bottom="7" minWidth="20" minHeight="12">
+<!--	<s:Rect left="1" top="6" right="0" bottom="7" minWidth="20" minHeight="12">
 		<s:stroke>
 			<s:SolidColorStroke color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" weight="1"/>
 		</s:stroke>
 		<s:fill>
 			<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" />
 		</s:fill>
-	</s:Rect>
+	</s:Rect>-->
+	<s:Ellipse left="1" top="6" right="0" bottom="7" width="20" height="20" maxWidth="20" maxHeight="20">
+		<s:stroke>
+			<s:SolidColorStroke color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" />
+		</s:fill>
+	</s:Ellipse>
 </s:SparkSkin>

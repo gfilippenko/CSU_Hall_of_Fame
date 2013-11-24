@@ -3,7 +3,7 @@
 			xmlns:s="library://ns.adobe.com/flex/spark" 
 			xmlns:mx="library://ns.adobe.com/flex/mx" 
 			width="100%" height="100%" borderVisible="false" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.GridSkin" 
-			selectionMode="none" selectionColor="0xb38807" rollOverColor="0xb79d4e" caretColor="0xb38807">
+			selectionMode="none" selectionColor="0xb38807" rollOverColor="0xb79d4e" caretColor="0xb38807" variableRowHeight="true">
 	<s:columns>
 		<s:ArrayList>								
 			<s:GridColumn id="sport" dataField="sport" itemRenderer="com.blogspot.jaggerm.cdmeyer.views.list.ItemRenderer"/>

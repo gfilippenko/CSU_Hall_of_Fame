@@ -8,15 +8,22 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.geom.Rectangle;
+	import flash.text.ReturnKeyLabel;
+	import flash.text.TextLineMetrics;
+	import flash.utils.Timer;
 	
 	import mx.controls.ButtonLabelPlacement;
 	import mx.core.IVisualElement;
 	import mx.graphics.BitmapFillMode;
 	import mx.rpc.events.HeaderEvent;
 	import mx.utils.NameUtil;
+	
+	import org.osmf.events.TimeEvent;
 	
 	import spark.components.Button;
 	import spark.components.Group;
@@ -37,8 +44,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private var hofLbl : Label;
 		
-		private var oacLblbX : uint = 1524;//1200;//1524;
-		private var oacLblbY : uint = 78;
+		private var oacLblbX : uint = 1470;//1200;//1524;
+		private var oacLblbY : uint = 168;
 		private var oacLabels : Array = []; 
 		private var oacs : XML;
 		private var oacLblb : Label;
@@ -64,6 +71,25 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private var btnLeft : Button;
 		private var btnRight : Button;
+		
+		//to back to sport scr
+		private var _sport : String;
+		
+		private var timer : Timer;
+		
+		public function set sport (value : String) : void
+		{
+			if(value != _sport)
+			{
+				_sport = value;
+				invalidateProperties();
+			}
+		}
+		
+		public function get sport() : String
+		{
+			return _sport;
+		}
 		
 		public function set athlete(value : Athlete) : void
 		{
@@ -264,6 +290,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			videoPlayer.source = athletePath + video.file;			
 			currentVideoLbl.text = video.title;
+			currentVideoLbl.x = videoPlayer.x + ((videoPlayer.width - (video.title.length * 24)) / 2);
 		}
 		
 		private function GetVideosFiles() : void
@@ -288,15 +315,13 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				btn.label = video.title;
 				addElement(btn);
 				startX += 235;
-				videoButtons.push(btn);
-				
-								
+				videoButtons.push(btn);											
 			}
 			
 			if(videos.length > 0)
 			{
 				videoBtn.visible = true;
-				SetVideoPlayerSource(videos[0] as Video);
+				//SetVideoPlayerSource(videos[0] as Video);
 			}
 			else
 				videoBtn.visible = false;
@@ -374,18 +399,18 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			addElement(imageCnt);
 			
 			info = new TextArea();
-			info.x = 878;
-			info.y = 70;
+			info.x = 848;
+			info.y = 164;
 			info.width = 593;
 			info.height = 800;
-
-//			info.width = 430;
-//			info.height = 380;
+			info.editable = false;
+			info.selectable = false;
 			
 			info.setStyle("skinClass", AthleteInfoSkin );
 			info.setStyle('fontFamily',"Swis721MdBT");
-//			info.setStyle('fontWeight', "bold");
-			info.setStyle('fontSize', 16);
+			info.setStyle('fontWeight', "bold");
+			info.setStyle('fontSize', 18);
+			info.setStyle('lineHeight', 35);
 			info.setStyle('color', 0xffffff);
 			addElement(info);
 			
@@ -406,8 +431,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoPlayer.height = 576;
 			videoPlayer.autoDisplayFirstFrame = true;
 			videoPlayer.autoPlay = true;
-			videoPlayer.scaleMode = 'zoom';
-//			videoPlayer.addEventListener(MouseEvent.CLICK, vdieoPlayer);
+			videoPlayer.scaleMode = 'stretch';
+			videoPlayer.addEventListener(TimeEvent.COMPLETE, VideoComplete);
 			addElement(videoPlayer);
 			
 			currentVideoLbl = new Label();
@@ -481,6 +506,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			{
 				btn.visible = videoView;
 			}
+			
+			if(videoView)
+				SetVideoPlayerSource(videos[0] as Video);
 		}
 		
 		private function NextBideoBtnClicked(e : MouseEvent) : void
@@ -500,9 +528,32 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			var event : CDMeyerEvent = new CDMeyerEvent(backBtnEventType);
-			event.screenLabel = _athlete.sport;
+			event.screenLabel = _sport;
 			event.year = Number(_athlete.year); 
 			dispatchEvent(event);
+		}
+		
+		private function VideoComplete(e : TimeEvent) : void
+		{
+			if(timer == null)
+			{
+				timer = new Timer(180000);
+				timer.addEventListener(TimerEvent.TIMER, TimerComplete);
+			}
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+			timer.start();
+		}
+		
+		private function MouseMove(e : MouseEvent) : void
+		{
+			timer.reset();
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+		}
+		
+		private function TimerComplete(e : TimerEvent) : void
+		{
+			timer.reset();
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
 		}
 	
 	}

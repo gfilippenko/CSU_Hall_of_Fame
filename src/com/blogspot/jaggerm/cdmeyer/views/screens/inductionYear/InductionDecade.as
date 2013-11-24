@@ -52,8 +52,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 		
 		protected function DrawButtons():void
 		{
-			var shiftX : Number = 55;
-			var shiftY : Number = 47;
+			var shiftX : Number = 42;
+			var shiftY : Number = 48;
 			
 			var startX : Number =  348;
 			var nextX : Number = startX;
@@ -74,7 +74,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				btn.y = nextY;
 				
 				nextX = btn.x + btn.width + shiftX;
-				if((counter%4) == 0)
+				if((counter%5) == 0)
 				{
 					nextX = startX;
 					nextY = btn.y + btn.height + shiftY;

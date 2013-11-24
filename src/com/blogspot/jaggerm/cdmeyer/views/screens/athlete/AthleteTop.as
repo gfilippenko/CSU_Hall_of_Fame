@@ -30,7 +30,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var sportsLabels : Array = []; 
 		private var sports : XML;
 		
-		private var firstNameY : Number = 200;
+		private var firstNameY : Number = 704;
 		
 		private var photoMask : Image;
 		[Embed(source="../../../../../../../resources/black_shade.png")]

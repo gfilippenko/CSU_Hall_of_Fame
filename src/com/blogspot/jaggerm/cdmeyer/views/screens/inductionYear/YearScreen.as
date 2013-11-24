@@ -119,6 +119,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			}
 
 			list.list.scroller.verticalScrollBar.value = 0;
+			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
+			list.list.sortByColumns(columnIndexes, true);
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 	}

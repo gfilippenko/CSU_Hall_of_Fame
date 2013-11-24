@@ -287,7 +287,10 @@ package com.blogspot.jaggerm.cdmeyer
 				if(event.currentTarget is YearScreen)
 					AthleteScreen(screens['athlete'].botScr).backScreen = 'year';
 				if(event.currentTarget is SportScreen)
+				{
 					AthleteScreen(screens['athlete'].botScr).backScreen = 'sport';
+					AthleteScreen(screens['athlete'].botScr).sport = event.currentTarget.label;
+				}
 				
 				AddPair('athlete', screens['athlete'].topScr, screens['athlete'].botScr); 
 				return;
@@ -309,7 +312,10 @@ package com.blogspot.jaggerm.cdmeyer
 			if(event.currentTarget is YearScreen)
 				athleteScreen.backScreen = 'year';
 			if(event.currentTarget is SportScreen)
+			{
 				athleteScreen.backScreen = 'sport';
+				athleteScreen.sport = event.currentTarget.label;
+			}
 			
 			var athleteTop : AthleteTop = new AthleteTop(screenSettings, _screenWidth, _screenHeight);
 			athleteTop.athlete = athlete;

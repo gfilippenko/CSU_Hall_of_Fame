@@ -66,7 +66,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			list.y = 4;		
 			list.list.dataProvider = new ArrayCollection();
 			sortButtons.addSortListeners(list);
-
+			var columnIndexes:Vector.<int> = Vector.<int>([ 0 ]);
+			
+			// set 2nd argument to true to show sorting triangle
+			list.list.sortByColumns(columnIndexes, true);	
 			addElement(list);
 			DrawList();
 		}

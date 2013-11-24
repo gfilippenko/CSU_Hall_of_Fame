@@ -98,9 +98,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			var shiftX : Number = 42;
 			var shiftY : Number = 48;
 			
-			var startX : Number = 349;
+			var startX : Number = 348;
 			var nextX : Number = startX;
-			var nextY : Number = 256;
+			var nextY : Number = 294;
 			var counter : uint = 1;
 			for each(var item : uint in _decade.years)
 			{

@@ -128,7 +128,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 				backBtn.setStyle('skinClass',BackButtonSkin);
 				backBtn.useHandCursor = true;
 				backBtn.x = 83;
-				backBtn.y = 764;
+				backBtn.y = 794;
 				addElement(backBtn);
 			}
 			
@@ -139,7 +139,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 				homeBtn.setStyle('skinClass',HomeButtonSkin);
 				homeBtn.useHandCursor = true;
 				homeBtn.x = 144 + 120;
-				homeBtn.y = 764;
+				homeBtn.y = 794;
 				addElement(homeBtn);
 			}
 		}
@@ -186,7 +186,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 			
 			list.list.scroller.verticalScrollBar.value = 0;
 			
-			
+			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
+			list.list.sortByColumns(columnIndexes, true);	
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 		

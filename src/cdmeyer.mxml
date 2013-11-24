@@ -31,7 +31,7 @@
 		@font-face {
 			src:url("./resources/SWZ721M.TTF");
 			fontFamily: Swis721MdBT;
-			fontWeight: normal;
+			fontWeight: bold;
 			embedAsCFF: true;
 		}
 		

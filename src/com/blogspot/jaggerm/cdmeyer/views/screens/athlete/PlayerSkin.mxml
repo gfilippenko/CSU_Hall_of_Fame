@@ -118,7 +118,7 @@
     
     <!-- drop shadow -->
     <!--- @private -->
-    <s:RectangularDropShadow id="dropShadow" blurX="17" blurY="17" alpha="0.32" distance="4" 
+    <s:RectangularDropShadow id="dropShadow" blurX="17" blurY="17" alpha="0" distance="4" 
                 angle="90" color="#131313" left="0" top="0" right="0" bottom="0" 
                 excludeFrom="fullScreenStates"/>
     
@@ -140,7 +140,7 @@
                     bottom.fullScreenStates="0" left.fullScreenStates="0" 
                     right.fullScreenStates="0" top.fullScreenStates="0">
                 <s:fill>
-                    <s:SolidColor color="0x000000" />
+                    <s:SolidColor color="0x000000" alpha="0" />
                 </s:fill>
             </s:Rect>
             
@@ -153,7 +153,7 @@
             <!-- border -->
             <s:Rect left="0" right="0" top="0" bottom="0" excludeFrom="fullScreenStates">
                 <s:stroke>
-                    <s:SolidColorStroke color="0x131313" />
+                    <s:SolidColorStroke color="0x131313" alpha="0" />
                 </s:stroke>
             </s:Rect>
     

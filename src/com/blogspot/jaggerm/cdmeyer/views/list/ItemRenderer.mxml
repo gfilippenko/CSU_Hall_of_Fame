@@ -15,13 +15,28 @@
 				e.sport = data.sport;
 				dispatchEvent(e);
 			}
+			
+			protected function albumName_mouseDownHandler(event:MouseEvent):void
+			{
+				albumName.setStyle('color', 0x999999); 
+			}
+			
+			protected function albumName_mouseUpHandler(event:MouseEvent):void
+			{
+				albumName.setStyle('color', 0xffffff);
+			}
+			
 		]]>
 	</fx:Script>
-	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="down" />	
+	</s:states>
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
 	<s:Label id="albumName" left="12" top="6" fontSize="40.42"
 	width="100%" 
-	text="{String(data[column.dataField]).toUpperCase()}"  fontFamily="Swis721CnBT" color="0xffffff"/>
+	text="{String(data[column.dataField]).toUpperCase()}"  fontFamily="Swis721CnBT" color="0xffffff" 
+	mouseDown="albumName_mouseDownHandler(event)" mouseUp="albumName_mouseUpHandler(event)" mouseOut="albumName_mouseUpHandler(event)"/>
 </s:GridItemRenderer>

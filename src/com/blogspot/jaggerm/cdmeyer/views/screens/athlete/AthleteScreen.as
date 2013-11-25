@@ -288,7 +288,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function SetVideoPlayerSource(video : Video) : void
 		{
-			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.START_TIMER, true));
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.STOP_TIMER, true));
 			videoPlayer.source = athletePath + video.file;			
 			currentVideoLbl.text = video.title;
 			currentVideoLbl.x = videoPlayer.x + ((videoPlayer.width - (video.title.length * 24)) / 2);

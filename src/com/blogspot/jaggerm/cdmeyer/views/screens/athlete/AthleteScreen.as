@@ -49,6 +49,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		private var oacLabels : Array = []; 
 		private var oacs : XML;
 		private var oacLblb : Label;
+		private var oacText : TextArea;
 		
 		[Embed(source="../../../../../../../resources/black_shade.png")]
 		private var shade : Class;
@@ -239,19 +240,22 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				
 				var startY : uint = oacLblbY + 26;
 				var startX : uint = 111;
+				oacText.text = '';
 				for each(var item : XML in oacs[0].item)
 				{
-					var lbl : Label = new Label();
-					lbl.setStyle('fontFamily',"Swis721CnBT");
-					lbl.setStyle('fontWeight', "bold");
-					lbl.setStyle('fontSize', 16);
-					lbl.setStyle('color', 0xffffff);
-					lbl.x = oacLblbX;
-					startY = startY + 26;
-					lbl.y = startY; 
-					lbl.text = item[0];
-					addElement(lbl);
-					oacLabels.push(lbl);
+//					var lbl : Label = new Label();
+//					lbl.setStyle('fontFamily',"Swis721CnBT");
+//					lbl.setStyle('fontWeight', "bold");
+//					lbl.setStyle('fontSize', 16);
+//					lbl.setStyle('color', 0xffffff);
+//					lbl.x = oacLblbX;
+//					startY = startY + 26;
+//					lbl.y = startY; 
+//					lbl.text = item[0];
+//					addElement(lbl);
+//					oacLabels.push(lbl);
+					
+					oacText.appendText(item[0] + '\r\n');
 				}
 				
 				GetImagesFiles();
@@ -361,6 +365,21 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			oacLblb.text = 'OTHER ACCOMPLISHMENTS:';
 			addElement(oacLblb);
 			
+			oacText = new TextArea();
+			oacText.setStyle('fontFamily',"Swis721CnBT");
+			oacText.setStyle('fontWeight', "bold");
+			oacText.setStyle('fontSize', 16);
+			oacText.setStyle('color', 0xffffff);
+			oacText.x = oacLblbX;
+			oacText.y = oacLblbY + 26;
+			oacText.width = 440;
+			oacText.height = 580;
+			oacText.editable = false;
+			oacText.selectable = false;
+			oacText.setStyle("skinClass", AthleteInfoSkin );
+			oacText.setStyle('lineHeight', 25);
+			addElement(oacText);
+			
 			var bio : Image = new Image();
 			bio.source = cdmeyer.APP_PATH + 'bio.png';
 			bio.x = 113;
@@ -413,7 +432,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			info.setStyle('fontWeight', "bold");
 			info.setStyle('fontSize', 18);
 			info.setStyle('lineHeight', 35);
-			info.setStyle('color', 0xffffff);
+			info.setStyle('color', 0xffffff);			
 			addElement(info);
 			
 			videoBtn = new Button();
@@ -507,6 +526,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			{
 				item.visible = !videoView;
 			}
+			
+			oacText.visible = !videoView;
 			
 			videoPlayer.visible = videoView;
 			currentVideoLbl.visible = videoView;

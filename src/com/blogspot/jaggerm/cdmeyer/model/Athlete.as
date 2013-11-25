@@ -1,5 +1,7 @@
 package com.blogspot.jaggerm.cdmeyer.model
 {
+	import mx.utils.StringUtil;
+
 	public class Athlete
 	{
 		public var fN : String;
@@ -28,6 +30,12 @@ package com.blogspot.jaggerm.cdmeyer.model
 			year = rawData.year[0];
 			backGroundImage = rawData.bg[0];
 			sports = sport.split(',');
+			
+			var len : uint = sports.length;
+			for(var i:uint=0;i<len;i++)
+			{
+				sports[i] = StringUtil.trim(sports[i]);
+			}
 		}
 		
 		public function hasSport(value : String) : Boolean

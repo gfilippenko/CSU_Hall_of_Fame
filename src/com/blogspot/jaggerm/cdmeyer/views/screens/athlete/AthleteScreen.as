@@ -283,6 +283,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 					images.push(item.nativePath);
 			}
 			
+			
 			ShowImage(0);				
 		}
 		

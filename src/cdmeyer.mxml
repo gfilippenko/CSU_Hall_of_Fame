@@ -93,7 +93,7 @@
 			public var snd:Sound = new sndCls() as Sound; 
 			public var sndChannel:SoundChannel;
 			
-			public static const timer : Timer = new Timer(10000);
+			public static const timer : Timer = new Timer(180000);
 			
 			private function CreationComplete(event : FlexEvent) : void
 			{				

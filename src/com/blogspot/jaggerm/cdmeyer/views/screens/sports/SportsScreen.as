@@ -6,6 +6,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	import com.blogspot.jaggerm.cdmeyer.views.circleButton.CircleButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.controls.Text;
@@ -30,9 +31,21 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			backBtnEventType = CDMeyerEvent.SHOW_MAIN_SCREEN;			
 		}
 		
-		override public function draw() : void
+		
+		override protected function createChildren():void
 		{
-			super.draw();
+			super.createChildren();
+		}
+		
+		override protected function BGLoaded(e : Event) : void
+		{
+			//dispatchEvent(new CDMeyerEvent(CDMeyerEvent.BG_LOADED));
+			draw1();
+		}
+		
+		public function draw1() : void
+		{
+			//super.draw();
 			
 			if(settings.instructions != '')
 			{

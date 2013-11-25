@@ -109,7 +109,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 			measuredHeight = _scrHeight;
 			width = _scrWidth;
 			height = _scrHeight;
-			
+
 			addEventListener(FlexEvent.CREATION_COMPLETE, CreationComplete);
 		}
 		
@@ -155,22 +155,28 @@ package com.blogspot.jaggerm.cdmeyer.views
 		protected function DrawBG(): void
 		{
 			backgroundImage = new Image();
+//			backgroundImage.setStyle('backgroundColor',0x00674e);
+			backgroundImage.addEventListener(Event.COMPLETE, BGLoaded);
 			backgroundImage.percentWidth = measuredWidth;
 			backgroundImage.percentHeight = measuredHeight;
 			backgroundImage.x = 0;
 			backgroundImage.y = 0;		
 			backgroundImage.scaleMode = BitmapFillMode.SCALE;
 			backgroundImage.source = cdmeyer.APP_PATH + _settings.botBackgroundImage;
-			addElement(backgroundImage);
+			addElement(backgroundImage);			
 		}
 		
+		protected function BGLoaded(e : Event) : void
+		{
+			//dispatchEvent(new CDMeyerEvent(CDMeyerEvent.BG_LOADED));
+		}
 
 		protected function DrawList() : void
 		{
 			list.list.dataProvider = new ArrayCollection();
 			sortButtons.currentFilter = '';
 			sortButtons.addSortListeners(list);
-			
+			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
 			var len : uint = Controller.getInstance().athletes.length;
 			for(var i:uint=0;i<len;i++)
 			{
@@ -184,10 +190,11 @@ package com.blogspot.jaggerm.cdmeyer.views
 			}
 			
 			
-			list.list.scroller.verticalScrollBar.value = 0;
+			//list.list.scroller.verticalScrollBar.value = 0;
 			
 			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
 			list.list.sortByColumns(columnIndexes, true);	
+			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 		
@@ -272,7 +279,7 @@ package com.blogspot.jaggerm.cdmeyer.views
 			dispatchEvent(new CDMeyerEvent(backBtnEventType));
 		}
 		
-		private function HomeClicked(event : MouseEvent) : void
+		protected function HomeClicked(event : MouseEvent) : void
 		{
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));

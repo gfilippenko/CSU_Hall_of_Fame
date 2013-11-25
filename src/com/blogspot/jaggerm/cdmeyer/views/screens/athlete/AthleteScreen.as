@@ -288,6 +288,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		private function SetVideoPlayerSource(video : Video) : void
 		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.START_TIMER, true));
 			videoPlayer.source = athletePath + video.file;			
 			currentVideoLbl.text = video.title;
 			currentVideoLbl.x = videoPlayer.x + ((videoPlayer.width - (video.title.length * 24)) / 2);
@@ -433,6 +434,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoPlayer.autoPlay = true;
 			videoPlayer.scaleMode = 'stretch';
 			videoPlayer.addEventListener(TimeEvent.COMPLETE, VideoComplete);
+//			videoPlayer.addEventListener(CDMeyerEvent.STOP_TIMER, OnTimerStop);
+			
 			addElement(videoPlayer);
 			
 			currentVideoLbl = new Label();
@@ -448,6 +451,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			
 		}
 	
+//		private function OnTimerStop(e : CDMeyerEvent) : void
+//		{
+//			if(cdmeyer.timer.running)
+//				cdmeyer.ResetTimer();
+//		}
 	
 		private function BtnLeftClicked(e : MouseEvent) : void
 		{
@@ -522,6 +530,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			if(videoView)
 			{
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.START_TIMER, true));
 				BtnVideoClicked(new MouseEvent(MouseEvent.CLICK))
 				return;
 			}
@@ -533,28 +542,35 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			dispatchEvent(event);
 		}
 		
+		override protected function HomeClicked(event : MouseEvent) : void
+		{
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.START_TIMER, true));
+			super.HomeClicked(event);
+		}
+		
 		private function VideoComplete(e : TimeEvent) : void
 		{
-			if(timer == null)
-			{
-				timer = new Timer(180000);
-				timer.addEventListener(TimerEvent.TIMER, TimerComplete);
-			}
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
-			timer.start();
+//			if(timer == null)
+//			{
+//				timer = new Timer(180000);
+//				timer.addEventListener(TimerEvent.TIMER, TimerComplete);
+//			}
+//			stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+//			timer.start();
+			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.START_TIMER, true));
 		}
 		
-		private function MouseMove(e : MouseEvent) : void
-		{
-			timer.reset();
-			stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
-		}
+//		private function MouseMove(e : MouseEvent) : void
+//		{
+//			timer.reset();
+//			stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+//		}
 		
-		private function TimerComplete(e : TimerEvent) : void
-		{
-			timer.reset();
-			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
-		}
+//		private function TimerComplete(e : TimerEvent) : void
+//		{
+//			timer.reset();
+//			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
+//		}
 	
 	}
 }

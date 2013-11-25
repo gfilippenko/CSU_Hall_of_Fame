@@ -103,7 +103,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			list.list.dataProvider = new ArrayCollection();
 			sortButtons.currentFilter = '';
 			sortButtons.addSortListeners(list);			
-			
+			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
 			var len : uint = Controller.getInstance().athletes.length;
 			for(var i:uint=0;i<len;i++)
 			{
@@ -118,9 +118,10 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 					list.list.dataProvider.addItem(item);
 			}
 
-			list.list.scroller.verticalScrollBar.value = 0;
+//			list.list.scroller.verticalScrollBar.value = 0;
 			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
 			list.list.sortByColumns(columnIndexes, true);
+			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 	}

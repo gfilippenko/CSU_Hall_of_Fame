@@ -71,6 +71,8 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.states.AddChild;
 			
+			import org.osmf.events.TimeEvent;
+			
 			import spark.components.Application;
 			import spark.components.Window;
 			
@@ -90,6 +92,8 @@
 			
 			public var snd:Sound = new sndCls() as Sound; 
 			public var sndChannel:SoundChannel;
+			
+			public static const timer : Timer = new Timer(10000);
 			
 			private function CreationComplete(event : FlexEvent) : void
 			{				
@@ -114,11 +118,18 @@
 				
 				nativeWindow.close();
 				
-				
+				cdmeyer.timer.addEventListener(TimerEvent.TIMER, OnTimer);
 				
 //				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
 //				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 //				nativeWindow.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);				
+			}
+			
+			private function OnTimer(e : TimerEvent) : void
+			{
+				timer.reset();
+				timer.start();
+				controller.ShowMainScreen(null);
 			}
 			
 			private function Start() : void
@@ -154,6 +165,8 @@
 				controller.addEventListener(CDMeyerEvent.ADD_TOP_SCREEN, AddTopScreen);
 				controller.addEventListener(CDMeyerEvent.REMOVE_BOTTOM_SCREEN, RemoveBottomScreen);
 				controller.addEventListener(CDMeyerEvent.REMOVE_TOP_SCREEN, RemoveTopScr);
+				controller.addEventListener(CDMeyerEvent.START_TIMER, StartTimer);
+				controller.addEventListener(CDMeyerEvent.STOP_TIMER, ResetTimer);
 				
 				controller.Atheles(athletesXML);
 				controller.Sports(sportsXML);
@@ -224,9 +237,30 @@
 				wnd1.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);	
 				wnd1.stage.addEventListener(CDMeyerEvent.PLAY_BTN_SOUND, PlayBtnSound);
+				wnd1.stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
 				wnd1Complete = true;
 				if(wnd2Complete)
 					Start();
+			}
+			
+			private function MouseMove(e : MouseEvent) : void
+			{
+				cdmeyer.timer.reset();
+				cdmeyer.timer.start();				
+			}
+								
+			public function ResetTimer(e : CDMeyerEvent) : void
+			{
+				if(wnd1.stage.hasEventListener(MouseEvent.MOUSE_MOVE))
+					wnd1.stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+				cdmeyer.timer.reset();								
+			}
+			
+			public function StartTimer(e : CDMeyerEvent) : void
+			{
+				if(!wnd1.stage.hasEventListener(MouseEvent.MOUSE_MOVE))
+					wnd1.stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+				cdmeyer.timer.start();
 			}
 			
 			private function AddedToStage(e : Event) : void

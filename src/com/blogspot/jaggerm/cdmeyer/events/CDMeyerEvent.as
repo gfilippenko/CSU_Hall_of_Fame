@@ -27,6 +27,11 @@ package com.blogspot.jaggerm.cdmeyer.events
 		
 		public static const PLAY_BTN_SOUND : String = 'playBtnSound';
 		
+		public static const BG_LOADED : String = 'bgLoaded';
+		
+		public static const START_TIMER : String = 'startTimer';
+		public static const STOP_TIMER : String = 'stopTimer';
+		
 		public var screen : ScreenView;
 		public var sortParam : String;
 		public var screenLabel : String;

@@ -3,9 +3,9 @@
 
 #define MyAppName "e-Tribute"
 #define MyAppVersion "1.0"
-#define MyAppPublisher "CD Meyer, Inc."
-#define MyAppURL "http://www.cdmeyer.com/"
-#define MyAppExeName "CSU_HOF.exe"
+#define MyAppPublisher "point2explore"
+#define MyAppURL "http://point2explore.com//"
+#define MyAppExeName "e-Tribute.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -36,9 +36,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\_dev\cdmeyer\CSU_HOF\CSU_HOF.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\_dev\cdmeyer\CSU_HOF\e-Tribute.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\_dev\cdmeyer\CSU_HOF\cdmeyer.swf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\_dev\cdmeyer\CSU_HOF\CSU_HOF.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\_dev\cdmeyer\CSU_HOF\mimetype"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\_dev\cdmeyer\CSU_HOF\Adobe AIR\*"; DestDir: "{app}\Adobe AIR"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "D:\_dev\cdmeyer\CSU_HOF\META-INF\*"; DestDir: "{app}\META-INF"; Flags: ignoreversion recursesubdirs createallsubdirs

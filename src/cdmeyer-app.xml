@@ -35,6 +35,9 @@
 	<autoOrients>false</autoOrients>
         <fullScreen>false</fullScreen>
     </initialWindow>
+	<icon> 
+		<image48x48>resources/p2e_multiple_4_48x48x32.png</image48x48> 
+	</icon>
 	<installFolder>CSU_HOF</installFolder>
 	<programMenuFolder>Colorado State Hall of Fame Viewer</programMenuFolder>
 	<customUpdateUI>false</customUpdateUI>

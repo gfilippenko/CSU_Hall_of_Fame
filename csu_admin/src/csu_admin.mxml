@@ -100,6 +100,33 @@
 				return prefsXML;
 			}
 			
+			public static function GetFileContent(fileName : String) : String
+			{
+				var file:File = new File();
+				file.nativePath = csu_admin.APP_PATH + fileName;
+				var fileStream:FileStream = new FileStream(); 
+				if(!file.exists)
+					return null;
+
+				fileStream.open(file, FileMode.READ);
+				
+				var prefsXML:String = String(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
+				fileStream.close();
+
+				return prefsXML;
+			}
+			
+			public static function SaveFileContent(filePath : String, fileContent : String) : void
+			{
+				var file:File = new File();
+				file.nativePath = csu_admin.APP_PATH + filePath;
+				var fileStream:FileStream = new FileStream();
+								
+				fileStream.open(file, FileMode.WRITE);
+				fileStream.writeUTFBytes(fileContent);
+				fileStream.close();
+			}
+			
 			private function Years(rawData : XML) : void
 			{
 				for each(var item : XML in rawData[0].decade)
@@ -182,6 +209,36 @@
 				}
 			}
 			
+			public static function SaveAthletes() : void
+			{
+				var file:File = new File();
+				file.nativePath = csu_admin.APP_PATH + 'names.xml';
+				var fileStream:FileStream = new FileStream();
+				
+				if(!file.exists)
+					return;
+				
+				fileStream.open(file, FileMode.WRITE);
+				fileStream.writeUTFBytes('<names>');
+				for each(var item : Athlete in csu_admin.athletes)
+				{
+					fileStream.writeUTFBytes(item.toXML());
+				}
+				fileStream.writeUTFBytes('</names>');
+				fileStream.close();
+			}
+			
+			public static function GetYears() : Array
+			{
+				var answer  : Array = [];
+				for each(var item : Decade in csu_admin.decades)
+				{
+					answer = answer.concat(item.years);
+				}
+				
+				return answer;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -191,7 +248,7 @@
 	<s:VGroup top="8" left="8">
 		<s:HGroup>
 			<s:Label text="Path to the CSU HOF resources folder"/>
-			<s:TextInput id="settingsPathTxt" text="C:/Program Files (x86)/CSU_HOF/CSU_HOF/resources/" width="340"/>
+			<s:TextInput id="settingsPathTxt" text="D:/_dev/cdmeyer/bin-debug/resources/" width="340"/>
 			<s:Button id="settingsBtn" label="Select folder" click="settingsBtn_clickHandler(event)"/>		 
 		</s:HGroup>
 		

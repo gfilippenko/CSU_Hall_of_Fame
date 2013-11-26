@@ -1,0 +1,24 @@
+ 1. Desired default path where the programs should be extracted.
+
+C:/point2explore
+
+ 
+
+2. Desired Names of Programs (front-end and back-end) to appears on desktop.
+
+Front-end:  e-Tribute
+
+Back-end: e-Tribute Administrator
+
+ 
+
+3. Desired File names for executable files (front-end and back-end).
+
+Front-end:  e-Tribute
+
+Back-end: e-Tribute Administrator
+
+ 
+
+Also, if you want, you can provide the icons for desktop. I would include these into installer.
+Jahn will provide the desktop icons to be used.

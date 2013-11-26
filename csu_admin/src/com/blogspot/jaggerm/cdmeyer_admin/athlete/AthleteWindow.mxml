@@ -2,7 +2,7 @@
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="910" height="540"
-			   close="btnCancel_clickHandler()" >
+			   close="btnCancel_clickHandler()" creationComplete="titlewindow1_creationCompleteHandler(event)" >
 	<s:layout>
 		<s:VerticalLayout paddingLeft="8" paddingTop="8"/>
 	</s:layout>
@@ -11,19 +11,282 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.blogspot.jaggerm.cdmeyer_admin.events.CSUAdminEvent;
+			import com.blogspot.jaggerm.cdmeyer_admin.model.Athlete;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IVisualElement;
+			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
+			private var athlete : Athlete; 
 			
-			protected function btnCancel_clickHandler(event:MouseEvent = null):void
+			public function SetAdd() : void
+			{
+				title = 'Add Athlete';
+				inductionYearCmb.dataProvider = new ArrayCollection(csu_admin.GetYears());
+				firstNameTxt.text = '';
+				lastNameTxt.text = '';
+				inductionYearCmb.selectedIndex = 0;
+				sport1Txt.text = '';
+				sport2Txt.text = '';
+				sport3Txt.text = '';
+				sport4Txt.text = '';
+				sport5Txt.text = '';
+				sport6Txt.text = '';
+				ClearSportsSelected();
+				videoPath1.text = '';
+				videoPath2.text = '';
+				videoPath3.text = '';
+				videoPath4.text = '';
+				vieoTitle1.text = '';
+				vieoTitle2.text = '';
+				vieoTitle3.text = '';
+				vieoTitle4.text = '';
+				headshot1Txt.text = '';
+				headshot2Txt.text = '';
+				headshot3Txt.text = '';
+				headshot4Txt.text = '';
+				headshot5Txt.text = '';
+				headshot6Txt.text = '';
+				bioTxt.text = '';
+				backgroundTxt.text = '';
+				ArrayCollection(accInputTable.dataProvider).removeAll();
+			}
+			
+			public function SetEdit(value : Athlete) : void
+			{
+				inductionYearCmb.dataProvider = new ArrayCollection(csu_admin.GetYears());
+				athlete = value;
+				title = 'Edit Athlete';
+				firstNameTxt.text = athlete.firstName;
+				lastNameTxt.text = athlete.lastName;
+				backgroundTxt.text = athlete.backGroundImage;
+				SetAccomplishements();
+				callLater(SetInductionYear, [athlete.year]);
+				
+				
+				athlete.GetSports2();
+				SetSports2();
+//				sport1Txt.text = '';
+//				sport2Txt.text = '';
+//				sport3Txt.text = '';
+//				sport4Txt.text = '';
+//				sport5Txt.text = '';
+//				sport6Txt.text = '';
+				
+				ClearSportsSelected();
+				SetSports();
+				
+				athlete.GetVideos();
+				SetVideos();
+//				videoPath1.text = '';
+//				videoPath2.text = '';
+//				videoPath3.text = '';
+//				videoPath4.text = '';
+//				vieoTitle1.text = '';
+//				vieoTitle2.text = '';
+//				vieoTitle3.text = '';
+//				vieoTitle4.text = '';
+				
+				
+				athlete.GetHedshots();
+				SetHeadshots();
+//				headshot1Txt.text = '';
+//				headshot2Txt.text = '';
+//				headshot3Txt.text = '';
+//				headshot4Txt.text = '';
+//				headshot5Txt.text = '';
+//				headshot6Txt.text = '';
+				
+				athlete.GetBio()
+				bioTxt.text = athlete.bio;
+			}
+			
+			private function SetAccomplishements() : void
+			{
+				var i : uint = 0;
+				var len : uint = athlete.oacs.length; 
+				ArrayCollection(accInputTable.dataProvider).removeAll();
+				for(i=0;i<len;i++)
+				{	
+					ArrayCollection(accInputTable.dataProvider).addItem({id:athlete.oacs[i]})										
+				}
+			}
+			
+			private function SetHeadshots() : void
+			{
+				var i : uint = 0;
+				var len : uint = athlete.headShots.length; 
+				
+				for(i=0;i<len;i++)
+				{	
+					if(i > 5)
+						break;
+					
+					this['headshot' + i + 'Txt'].text = athlete.headShots[i];										
+				}
+			}
+			
+			private function SetVideos() : void
+			{
+				var i : uint = 0;
+				var len : uint = athlete.videos.length; 
+				
+				for(i=0;i<len;i++)
+				{	
+					if(i > 3)
+						break;
+					
+					this['videoPath' + i + ''].text = athlete.videos[i].file;					
+					this['vieoTitle' + i + ''].text = athlete.videos[i].title;					
+				}
+			}
+			
+			private function SetSports() : void
+			{
+				var i : uint = 0;
+				var j : uint = 0;
+				var len : uint = athlete.sports.length; 
+				var sportsLen : uint = sportsHolder.numElements;
+				for(j=0;j<sportsLen;j++)
+				{
+					var item : IVisualElement = sportsHolder.getElementAt(j);
+					if(item is CheckBox)
+					{
+						for(i=0;i<len;i++)
+						{	
+							if(CheckBox(item).id == athlete.sports[i])
+							{
+								CheckBox(item).selected = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			private function SetSports2() : void
+			{
+				var i : uint = 0;
+				var len : uint = athlete.sports2.length; 
+
+				for(i=0;i<len;i++)
+				{	
+					if(i > 5)
+						break;
+					
+					this['sport' + i + 'Txt'].text = athlete.sports2[i];					
+				}
+			}
+			
+			private function ClearSportsSelected() : void
+			{
+				voleyball.selected = false;
+				baseball.selected = false;
+				track.selected = false;
+				cross_country.selected = false;
+				boxing.selected = false;
+				gymnastics.selected = false;
+				football.selected = false;
+				water_polo.selected = false;
+				tennis.selected = false;
+				swimming0diving.selected = false;
+				wrestling.selected = false;
+				basketball.selected = false;
+			}
+			
+			private function SetInductionYear(value : String) : void
+			{
+				var len : uint = inductionYearCmb.dataProvider.length;
+				var i : uint = 0;
+				for(i=0;i<len;i++)
+				{
+					if(String(inductionYearCmb.dataProvider[i].data) == value) 
+					{
+						inductionYearCmb.selectedIndex = i;
+						return;
+					}
+				}
+				
+				inductionYearCmb.selectedIndex = 0;
+			}
+			
+			protected function btnCancel_clickHandler(event:MouseEvent = null) : void
 			{
 				PopUpManager.removePopUp(this);
 			}
 			
-			protected function btnSubmit_clickHandler(event:MouseEvent = null):void
+			protected function btnSubmit_clickHandler(event:MouseEvent = null) : void
 			{
-				
-				
+				csu_admin.SaveAthletes();
+				athlete.SaveBio();
+				athlete.SaveOacs();
+				athlete.SaveSports2();
+				athlete.SaveVideos();
+				Alert.show('Athlete saved', 'Message');
 				btnCancel_clickHandler(event);
+			}
+			
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				accInputTable.addEventListener(CSUAdminEvent.EDIT_ITEM, EditAccomplishement);
+				accInputTable.addEventListener(CSUAdminEvent.DELETE_ITEM, DeleteAccomplishement);				
+			}
+			
+			private var oacWnd : OacWnd;
+			
+			private function EditAccomplishement(e : CSUAdminEvent) : void
+			{
+				ShowAccompWnd();		
+				oacWnd.SetEdit(e.itemID);
+			}
+			
+			private function DeleteAccomplishement(e : CSUAdminEvent) : void
+			{
+				var i : uint;
+				var len : uint = athlete.oacs.length; 
+				for (i=0;i<len;i++)
+				{
+					if(athlete.oacs[i] == e.itemID)
+						athlete.oacs.splice(i, 1);
+				}
+			}
+						
+			private function ShowAccompWnd() : void
+			{
+				if(oacWnd == null)
+				{
+					oacWnd = PopUpManager.createPopUp(this, OacWnd, true) as OacWnd;
+					oacWnd.addEventListener(CSUAdminEvent.EDIT_ITEM, AcompEditFinished);
+					oacWnd.addEventListener(CSUAdminEvent.EDIT_ITEM, AcompAddFinished);
+					PopUpManager.centerPopUp(oacWnd);
+				}	
+				else 
+					PopUpManager.addPopUp(oacWnd, this, true);				
+			}
+			
+			protected function addAccomplishement_clickHandler(event:MouseEvent):void
+			{
+				ShowAccompWnd();		
+				oacWnd.SetAdd();
+			}
+			
+			private function AcompEditFinished(e : CSUAdminEvent) : void
+			{
+				var i : uint;
+				var len : uint = athlete.oacs.length; 
+				for (i=0;i<len;i++)
+				{
+					if(athlete.oacs[i] == e.prevValue)
+						athlete.oacs[i] = e.itemID;
+				}
+			}
+			
+			private function AcompAddFinished(e : CSUAdminEvent) : void
+			{
+				athlete.oacs.push(e.itemID);
 			}
 			
 		]]>
@@ -38,10 +301,10 @@
 				</s:HGroup>
 				<s:HGroup>
 					<s:Label id="lblInductionYear" text="Induction Year:"/>				
-					<s:ComboBox id="inductionYearCmb" />	
+					<s:ComboBox id="inductionYearCmb" dataProvider="{new ArrayCollection(csu_admin.GetYears())}"/>	
 					<mx:LinkButton id="addYearBtn" label="(Year not there? Add Year)"/>
 				</s:HGroup>
-				<s:VGroup>
+				<s:VGroup id="sports2Holder">
 					<s:Label text="Sport and Years played/coached/other (i.e. Football (1948-1950, 1952)"/>
 					<s:HGroup>
 						<s:TextInput id="sport1Txt" width="200"/>	
@@ -64,10 +327,10 @@
 					</s:HGroup>
 					<s:HGroup>
 						<s:CheckBox id="track" label="Track" width="100"/>	
-						<s:CheckBox id="softball" label="Softball"/>	
+						<s:CheckBox id="cross_country" label="Cross Country"/>	
 					</s:HGroup>
 					<s:HGroup>
-						<s:CheckBox id="golf" label="Golf" width="100"/>	
+						<s:CheckBox id="boxing" label="Boxing" width="100"/>	
 						<s:CheckBox id="gymnastics" label="Gymnastics"/>	
 					</s:HGroup>
 					<s:HGroup>
@@ -141,7 +404,17 @@
 				<s:Label text="Bio"/>
 				<s:TextArea id="bioTxt" width="480"/>
 				<s:Label text="Other Accomplishments:"/>
+				<s:Button id="addAccomplishement" label="Add accomplishement" click="addAccomplishement_clickHandler(event)"/>
 				<s:List id="accInput" width="480" height="140"/>
+				<s:DataGrid id="accInputTable" dataProvider="{new ArrayCollection()}" width="480" height="140">
+					<s:columns>
+						<s:ArrayList>
+							<s:GridColumn id="accID" width="300" dataField="id" headerText="Item"/>
+							<s:GridColumn id="editAcc" width="80" headerText="Edit" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.EditButtomRenderer"/>
+							<s:GridColumn id="deleteAcc" width="80" headerText="Delete" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.DeleteButtonItemRenderer"/>	
+						</s:ArrayList>			
+					</s:columns>
+				</s:DataGrid>
 			</s:VGroup>
 		</s:HGroup>
 		<s:HGroup>

@@ -15,6 +15,8 @@
 			import com.blogspot.jaggerm.cdmeyer_admin.model.Athlete;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
@@ -38,7 +40,8 @@
 				if(athleteWnd == null)
 				{
 					athleteWnd = PopUpManager.createPopUp(this, AthleteWindow, true) as AthleteWindow;
-					PopUpManager.centerPopUp(athleteWnd);
+					athleteWnd.move(0, 0);
+//					PopUpManager.centerPopUp(athleteWnd);
 				}	
 				else 
 					PopUpManager.addPopUp(athleteWnd, this, true);
@@ -47,6 +50,7 @@
 			protected function btnAdd_clickHandler(event:MouseEvent):void
 			{
 				ShowWnd();
+				athleteWnd.SetAdd();
 			}
 			
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -61,9 +65,32 @@
 				athleteWnd.SetEdit(table.selectedItem as Athlete);
 			}
 			
+			
+			private var athleteToDelete : String;
 			private function OnDeleteEvent(e : CSUAdminEvent) : void
 			{
+				athleteToDelete = e.itemID;
+				Alert.show('Are you sure you want to delete (' + table.selectedItem.firstName + ' ' + table.selectedItem.lastName + ')? This action cannot be undone and all respective data for this athlete will be deleted permanently!', 'Warning!', Alert.YES|Alert.CANCEL, this, OnDeleteAlert);
+			}
+			
+			private function OnDeleteAlert(e : CloseEvent) : void
+			{
+				if(e.detail != Alert.YES)
+					return;
 				
+				csu_admin.athletes.splice(athleteToDelete, 1);
+				csu_admin.SaveAthletes();
+				var len : uint = table.dataProvider.length;
+				var i:uint;
+				for (i=0;i<len;i++)
+				{
+					if(table.dataProvider[i].id == athleteToDelete)
+					{
+						table.dataProvider[i].RemoveAllInfo();
+						table.dataProvider.removeItemAt(i);
+						break;
+					}
+				}
 			}
 			
 		]]>

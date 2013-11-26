@@ -128,9 +128,18 @@
 				}
 				
 				csu_admin.decades.push(e.decade);
+				csu_admin.decades = csu_admin.decades.sort(compare);
 				PopulateList(csu_admin.decades);
 				csu_admin.SaveDecades();
 				Alert.show('You successfully created the decade ' + e.decade.id + '.' , 'Message');				
+			}
+			
+			public function compare(a : Decade, b : Decade) : Number
+			{
+				if(a.id < b.id)
+					return -1;
+				else 
+					return 1;
 			}
 			
 		]]>

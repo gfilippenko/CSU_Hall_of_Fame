@@ -162,7 +162,7 @@
 							return;
 						}
 				}
-				
+				value.id = String(csu_admin.athletes.length);
 				csu_admin.athletes.push(value);
 			}
 			
@@ -184,6 +184,8 @@
 			
 			public static function SaveDecades() : void
 			{
+				csu_admin.decades.sort();
+				
 				var file:File = new File();
 				file.nativePath = csu_admin.APP_PATH + 'years.xml';
 				var fileStream:FileStream = new FileStream();

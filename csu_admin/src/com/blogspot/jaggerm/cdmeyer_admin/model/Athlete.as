@@ -1,10 +1,14 @@
 package com.blogspot.jaggerm.cdmeyer_admin.model
 {
 	import flash.filesystem.File;
+	import flash.filesystem.FileStream;
 	import flash.sampler.getInvocationCount;
+	
+	import mx.utils.StringUtil;
 
 	public class Athlete
 	{
+		public var id : String;
 		public var firstName : String = '';
 		public var lastName : String = '';
 		public var sports : Array = [];
@@ -29,6 +33,13 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 			sport = rawData.s[0];
 			year = rawData.year[0];
 			backGroundImage = rawData.bg[0];
+			sports = sport.split(',');
+			
+			var len : uint = sports.length;
+			for(var i:uint=0;i<len;i++)
+			{
+				sports[i] = StringUtil.trim(sports[i]);
+			}
 		}
 		
 		public function toXML() : String
@@ -136,6 +147,14 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 				if((item.nativePath.toLowerCase().indexOf('.jpg') != -1) || (item.nativePath.toLowerCase().indexOf('.png') != -1))
 					headShots.push(item.nativePath);
 			}
+		}
+		
+		public function RemoveAllInfo(): void
+		{
+			var file:File = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath());
+			if(!file.exists)
+				return;
+			file.deleteDirectory(true);			
 		}
 	}
 }

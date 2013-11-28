@@ -17,13 +17,17 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
+			import mx.events.FileEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
 			private var athlete : Athlete; 
-			
+			private var mode : String;
+
 			public function SetAdd() : void
 			{
+				athlete = new Athlete();
+				mode = 'add';
 				title = 'Add Athlete';
 				inductionYearCmb.dataProvider = new ArrayCollection(csu_admin.GetYears());
 				firstNameTxt.text = '';
@@ -57,6 +61,7 @@
 			
 			public function SetEdit(value : Athlete) : void
 			{
+				mode = 'edit';
 				inductionYearCmb.dataProvider = new ArrayCollection(csu_admin.GetYears());
 				athlete = value;
 				title = 'Edit Athlete';
@@ -113,7 +118,7 @@
 				ArrayCollection(accInputTable.dataProvider).removeAll();
 				for(i=0;i<len;i++)
 				{	
-					ArrayCollection(accInputTable.dataProvider).addItem({id:athlete.oacs[i]})										
+					ArrayCollection(accInputTable.dataProvider).addItem({id:i, acc : athlete.oacs[i]})										
 				}
 			}
 			
@@ -152,6 +157,7 @@
 				var j : uint = 0;
 				var len : uint = athlete.sports.length; 
 				var sportsLen : uint = sportsHolder.numElements;
+				var sport : String;
 				for(j=0;j<sportsLen;j++)
 				{
 					var item : IVisualElement = sportsHolder.getElementAt(j);
@@ -159,7 +165,11 @@
 					{
 						for(i=0;i<len;i++)
 						{	
-							if(CheckBox(item).id.toLowerCase() == String(athlete.sports[i]).toLowerCase())
+							sport = String(athlete.sports[i]).toLowerCase();
+							sport = sport.replace(' + ', '0');
+							sport = sport.replace(' ', '_');
+							
+							if(CheckBox(item).id.toLowerCase() == sport)
 							{
 								CheckBox(item).selected = true;
 								break;
@@ -223,12 +233,101 @@
 			
 			protected function btnSubmit_clickHandler(event:MouseEvent = null) : void
 			{
-				csu_admin.SaveAthletes();
+				athlete.firstName = firstNameTxt.text;
+				athlete.lastName = lastNameTxt.text;
+				athlete.bio = bioTxt.text;
+				athlete.year = inductionYearCmb.selectedItem;
+				var len:uint = sports2Holder.numElements;
+				var i : uint;
+				
+				//xml sports
+				athlete.sports2.splice(0, athlete.sports2.length);
+				for(i=0;i<len;i++)
+				{
+					if(sports2Holder.getElementAt(i) is TextInput)
+					{
+						if(TextInput(sports2Holder.getElementAt(i)).text != '')
+							athlete.sports2.push(TextInput(sports2Holder.getElementAt(i)).text);
+					}
+				}
+				
+				//sports
+				athlete.sports.splice(0,athlete.sports.length);
+				len = sportsHolder.numElements;
+				for(i=0;i<len;i++)
+				{
+					if(sportsHolder.getElementAt(i) is CheckBox)
+					{
+						if(CheckBox(sportsHolder.getElementAt(i)).selected)
+						{
+							var sport : String = String(CheckBox(sportsHolder.getElementAt(i)).id).toLowerCase();
+							sport = sport.replace('0', ' + ');
+							sport = sport.replace('_',' ');
+							
+							athlete.sports.push(sport);
+						}
+					}
+				}
+				athlete.sport = athlete.sports.join(',');
+				
+				//accomplishements
+				athlete.oacs.splice(0, athlete.oacs.length);
+				len = accInputTable.dataProvider.length;
+				for(i=0;i<len;i++)
+				{
+					athlete.oacs.push(accInputTable.dataProvider[i].acc);					
+				}
+															
+				if(backgroundTxt.text.indexOf(':') >= 0)
+				{
+					athlete.SaveBackground(backgroundTxt.text);
+				}
+				
+				len = headshotsHolder.numElements;
+				for(i=0;i<len;i++)
+				{
+					if(headshotsHolder.getElementAt(i) is TextInput)
+					{
+						var textInput : TextInput = headshotsHolder.getElementAt(i) as TextInput;
+						if(textInput.text.indexOf(':') >= 0)
+						{
+							var videoIndex : uint = Number(textInput.id.substring(8,9)) - 1;
+							athlete.SaveHeadShot(id, textInput.text);
+						}
+					}
+				}
+				
+				len = videosHolder.numElements;
+				for(i=0;i<len;i++)
+				{
+					if(videosHolder.getElementAt(i) is TextInput)
+					{
+						var textInput : TextInput = videosHolder.getElementAt(i) as TextInput;
+						if(textInput.text.indexOf(':') >= 0)
+						{
+							var videoIndex : uint = Number(textInput.id.substring(9,10)) - 1;
+							athlete.SaveVideo(id, textInput.text, TextInput(this['vieoTitle' + Number(videoIndex + 1)]).text);
+						}
+					}
+				}
+				
 				athlete.SaveBio();
 				athlete.SaveOacs();
-				athlete.SaveSports2();
+				athlete.SaveSports2();				
 				athlete.SaveVideos();
-				Alert.show('You successfully edited' + athlete.firstName + ' ' + athlete.lastName, 'Message');
+				
+				
+				
+				
+				
+				if(mode == 'edit')
+					var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.EDIT_ITEM);
+				else
+					var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.ADD_ITEM);
+				
+				e.athlete = athlete;
+				dispatchEvent(e);
+				
 				btnCancel_clickHandler(event);
 			}
 			
@@ -243,17 +342,21 @@
 			private function EditAccomplishement(e : CSUAdminEvent) : void
 			{
 				ShowAccompWnd();		
-				oacWnd.SetEdit(e.itemID);
+				oacWnd.SetEdit(e.itemID, accInputTable.selectedItem.acc);
 			}
 			
 			private function DeleteAccomplishement(e : CSUAdminEvent) : void
 			{
+				athlete.oacs.splice(Number(e.itemID), 1);
 				var i : uint;
-				var len : uint = athlete.oacs.length; 
+				var len : uint = accInputTable.dataProvider.length; 
 				for (i=0;i<len;i++)
 				{
-					if(athlete.oacs[i] == e.itemID)
-						athlete.oacs.splice(i, 1);
+					if(accInputTable.dataProvider[i].id == e.itemID)
+					{
+						accInputTable.dataProvider.removeItemAt(i);
+						break;
+					}
 				}
 			}
 						
@@ -263,7 +366,7 @@
 				{
 					oacWnd = PopUpManager.createPopUp(this, OacWnd, true) as OacWnd;
 					oacWnd.addEventListener(CSUAdminEvent.EDIT_ITEM, AcompEditFinished);
-					oacWnd.addEventListener(CSUAdminEvent.EDIT_ITEM, AcompAddFinished);
+					oacWnd.addEventListener(CSUAdminEvent.ADD_ITEM, AcompAddFinished);
 					PopUpManager.centerPopUp(oacWnd);
 				}	
 				else 
@@ -278,18 +381,71 @@
 			
 			private function AcompEditFinished(e : CSUAdminEvent) : void
 			{
+				athlete.oacs[Number(e.itemID)] = e.value;
 				var i : uint;
-				var len : uint = athlete.oacs.length; 
+				var len : uint = accInputTable.dataProvider.length; 
 				for (i=0;i<len;i++)
 				{
-					if(athlete.oacs[i] == e.prevValue)
-						athlete.oacs[i] = e.itemID;
+					if(accInputTable.dataProvider[i].id == e.itemID)
+					{
+						accInputTable.dataProvider[i].acc = e.value;
+						break;
+					}
 				}
 			}
 			
 			private function AcompAddFinished(e : CSUAdminEvent) : void
 			{
-				athlete.oacs.push(e.itemID);
+				athlete.oacs.push(e.value);
+				accInputTable.dataProvider.addItem({id:Number(athlete.oacs.length - 1), acc : athlete.oacs[athlete.oacs.length - 1]});
+			}
+			
+			
+			private var currentTextFieldID : String;
+			private function BrowseClickHandler(e : MouseEvent) : void
+			{
+				var file : File = new File();
+				var id : String = e.target.id;
+				var filter : Array = null; 
+				var title : String;
+				
+				if(id == 'backgroundBtn')
+				{
+					title = 'Select background image';
+					filter = [new FileFilter("Images", "*.jpg;*.png")];
+					file.addEventListener(Event.SELECT, OnBackgroundSelect);
+				}
+				else if(id.indexOf('headshot') == 0)
+				{
+					currentTextFieldID = 'headshot' + id.substring(8,9) + 'Txt';
+					title = currentTextFieldID + 'Select athlete image';
+					filter = [new FileFilter("Images", "*.jpg;*.png")];
+					file.addEventListener(Event.SELECT, OnAthleteImageSelected);
+				}
+				else if(id.indexOf('uploadVideo') == 0)
+				{
+					currentTextFieldID = id.substring(11,12);
+					title = currentTextFieldID + ' Select video file to upload';
+					filter = [new FileFilter("Video", "*.flv;")];
+					file.addEventListener(Event.SELECT, OnVideoSelected);
+				}
+					
+				file.browseForOpen(title, filter);
+			}
+			
+			private function OnBackgroundSelect(e : Event) : void
+			{
+				backgroundTxt.text = e.target.nativePath;
+			}
+			
+			private function OnAthleteImageSelected(e : Event) : void
+			{
+				this[currentTextFieldID].text = e.target.nativePath;
+			}
+			
+			private function OnVideoSelected(e : Event) : void
+			{
+				this['videoPath' + currentTextFieldID].text = e.target.nativePath;
 			}
 			
 		]]>
@@ -305,114 +461,96 @@
 				<s:HGroup>
 					<s:Label id="lblInductionYear" text="Induction Year:"/>				
 					<s:ComboBox id="inductionYearCmb" dataProvider="{new ArrayCollection(csu_admin.GetYears())}"/>	
-					<mx:LinkButton id="addYearBtn" label="(Year not there? Add Year)"/>
+					<!--<mx:LinkButton id="addYearBtn" label="(Year not there? Add Year)"/>-->
 				</s:HGroup>
-				<s:VGroup id="sports2Holder">
+				<s:VGroup >
 					<s:Label text="Sport and Years played/coached/other (i.e. Football (1948-1950, 1952)"/>
-					<s:HGroup>
-						<s:TextInput id="sport1Txt" width="200"/>	
-						<s:TextInput id="sport2Txt" width="200"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:TextInput id="sport3Txt" width="200"/>	
-						<s:TextInput id="sport4Txt" width="200"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:TextInput id="sport5Txt" width="200"/>	
-						<s:TextInput id="sport6Txt" width="200"/>	
-					</s:HGroup>
+					<s:Group id="sports2Holder">
+						<s:TextInput id="sport1Txt" width="200" x="0" y="0"/>	
+						<s:TextInput id="sport2Txt" width="200" x="0" y="30"/>	
+				
+						<s:TextInput id="sport3Txt" width="200" x="0" y="60"/>	
+						<s:TextInput id="sport4Txt" width="200" x="208" y="0"/>	
+				
+						<s:TextInput id="sport5Txt" width="200" x="208" y="30"/>	
+						<s:TextInput id="sport6Txt" width="200" x="208" y="60"/>	
+					</s:Group>
 				</s:VGroup>
-				<s:VGroup id="sportsHolder">
+				<s:VGroup>
 					<s:Label text="Sports (check all that apply):"/>					
-					<s:HGroup>
-						<s:CheckBox id="voleyball" label="Volleyball" width="100"/>	
-						<s:CheckBox id="baseball" label="Baseball"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:CheckBox id="track" label="Track" width="100"/>	
-						<s:CheckBox id="cross_country" label="Cross Country"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:CheckBox id="boxing" label="Boxing" width="100"/>	
-						<s:CheckBox id="gymnastics" label="Gymnastics"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:CheckBox id="football" label="Football" width="100"/>	
-						<s:CheckBox id="water_polo" label="Water Polo"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:CheckBox id="tennis" label="Tennis" width="100"/>	
-						<s:CheckBox id="swimming0diving" label="Swimming and Diving"/>	
-					</s:HGroup>
-					<s:HGroup>
-						<s:CheckBox id="wrestling" label="Wrestling" width="100"/>	
-						<s:CheckBox id="basketball" label="Men's/Women's Basketball"/>	
-					</s:HGroup>
+					<s:Group id="sportsHolder" width="410" height="160">
+						<s:CheckBox id="voleyball" label="Volleyball" width="100" x="0" y="0"/>	
+						<s:CheckBox id="baseball" label="Baseball" x="0" y="20"/>	
+						<s:CheckBox id="track" label="Track" width="100" x="0" y="40"/>	
+						<s:CheckBox id="cross_country" label="Cross Country" x="0" y="60"/>	
+						<s:CheckBox id="boxing" label="Boxing" width="100" x="0" y="80"/>	
+						<s:CheckBox id="gymnastics" label="Gymnastics" x="0" y="100"/>	
+						<s:CheckBox id="football" label="Football" width="100" x="120" y="0"/>	
+						<s:CheckBox id="water_polo" label="Water Polo" x="120" y="20"/>	
+
+						<s:CheckBox id="tennis" label="Tennis" width="100" x="120" y="40"/>	
+						<s:CheckBox id="swimming0diving" label="Swimming and Diving" x="120" y="60"/>	
+
+						<s:CheckBox id="wrestling" label="Wrestling" width="100" x="120" y="80"/>	
+						<s:CheckBox id="basketball" label="Men's/Women's Basketball" x="120" y="100"/>	
+					</s:Group>
 				</s:VGroup>
 				<s:Label text="Videos:"/>
-				<s:HGroup>
-					<s:Label text="Title:"/>
-					<s:TextInput id="vieoTitle1" width="100"/>
-					<s:Label text="File:"/>
-					<s:TextInput id="videoPath1" width="160" editable="false"/>
-					<s:Button id="uploadVideo1" label="Browse"/>
-				</s:HGroup>
-				<s:HGroup>
-					<s:Label text="Title:"/>
-					<s:TextInput id="vieoTitle2" width="100"/>
-					<s:Label text="File:"/>
-					<s:TextInput id="videoPath2" width="160" editable="false"/>
-					<s:Button id="uploadVideo2" label="Browse"/>
-				</s:HGroup>
-				<s:HGroup>
-					<s:Label text="Title:"/>
-					<s:TextInput id="vieoTitle3" width="100"/>
-					<s:Label text="File:"/>
-					<s:TextInput id="videoPath3" width="160" editable="false"/>
-					<s:Button id="uploadVideo3" label="Browse"/>
-				</s:HGroup>
-				<s:HGroup>
-					<s:Label text="Title:"/>
-					<s:TextInput id="vieoTitle4" width="100"/>
-					<s:Label text="File:"/>
-					<s:TextInput id="videoPath4" width="160" editable="false"/>
-					<s:Button id="uploadVideo4" label="Browse"/>
-				</s:HGroup>
+				<s:Group id="videosHolder">
+					<s:Label text="Title:" x="0" y="0"/>
+					<s:TextInput id="vieoTitle1" width="100" x="30" y="0"/>
+					<s:Label text="File:" x="140" y="0"/>
+					<s:TextInput id="videoPath1" width="160" editable="false" x="170" y="0"/>
+					<s:Button id="uploadVideo1" label="Browse" x="335" y="0" click="BrowseClickHandler(event)"/>
+			
+					<s:Label text="Title:"  x="0" y="30"/>
+					<s:TextInput id="vieoTitle2" width="100"  x="30" y="30"/>
+					<s:Label text="File:"  x="140" y="30"/>
+					<s:TextInput id="videoPath2" width="160" editable="false"  x="170" y="30"/>
+					<s:Button id="uploadVideo2" label="Browse"  x="335" y="30" click="BrowseClickHandler(event)"/>
+				
+					<s:Label text="Title:"  x="0" y="60"/>
+					<s:TextInput id="vieoTitle3" width="100"  x="30" y="60"/>
+					<s:Label text="File:"  x="140" y="60"/>
+					<s:TextInput id="videoPath3" width="160" editable="false"  x="170" y="60"/>
+					<s:Button id="uploadVideo3" label="Browse"  x="335" y="60" click="BrowseClickHandler(event)"/>
+				
+					<s:Label text="Title:"  x="0" y="90"/>
+					<s:TextInput id="vieoTitle4" width="100"  x="30" y="90"/>
+					<s:Label text="File:"  x="140" y="90"/>
+					<s:TextInput id="videoPath4" width="160" editable="false"  x="170" y="90"/>
+					<s:Button id="uploadVideo4" label="Browse"  x="335" y="90" click="BrowseClickHandler(event)"/>
+				</s:Group>
 			</s:VGroup>
 			<s:VGroup>
 				<s:HGroup>
 					<s:Label text="Athlete Background:"/>
 					<s:TextInput editable="false" id="backgroundTxt" width="280"/>
-					<s:Button id="backgroundBtn" label="Browse"/>
+					<s:Button id="backgroundBtn" label="Browse" click="BrowseClickHandler(event)"/>
 				</s:HGroup>				
 				<s:Label text="Athlete Headshot(s):"/>
-				<s:HGroup>
-					<s:TextInput editable="false" id="headshot1Txt" width="160"/>
-					<s:Button id="headshot1Btn"  label="Browse"/>
-					<s:TextInput editable="false" id="headshot2Txt" width="160"/>
-					<s:Button id="headshot2Btn"  label="Browse"/>
-				</s:HGroup>
-				<s:HGroup>
-					<s:TextInput editable="false" id="headshot3Txt" width="160"/>
-					<s:Button id="headshot3Btn"  label="Browse"/>
-					<s:TextInput editable="false" id="headshot4Txt" width="160"/>
-					<s:Button id="headshot4Btn"  label="Browse"/>
-				</s:HGroup>
-				<s:HGroup>
-					<s:TextInput editable="false" id="headshot5Txt" width="160"/>
-					<s:Button id="headshot5Btn"  label="Browse"/>
-					<s:TextInput editable="false" id="headshot6Txt" width="160"/>
-					<s:Button id="headshot6Btn"  label="Browse"/>
-				</s:HGroup>
+				<s:Group id="headshotsHolder">
+					<s:TextInput editable="false" id="headshot1Txt" width="160" x="0" y="0"/>
+					<s:Button id="headshot1Btn"  label="Browse" x="165" y="0" click="BrowseClickHandler(event)"/>
+					<s:TextInput editable="false" id="headshot2Txt" width="160" x="0" y="30"/>
+					<s:Button id="headshot2Btn"  label="Browse" x="165" y="30" click="BrowseClickHandler(event)"/>
+					<s:TextInput editable="false" id="headshot3Txt" width="160" x="0" y="60"/>
+					<s:Button id="headshot3Btn"  label="Browse" x="165" y="60" click="BrowseClickHandler(event)"/>
+					<s:TextInput editable="false" id="headshot4Txt" width="160" x="240" y="0"/>
+					<s:Button id="headshot4Btn"  label="Browse" x="405" y="0" click="BrowseClickHandler(event)"/>
+					<s:TextInput editable="false" id="headshot5Txt" width="160" x="240" y="30"/>
+					<s:Button id="headshot5Btn"  label="Browse" x="405" y="30" click="BrowseClickHandler(event)"/>
+					<s:TextInput editable="false" id="headshot6Txt" width="160" x="240" y="60"/>
+					<s:Button id="headshot6Btn"  label="Browse" x="405" y="60" click="BrowseClickHandler(event)"/>
+				</s:Group>
 				<s:Label text="Bio"/>
 				<s:TextArea id="bioTxt" width="480"/>
 				<s:Label text="Other Accomplishments:"/>
 				<s:Button id="addAccomplishement" label="Add accomplishement" click="addAccomplishement_clickHandler(event)"/>
-				<!--<s:List id="accInput" width="480" height="140"/>-->
 				<s:DataGrid id="accInputTable" dataProvider="{new ArrayCollection()}" width="480" height="140">
 					<s:columns>
 						<s:ArrayList>
-							<s:GridColumn id="accID" width="300" dataField="id" headerText="Item"/>
+							<s:GridColumn id="accID" width="300" dataField="acc" headerText="Item"/>
 							<s:GridColumn id="editAcc" width="80" headerText="Edit" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.EditButtomRenderer"/>
 							<s:GridColumn id="deleteAcc" width="80" headerText="Delete" itemRenderer="com.blogspot.jaggerm.cdmeyer_admin.renderers.DeleteButtonItemRenderer"/>	
 						</s:ArrayList>			

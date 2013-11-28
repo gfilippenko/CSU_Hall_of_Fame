@@ -2,13 +2,15 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 {
 	import flash.filesystem.File;
 	import flash.filesystem.FileStream;
+	import flash.net.FileReference;
 	import flash.sampler.getInvocationCount;
 	
+	import mx.controls.Alert;
 	import mx.utils.StringUtil;
 
 	public class Athlete
 	{
-		public var id : String;
+		public var id : String = '';
 		public var firstName : String = '';
 		public var lastName : String = '';
 		public var sports : Array = [];
@@ -21,9 +23,10 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		public var headShots : Array = [];
 		public var oacs : Array = [];
 		
-		public function Athlete(rawData : XML)
+		public function Athlete(rawData : XML = null)
 		{
-			initFromXML(rawData);
+			if(rawData != null)
+				initFromXML(rawData);
 		}
 		
 		public function initFromXML(rawData : XML) : void
@@ -49,12 +52,18 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		}
 		
 		public function infoPath() : String
-		{
-			return 'info/' + lastName + '_' + firstName + '/';
+		{			
+			var info : String = 'info/' + lastName + '_' + firstName + '/'
+			var file : File = new File(csu_admin.APP_PATH + info);
+			if(!file.exists)
+				file.createDirectory();
+			
+			return info;
 		}
 		
 		public function GetOacs() : void
 		{
+			oacs.splice(0, oacs.length);
 			var oacsXML : XML = XML(csu_admin.GetFileContent(infoPath() + 'other.xml'));
 			for each(var item : XML in oacsXML[0].item)
 			{
@@ -68,7 +77,7 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 				return;
 			
 			var sportsXML : String = '<items>';
-			for each(var item : String in sports2)
+			for each(var item : String in oacs)
 			{
 				sportsXML += '<item><![CDATA[' + item + ']]></item>';
 			}
@@ -79,6 +88,7 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		
 		public function GetVideos() : void
 		{
+			videos.splice(0, videos.length);
 			var videosXML : XML = XML(csu_admin.GetFileContent(infoPath() + 'video.xml'));
 			for each(var item : XML in videosXML[0].item)
 			{
@@ -88,9 +98,6 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		
 		public function SaveVideos() : void
 		{
-			if(videos.length == 0)
-				return;
-			
 			var videosXML : String = '<items>';
 			for each(var item : VideoVO in videos)
 			{
@@ -103,6 +110,8 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		
 		public function GetSports2() : void
 		{
+			sports2.splice(0, sports2.length);
+			
 			var sportsXML : XML = XML(csu_admin.GetFileContent(infoPath() + 'sports.xml'));
 			for each(var item : XML in sportsXML[0].item)
 			{
@@ -112,9 +121,6 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		
 		public function SaveSports2() : void
 		{
-			if(sports2.length == 0)
-				return;
-			
 			var sportsXML : String = '<items>';
 			for each(var item : String in sports2)
 			{
@@ -137,6 +143,8 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		
 		public function GetHedshots() : void
 		{
+			headShots.splice(0, headShots.length);
+			
 			var file:File = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath());
 			if(!file.exists)
 				return;
@@ -145,8 +153,65 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 			for each(var item : File in files)
 			{
 				if((item.nativePath.toLowerCase().indexOf('.jpg') != -1) || (item.nativePath.toLowerCase().indexOf('.png') != -1))
-					headShots.push(item.nativePath);
+					headShots.push(item.name);
 			}
+		}
+		
+		public function SaveBackground(value : String) : void
+		{
+			var tmp : Array = value.split('\\');
+			var file : File = new File(value);
+			backGroundImage = String(tmp[tmp.length-1]).replace(' ', '');
+//			Alert.show(backGroundImage);
+//			return;
+			var destination:FileReference = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath() + backGroundImage);						
+			file.copyTo(destination,true);
+		}
+		
+		public function SaveHeadShot(id : String, path : String) : void
+		{
+			var tmp : Array = path.split('\\');
+			var file : File = new File(path);
+			var headShotImage = String(tmp[tmp.length-1]).replace(' ', '');
+			var destination:FileReference = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath() + headShotImage);						
+			file.copyTo(destination,true);
+			
+			var index : uint = Number(id);
+			if(headShots.length > index)
+			{
+				file = new File(csu_admin.APP_PATH + infoPath() + headShots[index]);
+				if(file.exists)
+					file.deleteFile();
+				
+				headShots[index] = headShotImage;
+			}
+			else
+				headShots.push(headShotImage);
+		}
+		
+		public function SaveVideo(id : String, path : String, title : String) : void
+		{
+			var tmp : Array = path.split('\\');
+			var file : File = new File(path);
+			var headShotImage = String(tmp[tmp.length-1]).replace(' ', '');
+			var destination:FileReference = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath() + headShotImage);						
+			file.copyTo(destination,true);
+			
+			var videoVO : VideoVO = new VideoVO();
+			videoVO.file = headShotImage;
+			videoVO.title = title;
+			
+			var index : uint = Number(id);
+			if(videos.length > index)
+			{
+				file = new File(csu_admin.APP_PATH + infoPath() + videos[index].file);
+				if(file.exists)
+					file.deleteFile();
+								
+				videos[index] = videoVO;
+			}
+			else
+				videos.push(videoVO);
 		}
 		
 		public function RemoveAllInfo(): void

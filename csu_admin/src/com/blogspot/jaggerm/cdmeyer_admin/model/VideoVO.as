@@ -5,9 +5,10 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		public var title : String;
 		public var file : String;
 		
-		public function VideoVO(rawData : XML)
+		public function VideoVO(rawData : XML = null)
 		{
-			initFromXML(rawData);
+			if(rawData != null)
+				initFromXML(rawData);
 		}
 			
 		public function initFromXML(rawData : XML) : void
@@ -19,9 +20,9 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		public function toXMLString() : String
 		{
 			var answer : String = '<item>';
-			answer + '<file><![CDATA[' + file + ']]></file>';
-			answer + '<title><![CDATA[Other video]]></title>';
-			answer + '</item>';
+			answer += '<file><![CDATA[' + file + ']]></file>';
+			answer += '<title><![CDATA[' + title + ']]></title>';
+			answer += '</item>';
 
 			return answer;
 		}

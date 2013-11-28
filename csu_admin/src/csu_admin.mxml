@@ -121,7 +121,7 @@
 				var file:File = new File();
 				file.nativePath = csu_admin.APP_PATH + filePath;
 				var fileStream:FileStream = new FileStream();
-								
+				
 				fileStream.open(file, FileMode.WRITE);
 				fileStream.writeUTFBytes(fileContent);
 				fileStream.close();
@@ -250,7 +250,7 @@
 	<s:VGroup top="8" left="8">
 		<s:HGroup>
 			<s:Label text="Path to the CSU HOF resources folder"/>
-			<s:TextInput id="settingsPathTxt" text="D:/_dev/cdmeyer/bin-debug/resources/" width="340"/>
+			<s:TextInput id="settingsPathTxt" text="C:/point2explore/e-Tribute/resources/" width="340"/>
 			<s:Button id="settingsBtn" label="Select folder" click="settingsBtn_clickHandler(event)"/>		 
 		</s:HGroup>
 		

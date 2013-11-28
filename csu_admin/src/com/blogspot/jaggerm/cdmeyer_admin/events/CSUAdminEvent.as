@@ -16,6 +16,7 @@ package com.blogspot.jaggerm.cdmeyer_admin.events
 		public var itemID : String;
 		public var prevID : uint;
 		public var prevValue : String;
+		public var value : String;
 
 		public function CSUAdminEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

@@ -172,7 +172,7 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		{
 			var tmp : Array = path.split('\\');
 			var file : File = new File(path);
-			var headShotImage = String(tmp[tmp.length-1]).replace(' ', '');
+			var headShotImage : String = String(tmp[tmp.length-1]).replace(' ', '');
 			var destination:FileReference = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath() + headShotImage);						
 			file.copyTo(destination,true);
 			
@@ -193,7 +193,7 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		{
 			var tmp : Array = path.split('\\');
 			var file : File = new File(path);
-			var headShotImage = String(tmp[tmp.length-1]).replace(' ', '');
+			var headShotImage : String = String(tmp[tmp.length-1]).replace(' ', '');
 			var destination:FileReference = File.documentsDirectory.resolvePath(csu_admin.APP_PATH + infoPath() + headShotImage);						
 			file.copyTo(destination,true);
 			
@@ -212,6 +212,13 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 			}
 			else
 				videos.push(videoVO);
+		}
+		
+		public function UpdateVideoTitle(id : String, title : String) : void
+		{
+			var index : uint = Number(id);
+			if(videos.length > index)
+				videos[index].title = title;
 		}
 		
 		public function RemoveAllInfo(): void

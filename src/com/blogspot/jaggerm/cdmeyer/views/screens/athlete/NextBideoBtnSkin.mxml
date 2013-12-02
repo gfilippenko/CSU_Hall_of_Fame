@@ -28,8 +28,8 @@
 				   source.down="@Embed('../../../../../../../resources/next_video_down.png')" 
 				   source.up="@Embed('../../../../../../../resources/next_video.png')" 
 				   source.over="@Embed('../../../../../../../resources/next_video.png')" />
-	<s:Spacer height="20"/>
-	<s:Label id="labelDisplay"
+	<!--<s:Spacer height="5"/>-->
+	<s:Label id="labelDisplay" width="220" height="80"
 			 textAlign="center"
 			 maxDisplayedLines="2"
 			 horizontalCenter="0" verticalCenter="1" verticalAlign="bottom"

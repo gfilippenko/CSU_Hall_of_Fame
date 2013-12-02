@@ -37,7 +37,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "D:\_dev\cdmeyer\CSU_HOF\e-Tribute.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\_dev\cdmeyer\CSU_HOF\cdmeyer.swf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\_dev\cdmeyer\CSU_HOF\e-Tribute.swf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\_dev\cdmeyer\CSU_HOF\mimetype"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\_dev\cdmeyer\CSU_HOF\Adobe AIR\*"; DestDir: "{app}\Adobe AIR"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "D:\_dev\cdmeyer\CSU_HOF\META-INF\*"; DestDir: "{app}\META-INF"; Flags: ignoreversion recursesubdirs createallsubdirs

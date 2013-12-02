@@ -239,7 +239,8 @@
 				athlete.year = inductionYearCmb.selectedItem;
 				var len:uint = sports2Holder.numElements;
 				var i : uint;
-				
+				var textInput : TextInput;
+				var videoIndex : uint;
 				//xml sports
 				athlete.sports2.splice(0, athlete.sports2.length);
 				for(i=0;i<len;i++)
@@ -288,25 +289,32 @@
 				{
 					if(headshotsHolder.getElementAt(i) is TextInput)
 					{
-						var textInput : TextInput = headshotsHolder.getElementAt(i) as TextInput;
+						textInput = headshotsHolder.getElementAt(i) as TextInput;
 						if(textInput.text.indexOf(':') >= 0)
 						{
-							var videoIndex : uint = Number(textInput.id.substring(8,9)) - 1;
-							athlete.SaveHeadShot(id, textInput.text);
+							videoIndex = Number(textInput.id.substr(8,1)) - 1;
+							athlete.SaveHeadShot(String(videoIndex), textInput.text);
 						}
 					}
 				}
+				
 				
 				len = videosHolder.numElements;
 				for(i=0;i<len;i++)
 				{
 					if(videosHolder.getElementAt(i) is TextInput)
 					{
-						var textInput : TextInput = videosHolder.getElementAt(i) as TextInput;
-						if(textInput.text.indexOf(':') >= 0)
+						textInput = videosHolder.getElementAt(i) as TextInput;
+						if(textInput.text.indexOf(':') > 0)
 						{
-							var videoIndex : uint = Number(textInput.id.substring(9,10)) - 1;
-							athlete.SaveVideo(id, textInput.text, TextInput(this['vieoTitle' + Number(videoIndex + 1)]).text);
+							videoIndex = Number(textInput.id.substr(9,1)) - 1;
+							athlete.SaveVideo(String(videoIndex), textInput.text, TextInput(this['vieoTitle' + Number(videoIndex + 1)]).text);
+						}
+						
+						if(textInput.id.indexOf('vieoTitle') == 0)
+						{
+							if(textInput.text != '')
+								athlete.UpdateVideoTitle(String(Number(textInput.id.substr(9,1)) - 1), textInput.text);
 						}
 					}
 				}
@@ -319,11 +327,11 @@
 				
 				
 				
-				
+				var e : CSUAdminEvent;
 				if(mode == 'edit')
-					var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.EDIT_ITEM);
+					e = new CSUAdminEvent(CSUAdminEvent.EDIT_ITEM);
 				else
-					var e : CSUAdminEvent = new CSUAdminEvent(CSUAdminEvent.ADD_ITEM);
+					e = new CSUAdminEvent(CSUAdminEvent.ADD_ITEM);
 				
 				e.athlete = athlete;
 				dispatchEvent(e);
@@ -426,7 +434,7 @@
 				{
 					currentTextFieldID = id.substring(11,12);
 					title = currentTextFieldID + ' Select video file to upload';
-					filter = [new FileFilter("Video", "*.flv;")];
+					filter = [new FileFilter("Video", "*.flv;*.mp4;")];
 					file.addEventListener(Event.SELECT, OnVideoSelected);
 				}
 					

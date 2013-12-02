@@ -28,7 +28,7 @@
 			{
 				ArrayCollection(table.dataProvider).disableAutoUpdate();
 				ArrayCollection(table.dataProvider).removeAll();
-				
+				var len : uint = atheltes.length;
 				for each(var item : Athlete in atheltes)
 				{
 					table.dataProvider.addItem(item);

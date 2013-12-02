@@ -317,7 +317,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				btn.setStyle("skinClass", NextBideoBtnSkin );
 				btn.addEventListener(MouseEvent.CLICK, NextBideoBtnClicked);
 				btn.x = startX;
-				btn.y = 930;
+				btn.y = 920;
 				btn.label = video.title;
 				addElement(btn);
 				startX += 235;
@@ -566,6 +566,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		
 		override protected function HomeClicked(event : MouseEvent) : void
 		{
+			if(videoView)
+				videoPlayer.visible = false;
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.START_TIMER, true));
 			super.HomeClicked(event);
 		}

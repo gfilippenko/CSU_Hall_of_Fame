@@ -73,8 +73,8 @@ package com.blogspot.jaggerm.cdmeyer_admin.model
 		
 		public function SaveOacs() : void
 		{
-			if(oacs.length == 0)
-				return;
+//			if(oacs.length == 0)
+//				return;
 			
 			var sportsXML : String = '<items>';
 			for each(var item : String in oacs)

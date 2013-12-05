@@ -29,6 +29,45 @@
 				athlete = new Athlete();
 				mode = 'add';
 				title = 'Add Athlete';
+				ClearInputs();
+			}
+			
+			public function SetEdit(value : Athlete) : void
+			{
+				ClearInputs();
+				mode = 'edit';
+
+				athlete = value;
+				title = 'Edit Athlete';
+				firstNameTxt.text = athlete.firstName;
+				lastNameTxt.text = athlete.lastName;
+				backgroundTxt.text = athlete.backGroundImage;
+				
+				athlete.GetOacs();
+				SetAccomplishements();
+				callLater(SetInductionYear, [athlete.year]);
+		
+				
+				athlete.GetSports2();
+				SetSports2();
+
+				
+				ClearSportsSelected();
+				SetSports();
+				
+				athlete.GetVideos();
+				SetVideos();
+
+				athlete.GetHedshots();
+				SetHeadshots();
+
+				
+				athlete.GetBio()
+				bioTxt.text = athlete.bio;
+			}
+			
+			private function ClearInputs() : void
+			{
 				inductionYearCmb.dataProvider = new ArrayCollection(csu_admin.GetYears());
 				firstNameTxt.text = '';
 				lastNameTxt.text = '';
@@ -57,58 +96,6 @@
 				bioTxt.text = '';
 				backgroundTxt.text = '';
 				ArrayCollection(accInputTable.dataProvider).removeAll();
-			}
-			
-			public function SetEdit(value : Athlete) : void
-			{
-				mode = 'edit';
-				inductionYearCmb.dataProvider = new ArrayCollection(csu_admin.GetYears());
-				athlete = value;
-				title = 'Edit Athlete';
-				firstNameTxt.text = athlete.firstName;
-				lastNameTxt.text = athlete.lastName;
-				backgroundTxt.text = athlete.backGroundImage;
-				
-				athlete.GetOacs();
-				SetAccomplishements();
-				callLater(SetInductionYear, [athlete.year]);
-				
-				
-				athlete.GetSports2();
-				SetSports2();
-//				sport1Txt.text = '';
-//				sport2Txt.text = '';
-//				sport3Txt.text = '';
-//				sport4Txt.text = '';
-//				sport5Txt.text = '';
-//				sport6Txt.text = '';
-				
-				ClearSportsSelected();
-				SetSports();
-				
-				athlete.GetVideos();
-				SetVideos();
-//				videoPath1.text = '';
-//				videoPath2.text = '';
-//				videoPath3.text = '';
-//				videoPath4.text = '';
-//				vieoTitle1.text = '';
-//				vieoTitle2.text = '';
-//				vieoTitle3.text = '';
-//				vieoTitle4.text = '';
-				
-				
-				athlete.GetHedshots();
-				SetHeadshots();
-//				headshot1Txt.text = '';
-//				headshot2Txt.text = '';
-//				headshot3Txt.text = '';
-//				headshot4Txt.text = '';
-//				headshot5Txt.text = '';
-//				headshot6Txt.text = '';
-				
-				athlete.GetBio()
-				bioTxt.text = athlete.bio;
 			}
 			
 			private function SetAccomplishements() : void
@@ -341,20 +328,22 @@
 			
 			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
 			{
-				accInputTable.addEventListener(CSUAdminEvent.EDIT_ITEM, EditAccomplishement);
-				accInputTable.addEventListener(CSUAdminEvent.DELETE_ITEM, DeleteAccomplishement);				
+				accInputTable.addEventListener(CSUAdminEvent.EDIT_ITEM, EditAccomplishement, true);
+				accInputTable.addEventListener(CSUAdminEvent.DELETE_ITEM, DeleteAccomplishement, true);				
 			}
 			
 			private var oacWnd : OacWnd;
 			
 			private function EditAccomplishement(e : CSUAdminEvent) : void
 			{
+				e.stopImmediatePropagation();
 				ShowAccompWnd();		
 				oacWnd.SetEdit(e.itemID, accInputTable.selectedItem.acc);
 			}
 			
 			private function DeleteAccomplishement(e : CSUAdminEvent) : void
 			{
+				e.stopImmediatePropagation();
 				athlete.oacs.splice(Number(e.itemID), 1);
 				var i : uint;
 				var len : uint = accInputTable.dataProvider.length; 
@@ -397,6 +386,7 @@
 					if(accInputTable.dataProvider[i].id == e.itemID)
 					{
 						accInputTable.dataProvider[i].acc = e.value;
+						ArrayCollection(accInputTable.dataProvider).refresh();
 						break;
 					}
 				}

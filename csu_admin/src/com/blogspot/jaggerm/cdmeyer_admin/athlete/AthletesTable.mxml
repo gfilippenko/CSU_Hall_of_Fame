@@ -17,24 +17,40 @@
 			import flash.utils.flash_proxy;
 			
 			import mx.collections.ArrayCollection;
+			import mx.collections.ISort;
+			import mx.collections.ISortField;
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			
 			private var athleteWnd : AthleteWindow;
+			private var columnIndexes:Vector.<int> = Vector.<int>([ 1 ]);
+			private var sort:ISort;
 			
 			public function PopulateList(atheltes : Array) : void
 			{
-				ArrayCollection(table.dataProvider).disableAutoUpdate();
-				ArrayCollection(table.dataProvider).removeAll();
-				var len : uint = atheltes.length;
+//				var arr : ArrayCollection = new ArrayCollection(atheltes);
+//				arr.sort = sort;
+//				arr.refresh();
+//				table.dataProvider = arr;
+//				ArrayCollection(table.dataProvider).disableAutoUpdate();
+//				ArrayCollection(table.dataProvider).removeAll();
+//				var len : uint = atheltes.length;
 				for each(var item : Athlete in atheltes)
 				{
 					table.dataProvider.addItem(item);
 				}
 				
-				ArrayCollection(table.dataProvider).enableAutoUpdate();
+//				ArrayCollection(table.dataProvider).enableAutoUpdate();
+//				callLater(table.sortByColumns, [columnIndexes]);
+//				ArrayCollection(table.dataProvider).sort = new Sort;
+//				table.invalidateProperties();
+//				table.invalidateDisplayList();
+//				callLater(ArrayCollection(table.dataProvider).refresh);
 			}
 			
 			private function ShowWnd() : void
@@ -61,6 +77,12 @@
 			{
 				table.addEventListener(CSUAdminEvent.EDIT_ITEM, OnEditEvent);
 				table.addEventListener(CSUAdminEvent.DELETE_ITEM, OnDeleteEvent);
+				
+				sort = new Sort();				
+				var sortfieldLastName:ISortField = new SortField("lastName");				
+				sort.fields = [sortfieldLastName];
+				ArrayCollection(table.dataProvider).sort = sort;
+				ArrayCollection(table.dataProvider).refresh();
 			}
 			
 			private function OnEditEvent(e : CSUAdminEvent) : void
@@ -105,6 +127,7 @@
 				table.dataProvider.addItem(e.athlete);
 				ArrayCollection(table.dataProvider).refresh();
 				Alert.show('You successfully added ' + e.athlete.firstName + ' ' + e.athlete.lastName, 'Message');
+//				table.sortByColumns(columnIndexes);
 			}
 			
 			private function AthleteEdited(e : CSUAdminEvent) : void
@@ -124,6 +147,7 @@
 				}
 				
 				Alert.show('You successfully edited ' + e.athlete.firstName + ' ' + e.athlete.lastName, 'Message');
+//				table.sortByColumns(columnIndexes);
 			}
 		]]>
 	</fx:Script>

@@ -248,6 +248,7 @@
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
 	</fx:Declarations>
 	<s:VGroup top="8" left="8">
+		<s:Label text="You must restart the 'e-Tribute' program in order for any saved changes to take effect." color="0xff0000" fontWeight="bold"/>
 		<s:HGroup>
 			<s:Label text="Path to the CSU HOF resources folder"/>
 			<s:TextInput id="settingsPathTxt" text="C:/point2explore/e-Tribute/resources/" width="340"/>
@@ -256,7 +257,7 @@
 		
 		<s:HGroup >	
 			<s:Button id="btnDecade" label="Decade" click="btnDecade_clickHandler(event)" enabled="false"/>
-			<s:Button id="btnAthlete" label="Athelte" click="btnDecade_clickHandler(event)" enabled="false"/>	
+			<s:Button id="btnAthlete" label="Athlete" click="btnDecade_clickHandler(event)" enabled="false"/>	
 			<s:Button id="btnYear" label="Year" click="btnDecade_clickHandler(event)" enabled="false" visible="false"/>
 				
 		</s:HGroup>

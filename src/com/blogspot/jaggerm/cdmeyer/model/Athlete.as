@@ -36,6 +36,8 @@ package com.blogspot.jaggerm.cdmeyer.model
 			{
 				sports[i] = StringUtil.trim(sports[i]);
 			}
+			
+			sport = sports.join(', ');
 		}
 		
 		public function hasSport(value : String) : Boolean

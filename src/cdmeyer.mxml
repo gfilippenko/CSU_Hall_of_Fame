@@ -217,6 +217,7 @@
 				wnd2.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
 				
+				
 				//wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
 				
 				wnd2Complete = true;
@@ -237,7 +238,12 @@
 				wnd1.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);	
 				wnd1.stage.addEventListener(CDMeyerEvent.PLAY_BTN_SOUND, PlayBtnSound);
+				
 				wnd1.stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+				wnd1.stage.addEventListener(TouchEvent.TOUCH_TAP, taphandler); 
+				wnd1.stage.addEventListener(TouchEvent.TOUCH_MOVE, taphandler); 
+				wnd1.stage.addEventListener(TouchEvent.TOUCH_END, taphandler); 
+				
 				wnd1Complete = true;
 				if(wnd2Complete)
 					Start();
@@ -245,8 +251,18 @@
 			
 			private function MouseMove(e : MouseEvent) : void
 			{
+				Restart();			
+			}
+			
+			private function Restart() : void
+			{
 				cdmeyer.timer.reset();
-				cdmeyer.timer.start();				
+				cdmeyer.timer.start();	
+			}
+			
+			private function taphandler(e : TouchEvent) : void
+			{
+				Restart();
 			}
 								
 			public function ResetTimer(e : CDMeyerEvent) : void

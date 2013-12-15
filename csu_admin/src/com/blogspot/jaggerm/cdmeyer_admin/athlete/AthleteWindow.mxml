@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="910" height="570"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="910" height="640"
 			   close="btnCancel_clickHandler()" creationComplete="titlewindow1_creationCompleteHandler(event)" >
 	<s:layout>
 		<s:VerticalLayout paddingLeft="8" paddingTop="8"/>
@@ -17,13 +17,24 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
+			import mx.events.CloseEvent;
 			import mx.events.FileEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
 			private var athlete : Athlete; 
 			private var mode : String;
-
+			
+			private var currentDeletingVideoId:int;
+			private var currentDeletingHeadshotId:int;
+			
+			[Bindable]
+			[Embed(source="../resources/deleteIcon.png")]
+			private var DeleteIcon:Class;
+			[Bindable]
+			[Embed(source="../resources/openFolderIcon.png")]
+			private var OpenFolderIcon:Class;
+			
 			public function SetAdd() : void
 			{
 				athlete = new Athlete();
@@ -36,7 +47,7 @@
 			{
 				ClearInputs();
 				mode = 'edit';
-
+				
 				athlete = value;
 				title = 'Edit Athlete';
 				firstNameTxt.text = athlete.firstName;
@@ -46,21 +57,21 @@
 				athlete.GetOacs();
 				SetAccomplishements();
 				callLater(SetInductionYear, [athlete.year]);
-		
+				
 				
 				athlete.GetSports2();
 				SetSports2();
-
+				
 				
 				ClearSportsSelected();
 				SetSports();
 				
 				athlete.GetVideos();
 				SetVideos();
-
+				
 				athlete.GetHedshots();
 				SetHeadshots();
-
+				
 				
 				athlete.GetBio()
 				bioTxt.text = athlete.bio;
@@ -78,6 +89,10 @@
 				sport4Txt.text = '';
 				sport5Txt.text = '';
 				sport6Txt.text = '';
+				sport7Txt.text = '';
+				sport8Txt.text = '';
+				sport9Txt.text = '';
+				sport10Txt.text = '';
 				ClearSportsSelected();
 				videoPath1.text = '';
 				videoPath2.text = '';
@@ -170,10 +185,10 @@
 			{
 				var i : uint = 0;
 				var len : uint = athlete.sports2.length; 
-
+				
 				for(i=0;i<len;i++)
 				{	
-					if(i > 5)
+					if(i > 9)
 						break;
 					
 					this['sport' + Number(i + 1) + 'Txt'].text = athlete.sports2[i];					
@@ -202,7 +217,7 @@
 				var i : uint = 0;
 				for(i=0;i<len;i++)
 				{
-//					Alert.show(inductionYearCmb.dataProvider[i]);
+					//					Alert.show(inductionYearCmb.dataProvider[i]);
 					if(String(inductionYearCmb.dataProvider[i]) == value) 
 					{
 						inductionYearCmb.selectedIndex = i;
@@ -265,11 +280,13 @@
 				{
 					athlete.oacs.push(accInputTable.dataProvider[i].acc);					
 				}
-															
+				
 				if(backgroundTxt.text.indexOf(':') >= 0)
 				{
 					athlete.SaveBackground(backgroundTxt.text);
 				}
+				if(backgroundTxt.text == "")
+					athlete.deleteBackground();
 				
 				len = headshotsHolder.numElements;
 				for(i=0;i<len;i++)
@@ -284,7 +301,7 @@
 						}
 					}
 				}
-				
+				athlete.cleanHeadShots();			
 				
 				len = videosHolder.numElements;
 				for(i=0;i<len;i++)
@@ -356,7 +373,7 @@
 					}
 				}
 			}
-						
+			
 			private function ShowAccompWnd() : void
 			{
 				if(oacWnd == null)
@@ -427,9 +444,54 @@
 					filter = [new FileFilter("Video", "*.flv;*.mp4;")];
 					file.addEventListener(Event.SELECT, OnVideoSelected);
 				}
-					
+				
 				file.browseForOpen(title, filter);
 			}
+			
+			private function DeleteVideoClickHandler(e : MouseEvent) : void
+			{
+				currentDeletingVideoId = e.target.id.substring(11,12);
+				Alert.show("Are you sure you want to delete this video?", "", Alert.OK | Alert.CANCEL, null, DeleteVideoCloseHandler);
+			}
+			
+			private function DeleteVideoCloseHandler(e:CloseEvent):void
+			{
+				if(e.detail == Alert.OK)
+				{
+					this['vieoTitle' + currentDeletingVideoId].text = "";
+					this['videoPath' + currentDeletingVideoId].text = "";
+					athlete.deleteVideo(currentDeletingVideoId - 1);
+				}
+			}
+			
+			private function DeleteBackgroundClickHandler(e : MouseEvent) : void
+			{
+				Alert.show("Are you sure you want to delete this image?", "", Alert.OK | Alert.CANCEL, null, DeleteBackgroundCloseHandler);
+			}
+			
+			private function DeleteBackgroundCloseHandler(e:CloseEvent):void
+			{
+				if(e.detail == Alert.OK)
+				{
+					backgroundTxt.text = "";
+				}
+			}
+			
+			private function DeleteHeadshotClickHandler(e : MouseEvent) : void
+			{
+				currentDeletingHeadshotId = e.target.id.substring(14,15);
+				Alert.show("Are you sure you want to delete this image?", "", Alert.OK | Alert.CANCEL, null, DeleteHeadshotCloseHandler);
+			}
+			
+			private function DeleteHeadshotCloseHandler(e:CloseEvent):void
+			{
+				if(e.detail == Alert.OK)
+				{
+					this['headshot' + currentDeletingHeadshotId + 'Txt'].text = "";
+					athlete.deleteHeadShot(currentDeletingHeadshotId - 1);
+				}
+			}
+			
 			
 			private function OnBackgroundSelect(e : Event) : void
 			{
@@ -466,12 +528,15 @@
 					<s:Group id="sports2Holder">
 						<s:TextInput id="sport1Txt" width="200" x="0" y="0"/>	
 						<s:TextInput id="sport2Txt" width="200" x="0" y="30"/>	
-				
 						<s:TextInput id="sport3Txt" width="200" x="0" y="60"/>	
-						<s:TextInput id="sport4Txt" width="200" x="208" y="0"/>	
-				
-						<s:TextInput id="sport5Txt" width="200" x="208" y="30"/>	
-						<s:TextInput id="sport6Txt" width="200" x="208" y="60"/>	
+						<s:TextInput id="sport4Txt" width="200" x="0" y="90"/>	
+						<s:TextInput id="sport5Txt" width="200" x="0" y="120"/>	
+						
+						<s:TextInput id="sport6Txt" width="200" x="208" y="0"/>	
+						<s:TextInput id="sport7Txt" width="200" x="208" y="30"/>	
+						<s:TextInput id="sport8Txt" width="200" x="208" y="60"/>	
+						<s:TextInput id="sport9Txt" width="200" x="208" y="90"/>	
+						<s:TextInput id="sport10Txt" width="200" x="208" y="120"/>	
 					</s:Group>
 				</s:VGroup>
 				<s:VGroup>
@@ -485,10 +550,10 @@
 						<s:CheckBox id="gymnastics" label="Gymnastics" x="0" y="100"/>	
 						<s:CheckBox id="football" label="Football" width="100" x="120" y="0"/>	
 						<s:CheckBox id="water_polo" label="Water Polo" x="120" y="20"/>	
-
+						
 						<s:CheckBox id="tennis" label="Tennis" width="100" x="120" y="40"/>	
 						<s:CheckBox id="swimming0diving" label="Swimming and Diving" x="120" y="60"/>	
-
+						
 						<s:CheckBox id="wrestling" label="Wrestling" width="100" x="120" y="80"/>	
 						<s:CheckBox id="basketball" label="Men's/Women's Basketball" x="120" y="100"/>	
 					</s:Group>
@@ -499,47 +564,58 @@
 					<s:TextInput id="vieoTitle1" width="100" x="30" y="0"/>
 					<s:Label text="File:" x="140" y="0"/>
 					<s:TextInput id="videoPath1" width="160" editable="false" x="170" y="0"/>
-					<s:Button id="uploadVideo1" label="Browse" x="335" y="0" click="BrowseClickHandler(event)"/>
-			
+					<s:Button id="uploadVideo1" toolTip="Browse" icon="{OpenFolderIcon}" x="335" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteVideo1" toolTip="Delete" icon="{DeleteIcon}" x="360" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath1.text != ''}"/>
+					
 					<s:Label text="Title:"  x="0" y="30"/>
 					<s:TextInput id="vieoTitle2" width="100"  x="30" y="30"/>
 					<s:Label text="File:"  x="140" y="30"/>
 					<s:TextInput id="videoPath2" width="160" editable="false"  x="170" y="30"/>
-					<s:Button id="uploadVideo2" label="Browse"  x="335" y="30" click="BrowseClickHandler(event)"/>
-				
+					<s:Button id="uploadVideo2" toolTip="Browse" icon="{OpenFolderIcon}" x="335" y="30" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteVideo2" toolTip="Delete" icon="{DeleteIcon}" x="360" y="30" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath2.text != ''}"/>
+					
 					<s:Label text="Title:"  x="0" y="60"/>
 					<s:TextInput id="vieoTitle3" width="100"  x="30" y="60"/>
 					<s:Label text="File:"  x="140" y="60"/>
 					<s:TextInput id="videoPath3" width="160" editable="false"  x="170" y="60"/>
-					<s:Button id="uploadVideo3" label="Browse"  x="335" y="60" click="BrowseClickHandler(event)"/>
-				
+					<s:Button id="uploadVideo3" toolTip="Browse" icon="{OpenFolderIcon}" x="335" y="60" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteVideo3" toolTip="Delete" icon="{DeleteIcon}" x="360" y="60" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath3.text != ''}"/>
+					
 					<s:Label text="Title:"  x="0" y="90"/>
 					<s:TextInput id="vieoTitle4" width="100"  x="30" y="90"/>
 					<s:Label text="File:"  x="140" y="90"/>
 					<s:TextInput id="videoPath4" width="160" editable="false"  x="170" y="90"/>
-					<s:Button id="uploadVideo4" label="Browse"  x="335" y="90" click="BrowseClickHandler(event)"/>
+					<s:Button id="uploadVideo4" toolTip="Browse" icon="{OpenFolderIcon}" x="335" y="90" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteVideo4" toolTip="Delete" icon="{DeleteIcon}" x="360" y="90" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath4.text != ''}"/>
 				</s:Group>
 			</s:VGroup>
 			<s:VGroup>
 				<s:HGroup>
 					<s:Label text="Athlete Background:"/>
 					<s:TextInput editable="false" id="backgroundTxt" width="280"/>
-					<s:Button id="backgroundBtn" label="Browse" click="BrowseClickHandler(event)"/>
+					<s:Button id="backgroundBtn" toolTip="Browse" icon="{OpenFolderIcon}" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteBackgroundBtn" toolTip="Delete" icon="{DeleteIcon}" x="360" y="90" width="20" click="DeleteBackgroundClickHandler(event)" enabled="{backgroundTxt.text != ''}"/>
 				</s:HGroup>				
 				<s:Label text="Athlete Headshot(s):"/>
 				<s:Group id="headshotsHolder">
 					<s:TextInput editable="false" id="headshot1Txt" width="160" x="0" y="0"/>
-					<s:Button id="headshot1Btn"  label="Browse" x="165" y="0" click="BrowseClickHandler(event)"/>
+					<s:Button id="headshot1Btn"  toolTip="Browse" icon="{OpenFolderIcon}" x="165" y="0" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteHeadshot1Btn" toolTip="Delete" icon="{DeleteIcon}" x="190" y="0" width="20" click="DeleteHeadshotClickHandler(event)" enabled="{headshot1Txt.text != ''}"/>
 					<s:TextInput editable="false" id="headshot2Txt" width="160" x="0" y="30"/>
-					<s:Button id="headshot2Btn"  label="Browse" x="165" y="30" click="BrowseClickHandler(event)"/>
+					<s:Button id="headshot2Btn"  toolTip="Browse" icon="{OpenFolderIcon}" x="165" y="30" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteHeadshot2Btn" toolTip="Delete" icon="{DeleteIcon}" x="190" y="30" width="20" click="DeleteHeadshotClickHandler(event)" enabled="{headshot2Txt.text != ''}"/>
 					<s:TextInput editable="false" id="headshot3Txt" width="160" x="0" y="60"/>
-					<s:Button id="headshot3Btn"  label="Browse" x="165" y="60" click="BrowseClickHandler(event)"/>
+					<s:Button id="headshot3Btn"  toolTip="Browse" icon="{OpenFolderIcon}" x="165" y="60" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteHeadshot3Btn" toolTip="Delete" icon="{DeleteIcon}" x="190" y="60" width="20" click="DeleteHeadshotClickHandler(event)" enabled="{headshot3Txt.text != ''}"/>
 					<s:TextInput editable="false" id="headshot4Txt" width="160" x="240" y="0"/>
-					<s:Button id="headshot4Btn"  label="Browse" x="405" y="0" click="BrowseClickHandler(event)"/>
+					<s:Button id="headshot4Btn"  toolTip="Browse" icon="{OpenFolderIcon}" x="405" y="0" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteHeadshot4Btn" toolTip="Delete" icon="{DeleteIcon}" x="430" y="0" width="20" click="DeleteHeadshotClickHandler(event)" enabled="{headshot4Txt.text != ''}"/>
 					<s:TextInput editable="false" id="headshot5Txt" width="160" x="240" y="30"/>
-					<s:Button id="headshot5Btn"  label="Browse" x="405" y="30" click="BrowseClickHandler(event)"/>
+					<s:Button id="headshot5Btn"  toolTip="Browse" icon="{OpenFolderIcon}" x="405" y="30" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteHeadshot5Btn" toolTip="Delete" icon="{DeleteIcon}" x="430" y="30" width="20" click="DeleteHeadshotClickHandler(event)" enabled="{headshot5Txt.text != ''}"/>
 					<s:TextInput editable="false" id="headshot6Txt" width="160" x="240" y="60"/>
-					<s:Button id="headshot6Btn"  label="Browse" x="405" y="60" click="BrowseClickHandler(event)"/>
+					<s:Button id="headshot6Btn"  toolTip="Browse" icon="{OpenFolderIcon}" x="405" y="60" width="20" click="BrowseClickHandler(event)"/>
+					<s:Button id="deleteHeadshot6Btn" toolTip="Delete" icon="{DeleteIcon}" x="430" y="60" width="20" click="DeleteHeadshotClickHandler(event)" enabled="{headshot6Txt.text != ''}"/>
 				</s:Group>
 				<s:Label text="Bio"/>
 				<s:TextArea id="bioTxt" width="480"/>

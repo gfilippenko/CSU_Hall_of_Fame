@@ -174,7 +174,7 @@
 					skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.VideoScrubBar"
 					skinClass.fullScreenStates="spark.skins.spark.mediaClasses.fullScreen.ScrubBarSkin" />
 			<s:Spacer height="14"/>
-			<s:HGroup>
+			<s:HGroup gap="48" width="100%" horizontalAlign="center">
 							
 				<!--- @copy spark.components.VideoPlayer#playPauseButton -->
 <!--				<s:ToggleButton id="playPauseButton" left="0" bottom="0" 
@@ -184,11 +184,8 @@
 								focusIn="event.target.depth=1" focusOut="event.target.depth=0" click="playPauseButton_clickHandler(event)" />
 -->				
 				<s:Button id="playBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PlayBtnSkin" click="playBtn_clickHandler(event)"/>
-				<s:Spacer width="48"/>
 				<s:Button id="pauseBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.PauseBtnSkin" click="pauseBtn_clickHandler(event)"/>
-				<s:Spacer width="48"/>
 				<s:Button id="rewindBtn" skinClass="com.blogspot.jaggerm.cdmeyer.views.screens.athlete.RewindBtnSkin" click="rewindBtn_clickHandler(event)"/>
-				<s:Spacer width="48"/>
 				<s:VGroup>
 						<s:Spacer height="23"/>
 					

@@ -24,7 +24,7 @@
 			<s:VerticalLayout horizontalAlign="center" gap="1" />
 		</s:layout>
 		
-	<s:BitmapImage width="76" height="76" source.disabled="@Embed('../../../../../../../resources/next_video.png')" 
+	<s:BitmapImage width="76" height="76" source.disabled="@Embed('../../../../../../../resources/next_video_down.png')" 
 				   source.down="@Embed('../../../../../../../resources/next_video_down.png')" 
 				   source.up="@Embed('../../../../../../../resources/next_video.png')" 
 				   source.over="@Embed('../../../../../../../resources/next_video.png')" />
@@ -34,6 +34,6 @@
 			 maxDisplayedLines="2"
 			 horizontalCenter="0" verticalCenter="1" verticalAlign="bottom"
 			 left="10" right="10" top="2" bottom="2"
-			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="27.67" color="0xffffff"/>
+			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="27.67" color="0xffffff" color.disabled="0x666666"/>
 		</s:Group>
 </s:Skin>

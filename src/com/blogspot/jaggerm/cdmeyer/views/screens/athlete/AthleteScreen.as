@@ -292,12 +292,19 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			ShowImage(0);				
 		}
 		
-		private function SetVideoPlayerSource(video : Video) : void
+		private function SetVideoPlayerSource(id : int) : void
 		{
+			var video:Video = videos[id] as Video;
+			
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.STOP_TIMER, true));
 			videoPlayer.source = athletePath + video.file;			
 			currentVideoLbl.text = video.title;
 			currentVideoLbl.x = videoPlayer.x + ((videoPlayer.width - (video.title.length * 24)) / 2);
+			
+			for each(var btn:Button in videoButtons)
+			{
+				btn.enabled = btn.id != id.toString();
+			}
 		}
 		
 		private function GetVideosFiles() : void
@@ -531,6 +538,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			oacText.visible = !videoView;
 			
 			videoPlayer.visible = videoView;
+			videoPlayer.volume = 0.5;
 			currentVideoLbl.visible = videoView;
 			
 			for each(var btn : Button in videoButtons)
@@ -539,14 +547,14 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			}
 			
 			if(videoView)
-				SetVideoPlayerSource(videos[0] as Video);
+				SetVideoPlayerSource(0);
 		}
 		
 		private function NextBideoBtnClicked(e : MouseEvent) : void
 		{
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			
-			SetVideoPlayerSource(videos[Number(e.target.id)] as Video); 
+			SetVideoPlayerSource( Number(e.target.id) ); 
 		}
 		
 		override protected function BackClicked(e : MouseEvent) : void

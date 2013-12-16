@@ -283,8 +283,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			var files : Array = file.getDirectoryListing();
 			for each(var item : File in files)
 			{
-				if((item.nativePath.toLowerCase().indexOf('.jpg') != -1) || (item.nativePath.toLowerCase().indexOf('.png') != -1))
-					images.push(item.nativePath);
+				if( ((item.nativePath.toLowerCase().indexOf('.jpg') != -1) || (item.nativePath.toLowerCase().indexOf('.png') != -1))
+					&&	(_athlete.backGroundImage && item.nativePath.toLowerCase().indexOf( _athlete.backGroundImage.toLowerCase() ) == -1 )			) 
+						images.push(item.nativePath);
 			}
 			
 			

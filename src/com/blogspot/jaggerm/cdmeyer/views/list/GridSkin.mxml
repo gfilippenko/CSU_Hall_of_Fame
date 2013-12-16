@@ -64,9 +64,9 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
 		<s:State name="sportHided"/>
     </s:states>
 	
-	<s:BitmapImage width="57%" height="100%" left="-78" bottom="-18" source.normal="@Embed('../../../../../../resources/list_bg.png')" 
+	<s:BitmapImage id="backImage" width="57%" height="100%" left="-78" bottom="-18" source.normal="@Embed('../../../../../../resources/list_bg.png')" 
 				   source.disabled="@Embed('../../../../../../resources/list_bg.png')"/>
-	<s:BitmapImage id="sportBg" visible="{hostComponent.sport.visible}" right="-40" width="45%" bottom="-18" height="100%" source.normal="@Embed('../../../../../../resources/list_bg_sport.png')"/>
+	<!--s:BitmapImage id="sportBg" visible="{hostComponent.sport.visible}" right="-40" width="45%" bottom="-18" height="100%" source.normal="@Embed('../../../../../../resources/list_bg_sport.png')"/-->
     
     <fx:Declarations>
         <!--- @private -->        
@@ -274,19 +274,23 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
             {
                 border.visible = false;
 //                background.left = background.top = background.right = background.bottom = 1;
-                scroller.minViewportInset = 1;
+//                scroller.minViewportInset = 0;
             }
             else
             {
                 border.visible = false;
 //                background.left = background.top = background.right = background.bottom = 0;
-                scroller.minViewportInset = 0;
+//                scroller.minViewportInset = 0;
             }
             
             borderStroke.color = getStyle("borderColor");
             borderStroke.alpha = getStyle("borderAlpha");
+			
+			topLine.percentWidth = bottomLine.percentWidth = hostComponent.sport.visible ? 100 : 50;
+			backImage.percentWidth = hostComponent.sport.visible ? 100 : 57;
             
             super.updateDisplayList(unscaledWidth, unscaledHeight);
+			
         }
     ]]>
     </fx:Script>
@@ -301,7 +305,7 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
             headerRenderer="{headerRenderer}"
 			/>
 
-        <s:Group height="100%">
+		<s:Group height="100%">
             
             <!--- @private -->
 <!--            <s:Rect id="background" left="1" right="1" top="1" bottom="1" >
@@ -315,44 +319,38 @@ declarations define DataGrid skin parts except <code>headerColumnSeparator</code
             <s:VGroup horizontalAlign="justify" height="100%" width="100%" gap="-1">
                 <!--- @private -->
 				<s:HGroup>
-					<s:Line width="50%">
+					<s:Line id="topLine" width="50%">
 						<s:stroke>
 							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
 						</s:stroke>
 					</s:Line>
-					<s:Spacer width="10%"/>
+					<!--s:Spacer width="10%"/>
 					<s:Line id="headerSeparator" width="40%" visible="{hostComponent.sport.visible}">
 						<s:stroke>
 							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
 						</s:stroke>
-					</s:Line>
+					</s:Line-->
 				</s:HGroup>
                           
                 
                 <!--- @private -->
-                <s:Scroller id="scroller" minViewportInset="1" hasFocusableChildren="false" 
+                <s:Scroller id="scroller" minViewportInset="20" hasFocusableChildren="false"
 							right="50" height="100%" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollSkin"
 							layoutDirection="rtl">
                     <!--- @private -->
-                    <s:Grid left="50" id="grid" itemRenderer="spark.skins.spark.DefaultGridItemRenderer">
-                        <s:GridLayer name="backgroundLayer"/>
-                        <s:GridLayer name="selectionLayer"/>
-                        <s:GridLayer name="editorIndicatorLayer"/>                            
-                        <s:GridLayer name="rendererLayer"/>
-                        <s:GridLayer name="overlayLayer"/>
-                    </s:Grid>                    
-                </s:Scroller>
+	                    <s:Grid left="50" id="grid" itemRenderer="spark.skins.spark.DefaultGridItemRenderer">
+	                        <s:GridLayer name="backgroundLayer"/>
+	                        <s:GridLayer name="selectionLayer"/>
+	                        <s:GridLayer name="editorIndicatorLayer"/>                            
+	                        <s:GridLayer name="rendererLayer"/>
+	                        <s:GridLayer name="overlayLayer"/>
+	                    </s:Grid>
+					</s:Scroller>
 				
 				<s:HGroup>
-					<s:Line width="50%">
+					<s:Line id="bottomLine" width="50%">
 						<s:stroke>
 							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square"/>
-						</s:stroke>
-					</s:Line>
-					<s:Spacer width="10%"/>
-					<s:Line width="40%" visible="{hostComponent.sport.visible}">
-						<s:stroke>
-							<s:SolidColorStroke color="0xb1b1b1" weight="0" caps="square" />
 						</s:stroke>
 					</s:Line>
 				</s:HGroup>

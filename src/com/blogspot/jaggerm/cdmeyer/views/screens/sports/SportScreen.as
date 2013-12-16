@@ -5,14 +5,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	import com.blogspot.jaggerm.cdmeyer.model.Athlete;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
-	import com.blogspot.jaggerm.cdmeyer.views.circleLabel.CircleLabel;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
-	import com.blogspot.jaggerm.cdmeyer.views.list.GridSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	
 	import flash.events.Event;
 	
-	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 	
 	import spark.components.Label;
@@ -97,6 +94,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			sortButtons.x = 465;
 			sortButtons.y = 969;
 			sortButtons.addSortListeners(list);
+			sortButtons.addEventListener(CDMeyerEvent.CLICK_SORT_BUTTON, onClickSortButton);
 			addElement(sortButtons);
 		}
 		
@@ -119,7 +117,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 					list.list.dataProvider.addItem(item);
 			}
 			
-//			list.list.scroller.verticalScrollBar.value = 0;
+			list.list.scroller.verticalScrollBar.value = 0;
 			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
 			list.list.sortByColumns(columnIndexes, true);
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();

@@ -1,28 +1,18 @@
 package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 {
-	import com.blogspot.jaggerm.cdmeyer.Controller;
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.list.AthletesList;
 	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
-	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
-	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.collections.ArrayCollection;
-	import mx.collections.ArrayList;
-	import mx.controls.Alert;
-	import mx.controls.Text;
-	import mx.states.OverrideBase;
+	import mx.events.FlexEvent;
 	
-	import spark.components.Button;
-	import spark.components.DataGrid;
-	import spark.components.Image;
 	import spark.components.Label;
-	import spark.components.gridClasses.GridColumn;
 	
 	public class NamesScreen extends ScreenView
 	{
@@ -33,7 +23,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			super(value, _scrWidth, _scrHeight);
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_MAIN_SCREEN;
-			addEventListener(Event.ADDED_TO_STAGE, Added);
+			addEventListener(FlexEvent.CREATION_COMPLETE, Added);
 		}
 		
 		override public function draw() : void
@@ -57,13 +47,13 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			
 			sortButtons = new SortBar();
 			sortButtons.x = 628;
-			sortButtons.y = 848;
-			
+			sortButtons.y = 920;
+			sortButtons.addEventListener(CDMeyerEvent.CLICK_SORT_BUTTON, onClickSortButton);
 			addElement(sortButtons);
 						
 			list = new AthletesList();			
 			list.x = 631;
-			list.y = 4;		
+			list.y = 80;		
 			list.list.dataProvider = new ArrayCollection();
 			sortButtons.addSortListeners(list);
 			var columnIndexes:Vector.<int> = Vector.<int>([ 0 ]);
@@ -76,9 +66,16 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 		
 		private function Added(e : Event) : void
 		{
-			if(list != null)
-				DrawList();
+//			if(list != null)
+//				DrawList();
 		}
+		
+		override protected function BackClicked(e : MouseEvent) : void
+		{
+			DrawList();
+			super.BackClicked(e);
+		}
+
 		
 	}
 }

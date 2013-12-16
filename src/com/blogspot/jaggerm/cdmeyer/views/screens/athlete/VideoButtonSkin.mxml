@@ -20,7 +20,7 @@
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
 	
-	<s:BitmapImage width="151" height="241" source.disabled="@Embed('../../../../../../../resources/video_btn_up.png')" 
+	<s:BitmapImage width="106" height="169" source.disabled="@Embed('../../../../../../../resources/video_btn_up.png')" smooth="true"
 				   source.down="@Embed('../../../../../../../resources/video_btn_down.png')" 
 				   source.up="@Embed('../../../../../../../resources/video_btn_up.png')" 
 				   source.over="@Embed('../../../../../../../resources/video_btn_up.png')" />

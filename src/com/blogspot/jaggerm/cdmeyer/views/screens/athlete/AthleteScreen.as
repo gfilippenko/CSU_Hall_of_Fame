@@ -255,7 +255,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 //					addElement(lbl);
 //					oacLabels.push(lbl);
 					
-					oacText.appendText(item[0] + '\r\n');
+					oacText.appendText(" • " + item[0] + '\r\n');
 				}
 				
 				GetImagesFiles();
@@ -368,7 +368,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			oacText = new TextArea();
 			oacText.setStyle('fontFamily',"Swis721CnBT");
 			oacText.setStyle('fontWeight', "bold");
-			oacText.setStyle('fontSize', 16);
+			oacText.setStyle('fontSize', 26);
 			oacText.setStyle('color', 0xffffff);
 			oacText.x = oacLblbX;
 			oacText.y = oacLblbY + 26;
@@ -377,7 +377,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			oacText.editable = false;
 			oacText.selectable = false;
 			oacText.setStyle("skinClass", AthleteInfoSkin );
-			oacText.setStyle('lineHeight', 25);
+//			oacText.setStyle('lineHeight', 25);
 			addElement(oacText);
 			
 			var bio : Image = new Image();
@@ -430,7 +430,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			info.setStyle("skinClass", AthleteInfoSkin );
 			info.setStyle('fontFamily',"Swis721MdBT");
 			info.setStyle('fontWeight', "bold");
-			info.setStyle('fontSize', 18);
+			info.setStyle('fontSize', 26);
 			info.setStyle('lineHeight', 35);
 			info.setStyle('color', 0xffffff);			
 			addElement(info);
@@ -438,8 +438,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoBtn = new Button();
 			videoBtn.setStyle("skinClass", VideoButtonSkin );
 			videoBtn.addEventListener(MouseEvent.CLICK, BtnVideoClicked);
-			videoBtn.x = 1676;
-			videoBtn.y = 764;
+			videoBtn.x = 1770;
+			videoBtn.y = 870;
 			videoBtn.visible = false;
 			addElement(videoBtn);
 			

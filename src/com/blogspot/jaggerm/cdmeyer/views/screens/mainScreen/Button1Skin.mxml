@@ -34,5 +34,6 @@
 			 maxDisplayedLines="1"
 			 horizontalCenter="0" verticalCenter="0" verticalAlign="middle"
 			 top="146" left="77"
-			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="104" color="0xffffff"/>
+			 fontFamily="Swis721CnBT" fontWeight="bold" fontSize="104" 
+			 color="0xffffff"/>
 </s:Skin>

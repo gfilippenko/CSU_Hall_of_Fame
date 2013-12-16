@@ -32,7 +32,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens
 			topLogo.height = 462;
 			topLogo.x = (_screenWidth - 1123.6) / 2;
 			topLogo.y = (_screenHeight - 462) / 2;
-			topLogo.source = cdmeyer.APP_PATH + settings.top_logo;			
+			topLogo.source = cdmeyer.APP_PATH + settings.top_logo;
+			topLogo.smooth = true;
 			addElement(topLogo);
 		}
 		

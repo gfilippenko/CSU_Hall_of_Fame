@@ -2,6 +2,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 {
 	import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 	import com.blogspot.jaggerm.cdmeyer.model.ScreenSettings;
+	import com.blogspot.jaggerm.cdmeyer.utils.UString;
 	import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
 	import com.blogspot.jaggerm.cdmeyer.views.circleButton.CircleButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
@@ -10,6 +11,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 	import flash.events.MouseEvent;
 	
 	import mx.controls.Text;
+	import mx.utils.StringUtil;
 	
 	import spark.components.Button;
 	import spark.components.Label;
@@ -113,9 +115,9 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			
 			var e : CDMeyerEvent = new CDMeyerEvent(CDMeyerEvent.SHOW_SPORT_SCREEN);
-			e.screenLabel = event.target.label;
+			e.screenLabel = UString.trim(event.target.label);
 			dispatchEvent(e);
 		}
-
+		
 	}
 }

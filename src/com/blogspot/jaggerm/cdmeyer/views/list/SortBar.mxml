@@ -3,7 +3,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1183" height="50">
 	<s:layout>
-		<s:HorizontalLayout gap="20"/>
+		<s:HorizontalLayout gap="10"/>
 	</s:layout>
 	<fx:Declarations>
 		<!-- Разместить невизуальные элементы (например, службы или объекты значений) -->
@@ -13,6 +13,7 @@
 			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
 			
 			import mx.collections.ArrayCollection;
+			
 			private var list : AthletesList;
 			public var currentFilter : String;
 			
@@ -20,10 +21,13 @@
 			{
 				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 				currentFilter = event.target.id;
+				event.target.enabled = false;
 
 				ArrayCollection(list.list.dataProvider).refresh();
+
+				dispatchEvent(new CDMeyerEvent(CDMeyerEvent.CLICK_SORT_BUTTON, true));
 			}
-			
+
 			public function addSortListeners(value : AthletesList) : void
 			{
 				list = value;
@@ -37,8 +41,8 @@
 				
 				var f : String = currentFilter.substr(0,1);
 				var s : String = currentFilter.substr(1,1);
-				if(String(item.lastName).toLowerCase().indexOf(f) == 0 ||
-					String(item.lastName).toLowerCase().indexOf(s) == 0)
+				if(String(item.lastName).toLowerCase().charCodeAt(0) >= f.charCodeAt(0) &&
+					String(item.lastName).toLowerCase().charCodeAt(0) <= s.charCodeAt(0) )
 					return true;
 				
 				return false;
@@ -58,4 +62,5 @@
 	<s:Button id="uv" label="U-V" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
 	<s:Button id="wx" label="W-X" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
 	<s:Button id="yz" label="Y-Z" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
+	<s:Button id="az" label="See All" enabled="true" skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ABSkin" click="clickHandler(event)"/>
 </s:Group>

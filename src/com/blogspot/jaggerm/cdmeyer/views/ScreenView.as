@@ -8,33 +8,20 @@ package com.blogspot.jaggerm.cdmeyer.views
 	import com.blogspot.jaggerm.cdmeyer.views.list.SortBar;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.BackButtonSkin;
 	import com.blogspot.jaggerm.cdmeyer.views.screens.HomeButtonSkin;
-	import com.blogspot.jaggerm.cdmeyer.views.screens.NextButtonSkin;
 	
-	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.text.ReturnKeyLabel;
-	import flash.ui.Mouse;
 	
-	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
-	import mx.collections.ArrayList;
 	import mx.collections.IList;
-	import mx.containers.Canvas;
-	import mx.controls.Alert;
 	import mx.controls.Text;
 	import mx.events.FlexEvent;
 	import mx.graphics.BitmapFillMode;
-	import mx.states.OverrideBase;
 	
-	import spark.components.Application;
 	import spark.components.Button;
-	import spark.components.DataGrid;
 	import spark.components.Group;
 	import spark.components.Image;
 	import spark.components.Label;
-	import spark.components.WindowedApplication;
-	import spark.primitives.BitmapImage;
 	
 
 	public class ScreenView extends Group
@@ -43,7 +30,6 @@ package com.blogspot.jaggerm.cdmeyer.views
 		
 		public static const mainButtonWidth : Number = 428;
 		public static const mainButtonHeight : Number = 428;
-		public static const backBtnHeight : Number = 241;
 		public static const listWidth : Number = 1272;//800;//1322;
 		public static const listHeight : Number = 820;//600;//900; 
 		public static const sportButtonWidth : Number = 265;
@@ -127,8 +113,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 				backBtn.addEventListener(MouseEvent.CLICK, BackClicked);
 				backBtn.setStyle('skinClass',BackButtonSkin);
 				backBtn.useHandCursor = true;
-				backBtn.x = 83;
-				backBtn.y = 794;
+				backBtn.x = 70;
+				backBtn.y = 870;
 				addElement(backBtn);
 			}
 			
@@ -138,8 +124,8 @@ package com.blogspot.jaggerm.cdmeyer.views
 				homeBtn.addEventListener(MouseEvent.CLICK, HomeClicked);
 				homeBtn.setStyle('skinClass',HomeButtonSkin);
 				homeBtn.useHandCursor = true;
-				homeBtn.x = 144 + 120;
-				homeBtn.y = 794;
+				homeBtn.x = 200;
+				homeBtn.y = 870;
 				addElement(homeBtn);
 			}
 		}
@@ -174,8 +160,6 @@ package com.blogspot.jaggerm.cdmeyer.views
 		protected function DrawList() : void
 		{
 			list.list.dataProvider = new ArrayCollection();
-			sortButtons.currentFilter = '';
-			sortButtons.addSortListeners(list);
 			ArrayCollection(list.list.dataProvider).disableAutoUpdate();
 			var len : uint = Controller.getInstance().athletes.length;
 			for(var i:uint=0;i<len;i++)
@@ -195,6 +179,9 @@ package com.blogspot.jaggerm.cdmeyer.views
 			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
 			list.list.sortByColumns(columnIndexes, true);	
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();
+
+			sortButtons.currentFilter = '';
+			sortButtons.addSortListeners(list);
 			EnableSortBar(list.list.dataProvider as ArrayCollection);
 		}
 		
@@ -227,11 +214,10 @@ package com.blogspot.jaggerm.cdmeyer.views
 					var btn : Button = sortButtons.getElementAt(i) as Button;
 					var f : String = btn.id.substr(0,1);
 					var s : String = btn.id.substr(1,1);
-					if(String(item.lastName).toLowerCase().indexOf(f) == 0 ||
-						String(item.lastName).toLowerCase().indexOf(s) == 0)
+					if(String(item.lastName).toLowerCase().charCodeAt(0) >= f.charCodeAt(0) &&
+						String(item.lastName).toLowerCase().charCodeAt(0) <= s.charCodeAt(0) &&
+						btn.id != sortButtons.currentFilter)
 							Button(sortButtons.getElementAt(i)).enabled = true;
-//					else					
-//						Button(sortButtons.getElementAt(i)).enabled = false;	
 				}
 			}
 		}
@@ -283,6 +269,14 @@ package com.blogspot.jaggerm.cdmeyer.views
 		{
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.PLAY_BTN_SOUND, true));
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.SHOW_MAIN_SCREEN));
+		}
+		
+		protected function onClickSortButton(e:Event):void
+		{
+			for each(var item : Athlete in ArrayCollection(list.list.dataProvider).source)
+			{
+				CheckListItem(item);
+			}
 		}
 	}
 }

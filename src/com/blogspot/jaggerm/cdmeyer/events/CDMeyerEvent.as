@@ -26,6 +26,8 @@ package com.blogspot.jaggerm.cdmeyer.events
 		public static const SHOW_ATHLETE_VIDEO : String = 'showAtheleteVideo';
 		
 		public static const PLAY_BTN_SOUND : String = 'playBtnSound';
+
+		public static const CLICK_SORT_BUTTON: String = 'clickSortButton';
 		
 		public static const BG_LOADED : String = 'bgLoaded';
 		

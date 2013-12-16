@@ -95,6 +95,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			sortButtons.x = 633;
 			sortButtons.y = 840;
 			sortButtons.addSortListeners(list);
+			sortButtons.addEventListener(CDMeyerEvent.CLICK_SORT_BUTTON, onClickSortButton);
 			addElement(sortButtons);
 		}
 		

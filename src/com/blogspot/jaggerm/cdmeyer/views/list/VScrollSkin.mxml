@@ -62,6 +62,20 @@ VScrollBarThumbSkin and VScrollBarTrackSkin classes, respectively.
         <s:State name="inactive" />
     </s:states>
    
+    <!--- The default skin class is ScrollBarUpButtonSkin. 
+            @copy spark.components.supportClasses.ScrollBarBase#decrementButton 
+            @see spark.skins.spark.ScrollBarUpButtonSkin -->
+    <s:Button  right="-68" id="decrementButton" top="0" enabled.inactive="false"
+              focusEnabled="false" tabEnabled="false"
+              skinClass="com.blogspot.jaggerm.cdmeyer.views.list.DecrementButtonSkin" />
+    
+    <!---  The default skin class is ScrollBarDownButtonSkin. 
+            @copy spark.components.supportClasses.ScrollBarBase#incrementButton
+            @see spark.skins.spark.ScrollBarDownButtonSkin -->
+    <s:Button right="-68" id="incrementButton" bottom="-18" enabled.inactive="false"
+              focusEnabled="false" tabEnabled="false"
+              skinClass="com.blogspot.jaggerm.cdmeyer.views.list.IncrementButtonSkin" />
+	
     <!---  The default skin class is VScrollBarTrackSkin.  
             @copy spark.components.supportClasses.TrackBase#track 
             @see spark.skins.spark.VScrollBarTrackSkin -->
@@ -76,18 +90,5 @@ VScrollBarThumbSkin and VScrollBarTrackSkin classes, respectively.
               focusEnabled="false" visible.inactive="false" tabEnabled="false"
               skinClass="com.blogspot.jaggerm.cdmeyer.views.list.ScrollThumbSkin" />
     
-    <!--- The default skin class is ScrollBarUpButtonSkin. 
-            @copy spark.components.supportClasses.ScrollBarBase#decrementButton 
-            @see spark.skins.spark.ScrollBarUpButtonSkin -->
-    <s:Button  right="-50" id="decrementButton" top="0" enabled.inactive="false"
-              focusEnabled="false" tabEnabled="false"
-              skinClass="com.blogspot.jaggerm.cdmeyer.views.list.DecrementButtonSkin" />
-    
-    <!---  The default skin class is ScrollBarDownButtonSkin. 
-            @copy spark.components.supportClasses.ScrollBarBase#incrementButton
-            @see spark.skins.spark.ScrollBarDownButtonSkin -->
-    <s:Button right="-50" id="incrementButton" bottom="0" enabled.inactive="false"
-              focusEnabled="false" tabEnabled="false"
-              skinClass="com.blogspot.jaggerm.cdmeyer.views.list.IncrementButtonSkin" />
 
 </s:SparkSkin>

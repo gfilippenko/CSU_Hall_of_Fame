@@ -25,7 +25,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=D:\temp
 OutputBaseFilename=e-Tribute
-SetupIconFile=D:\_dev\cdmeyer\p2e_multiple.ico
+SetupIconFile=D:\Flash\cdmeyer\p2e_multiple.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -36,12 +36,12 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\_dev\cdmeyer\CSU_HOF\e-Tribute.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\_dev\cdmeyer\CSU_HOF\e-Tribute.swf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\_dev\cdmeyer\CSU_HOF\mimetype"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\_dev\cdmeyer\CSU_HOF\Adobe AIR\*"; DestDir: "{app}\Adobe AIR"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\_dev\cdmeyer\CSU_HOF\META-INF\*"; DestDir: "{app}\META-INF"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\_dev\cdmeyer\CSU_HOF\resources\*"; DestDir: "{app}\resources"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Flash\cdmeyer\CSU_HOF\e-Tribute.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Flash\cdmeyer\CSU_HOF\e-Tribute.swf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Flash\cdmeyer\CSU_HOF\mimetype"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Flash\cdmeyer\CSU_HOF\Adobe AIR\*"; DestDir: "{app}\Adobe AIR"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Flash\cdmeyer\CSU_HOF\META-INF\*"; DestDir: "{app}\META-INF"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Flash\cdmeyer\CSU_HOF\resources\*"; DestDir: "{app}\resources"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

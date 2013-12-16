@@ -25,7 +25,7 @@
 	name=labelDisplay, type=spark.core.IDisplayText, required=false
 	-->
 	
-	<s:BitmapImage width="123" height="241" source.disabled="@Embed('../../../../../../resources/home_button_up.png')" 
+	<s:BitmapImage width="86" height="169" source.disabled="@Embed('../../../../../../resources/home_button_up.png')"  smooth="true"
 				   source.down="@Embed('../../../../../../resources/home_button_down.png')" 
 				   source.up="@Embed('../../../../../../resources/home_button_up.png')" 
 				   source.over="@Embed('../../../../../../resources/home_button_up.png')" />

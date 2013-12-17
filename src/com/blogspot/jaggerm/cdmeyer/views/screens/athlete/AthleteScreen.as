@@ -17,6 +17,15 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	import flash.text.TextLineMetrics;
 	import flash.utils.Timer;
 	
+	import flashx.textLayout.conversion.TextConverter;
+	import flashx.textLayout.elements.DivElement;
+	import flashx.textLayout.elements.FlowElement;
+	import flashx.textLayout.elements.ListElement;
+	import flashx.textLayout.elements.ListItemElement;
+	import flashx.textLayout.elements.ParagraphElement;
+	import flashx.textLayout.elements.SpanElement;
+	import flashx.textLayout.elements.TextFlow;
+	
 	import mx.controls.ButtonLabelPlacement;
 	import mx.core.IVisualElement;
 	import mx.graphics.BitmapFillMode;
@@ -241,6 +250,11 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				var startY : uint = oacLblbY + 26;
 				var startX : uint = 111;
 				oacText.text = '';
+				
+				oacText.textFlow = new TextFlow();
+				var listElement:ListElement = new ListElement();
+				oacText.textFlow.addChild(listElement);
+				
 				for each(var item : XML in oacs[0].item)
 				{
 //					var lbl : Label = new Label();
@@ -255,14 +269,20 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 //					addElement(lbl);
 //					oacLabels.push(lbl);
 					
-					oacText.appendText(" • " + item[0] + '\r\n');
+					var listItem:ListItemElement = new ListItemElement();
+					var s:SpanElement = new SpanElement();
+					s.text = item[0];
+					var par:ParagraphElement = new ParagraphElement();
+					par.addChild(s);
+					listItem.addChild(par);
+					listElement.addChild(listItem);
 				}
 				
 				GetImagesFiles();
 				
 				info.text = GetFileBytes('info.txt');
 				btnLeft.visible = false;
-				btnRight.visible = true;
+				btnRight.visible = images.length > 1;
 				currentImageIndex = 0;
 				
 				if(videoView)
@@ -289,7 +309,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			}
 			
 			
-			ShowImage(0);				
+			ShowImage(0);	
 		}
 		
 		private function SetVideoPlayerSource(id : int) : void
@@ -298,7 +318,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			
 			dispatchEvent(new CDMeyerEvent(CDMeyerEvent.STOP_TIMER, true));
 			videoPlayer.source = athletePath + video.file;			
-			currentVideoLbl.text = video.title;
+			currentVideoLbl.text = video.title.substring(0, 37);
 			currentVideoLbl.x = videoPlayer.x + ((videoPlayer.width - (video.title.length * 24)) / 2);
 			
 			for each(var btn:Button in videoButtons)

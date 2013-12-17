@@ -14,6 +14,8 @@
 			import com.blogspot.jaggerm.cdmeyer_admin.events.CSUAdminEvent;
 			import com.blogspot.jaggerm.cdmeyer_admin.model.Athlete;
 			
+			import flash.utils.setTimeout;
+			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
@@ -231,9 +233,19 @@
 			protected function btnCancel_clickHandler(event:MouseEvent = null) : void
 			{
 				PopUpManager.removePopUp(this);
+				
+				btnSubmit.enabled = true;
+				btnSubmit.label = "Submit";
+
 			}
 			
 			protected function btnSubmit_clickHandler(event:MouseEvent = null) : void
+			{
+				btnSubmit.enabled = false;
+				btnSubmit.label = "Waiting...";
+				setTimeout(btnSubmit_clickHandler2, 100);
+			}	
+			protected function btnSubmit_clickHandler2() : void
 			{
 				athlete.firstName = firstNameTxt.text;
 				athlete.lastName = lastNameTxt.text;
@@ -340,7 +352,7 @@
 				e.athlete = athlete;
 				dispatchEvent(e);
 				
-				btnCancel_clickHandler(event);
+				btnCancel_clickHandler();
 			}
 			
 			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
@@ -561,28 +573,28 @@
 				<s:Label text="Videos:"/>
 				<s:Group id="videosHolder">
 					<s:Label text="Title:" x="0" y="0"/>
-					<s:TextInput id="vieoTitle1" width="100" x="30" y="0" maxChars="36"/>
+					<s:TextInput id="vieoTitle1" width="100" x="30" y="0" maxChars="36" toolTip="MAX: 36 Characters"/>
 					<s:Label text="File:" x="140" y="0"/>
 					<s:TextInput id="videoPath1" width="160" editable="false" x="170" y="0"/>
 					<s:Button id="uploadVideo1" toolTip="Browse" icon="{OpenFolderIcon}" x="335" width="20" click="BrowseClickHandler(event)"/>
 					<s:Button id="deleteVideo1" toolTip="Delete" icon="{DeleteIcon}" x="360" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath1.text != ''}"/>
 					
 					<s:Label text="Title:"  x="0" y="30"/>
-					<s:TextInput id="vieoTitle2" width="100"  x="30" y="30" maxChars="36"/>
+					<s:TextInput id="vieoTitle2" width="100"  x="30" y="30" maxChars="36" toolTip="MAX: 36 Characters"/>
 					<s:Label text="File:"  x="140" y="30"/>
 					<s:TextInput id="videoPath2" width="160" editable="false"  x="170" y="30"/>
 					<s:Button id="uploadVideo2" toolTip="Browse" icon="{OpenFolderIcon}" x="335" y="30" width="20" click="BrowseClickHandler(event)"/>
 					<s:Button id="deleteVideo2" toolTip="Delete" icon="{DeleteIcon}" x="360" y="30" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath2.text != ''}"/>
 					
 					<s:Label text="Title:"  x="0" y="60"/>
-					<s:TextInput id="vieoTitle3" width="100"  x="30" y="60" maxChars="36"/>
+					<s:TextInput id="vieoTitle3" width="100"  x="30" y="60" maxChars="36" toolTip="MAX: 36 Characters"/>
 					<s:Label text="File:"  x="140" y="60"/>
 					<s:TextInput id="videoPath3" width="160" editable="false"  x="170" y="60"/>
 					<s:Button id="uploadVideo3" toolTip="Browse" icon="{OpenFolderIcon}" x="335" y="60" width="20" click="BrowseClickHandler(event)"/>
 					<s:Button id="deleteVideo3" toolTip="Delete" icon="{DeleteIcon}" x="360" y="60" width="20" click="DeleteVideoClickHandler(event)" enabled="{videoPath3.text != ''}"/>
 					
 					<s:Label text="Title:"  x="0" y="90"/>
-					<s:TextInput id="vieoTitle4" width="100"  x="30" y="90" maxChars="36"/>
+					<s:TextInput id="vieoTitle4" width="100"  x="30" y="90" maxChars="36" toolTip="MAX: 36 Characters"/>
 					<s:Label text="File:"  x="140" y="90"/>
 					<s:TextInput id="videoPath4" width="160" editable="false"  x="170" y="90"/>
 					<s:Button id="uploadVideo4" toolTip="Browse" icon="{OpenFolderIcon}" x="335" y="90" width="20" click="BrowseClickHandler(event)"/>

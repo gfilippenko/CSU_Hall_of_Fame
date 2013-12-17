@@ -3,8 +3,9 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   width="1" height="1" 
-					   creationComplete="CreationComplete(event)" 					   
-					   applicationComplete="ApplicationComplete()">
+					   creationComplete="CreationComplete()"
+					   applicationComplete="ApplicationComplete()"
+                       closing="">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->	
 		
@@ -17,7 +18,7 @@
 		@font-face {
 			src:url("./resources/SWZ721BC.TTF");
 			fontFamily: Swis721CnBT;
-			fontWeight: 'bold';
+			fontWeight: bold;
 			embedAsCFF: true;
 		}
 		
@@ -60,24 +61,19 @@
 	<fx:Script>
 		<![CDATA[
 			import com.blogspot.jaggerm.cdmeyer.Controller;
-			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
-			import com.blogspot.jaggerm.cdmeyer.views.ScreenView;
+            import com.blogspot.jaggerm.cdmeyer.ControllerVolumeNumber;
+            import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+            import com.blogspot.jaggerm.cdmeyer.events.SecureEvent;
 			import com.blogspot.jaggerm.cdmeyer.views.WindowSkin;
 			
 			import mx.controls.Alert;
 			import mx.events.AIREvent;
-			import mx.events.FlexEvent;
-			import mx.rpc.events.FaultEvent;
-			import mx.rpc.events.ResultEvent;
-			import mx.states.AddChild;
-			
-			import org.osmf.events.TimeEvent;
-			
-			import spark.components.Application;
 			import spark.components.Window;
 			
 			public static var APP_PATH : String = "";
-			
+			private static var SECURE_WARNING : String = "The serial number is invalid. Please contact your supplier.";
+			private static var SECURE_TITLE : String = "Warning";
+
 			private var controller : Controller;
 			
 			private var wnd1 : Window;
@@ -94,36 +90,52 @@
 			public var sndChannel:SoundChannel;
 			
 			public static const timer : Timer = new Timer(180000);
+
+            private var controllerVolumeNumber:ControllerVolumeNumber;
 			
-			private function CreationComplete(event : FlexEvent) : void
-			{				
-				wnd1  = new Window();											
-				wnd1.minimizable = false;
-				wnd1.maximizable = false;
-				wnd1.resizable = false;
-				wnd1.systemChrome = NativeWindowSystemChrome.NONE;
-				wnd1.setStyle('skinClass', WindowSkin);
-				wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);				
-				wnd1.open();
-				
-				wnd2 = new Window();
-				wnd2.minimizable = false;
-				wnd2.maximizable = false;
-				wnd2.resizable = false;
-				wnd2.systemChrome = NativeWindowSystemChrome.NONE;
-				wnd2.setStyle('skinClass', WindowSkin);
-				wnd2.addEventListener(AIREvent.WINDOW_COMPLETE, wind2Complete);
-				wnd2.open();
-				
-				
-				nativeWindow.close();
-				
-				cdmeyer.timer.addEventListener(TimerEvent.TIMER, OnTimer);
-				
-//				nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;				
-//				nativeWindow.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-//				nativeWindow.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);				
+			private function CreationComplete() : void
+			{
+                controllerVolumeNumber = new ControllerVolumeNumber();
+                controllerVolumeNumber.addEventListener(SecureEvent.SECURITY_NOT_VALID, closeApp);
+                controllerVolumeNumber.addEventListener(SecureEvent.SECURITY_VALID, initApp);
 			}
+
+            private function removeListeners():void
+            {
+                controllerVolumeNumber.removeEventListener(SecureEvent.SECURITY_NOT_VALID, closeApp);
+                controllerVolumeNumber.removeEventListener(SecureEvent.SECURITY_VALID, initApp);
+            }
+
+            private function initApp(event:Event):void
+            {
+                removeListeners();
+                wnd1  = new Window();
+                wnd1.minimizable = false;
+                wnd1.maximizable = false;
+                wnd1.resizable = false;
+                wnd1.systemChrome = NativeWindowSystemChrome.NONE;
+                wnd1.setStyle('skinClass', WindowSkin);
+                wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);
+                wnd1.open();
+
+                wnd2 = new Window();
+                wnd2.minimizable = false;
+                wnd2.maximizable = false;
+                wnd2.resizable = false;
+                wnd2.systemChrome = NativeWindowSystemChrome.NONE;
+                wnd2.setStyle('skinClass', WindowSkin);
+                wnd2.addEventListener(AIREvent.WINDOW_COMPLETE, wind2Complete);
+                wnd2.open();
+
+                closeApp();
+
+                cdmeyer.timer.addEventListener(TimerEvent.TIMER, OnTimer);
+            }
+
+            private function closeApp(event:Event=null):void
+            {
+                Alert.show(SECURE_WARNING, SECURE_TITLE, Alert.OK, this, function():void{nativeWindow.close();})
+            }
 			
 			private function OnTimer(e : TimerEvent) : void
 			{

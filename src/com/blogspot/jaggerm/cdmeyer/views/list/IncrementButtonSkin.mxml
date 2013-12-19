@@ -11,7 +11,7 @@ in accordance with the terms of the license agreement accompanying it.
 
 -->
 
-<!--- The default skin class for down button of the Spark ScrollBar component.  
+<!--- The default skin class for down button of the Spark ScrollBar component.
 
 @see spark.components.supportClasses.ScrollBarBase
 @see spark.components.HScrollBar
@@ -22,9 +22,10 @@ in accordance with the terms of the license agreement accompanying it.
 @playerversion AIR 1.5
 @productversion Flex 4
 -->
-<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
-	
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
+
 	<fx:Metadata>
 		<![CDATA[ 
 		/** 
@@ -32,20 +33,23 @@ in accordance with the terms of the license agreement accompanying it.
 		*/
 		[HostComponent("spark.components.Button")]
 		]]>
-	</fx:Metadata> 
-	
+	</fx:Metadata>
+
 	<fx:Script fb:purpose="styling">
-		/* Define the skin elements that should not be colorized. 
+		/* Define the skin elements that should not be colorized.
 		For scroll bar buttons, the graphics are colorized but the arrow is not. */
-		static private const exclusions:Array = ["arrow"];
-		
+		static private const exclusions:Array = [ "arrow" ];
+
 		/**
 		 * @private
-		 */   
-		override public function get colorizeExclusions():Array {return exclusions;}
-		
-		
-		
+		 */
+		override public function get colorizeExclusions():Array
+		{
+			return exclusions;
+		}
+
+
+
 		/**
 		 * @private
 		 */
@@ -55,63 +59,69 @@ in accordance with the terms of the license agreement accompanying it.
 			super.initializationComplete();
 		}
 	</fx:Script>
-	
+
 	<s:states>
-		<s:State name="up" />
-		<s:State name="over" />
-		<s:State name="down" />
-		<s:State name="disabled" />
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
 	</s:states>
-	
+
 	<!-- border/background -->
-<!--	<s:Rect left="0" right="0" minWidth="14" top="0" bottom="0" minHeight="17">
-		<s:stroke>
-			<s:SolidColorStroke color="0x686868" weight="1"/>
-		</s:stroke>
-		<s:fill>
-			<s:SolidColor color="0xF9F9F9" color.down="0xDEEBFF" />
-		</s:fill>
-	</s:Rect>-->
-	
+	<!--	<s:Rect left="0" right="0" minWidth="14" top="0" bottom="0" minHeight="17">
+			<s:stroke>
+				<s:SolidColorStroke color="0x686868" weight="1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="0xF9F9F9" color.down="0xDEEBFF" />
+			</s:fill>
+		</s:Rect>-->
+
 	<!-- fill -->
-<!--	<s:Rect left="1" right="1" top="1" bottom="1">
-		<s:fill>
-			<s:LinearGradient>
-				<s:GradientEntry color="0xFFFFFF" 
-								 color.over="0xBBBBBB"
-								 color.down="0xD6D6D6"
-								 alpha="0.85" 
-								 alpha.down="1" />
-				<s:GradientEntry color="0xE7E7E7" 
-								 color.over="0x9FA0A1"
-								 color.down="0x888888"
-								 alpha="0.85" 
-								 alpha.down="1" />
-			</s:LinearGradient>
-		</s:fill>
-	</s:Rect>-->
-	
+	<!--	<s:Rect left="1" right="1" top="1" bottom="1">
+			<s:fill>
+				<s:LinearGradient>
+					<s:GradientEntry color="0xFFFFFF"
+									 color.over="0xBBBBBB"
+									 color.down="0xD6D6D6"
+									 alpha="0.85"
+									 alpha.down="1" />
+					<s:GradientEntry color="0xE7E7E7"
+									 color.over="0x9FA0A1"
+									 color.down="0x888888"
+									 alpha="0.85"
+									 alpha.down="1" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>-->
+
 	<!-- highlight -->
-<!--	<s:Rect left="1" top="1" bottom="1" width="6">
-		<s:fill>
-			<s:SolidColor color="0xFFFFFF" 
-						  alpha="0.75" 
-						  alpha.over="0.22"
-						  alpha.down="0.22" />
-		</s:fill>
-	</s:Rect>-->
-	
+	<!--	<s:Rect left="1" top="1" bottom="1" width="6">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"
+							  alpha="0.75"
+							  alpha.over="0.22"
+							  alpha.down="0.22" />
+			</s:fill>
+		</s:Rect>-->
+
 	<!-- arrow -->
 	<!--- Defines the appearance of the down arrow in the ScrollBar component. -->
 	<s:Path id="arrow"
-			data="M 10.5 21.0 L 0.0 0.0 L 21.0 0.0 L 10.5 21.0">
+		data="M 10.5 21.0 L 0.0 0.0 L 21.0 0.0 L 10.5 21.0">
 		<s:fill>
-			<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f"/>
+			<s:SolidColor 
+				color.down="0x00a87f"
+				color.over="0xb38807"
+				color.up="0xb38807"/>
 		</s:fill>
 		<s:stroke>
-			<s:SolidColorStroke color="0x686868" weight="35" alpha="0"/>
+			<s:SolidColorStroke 
+				color="0x686868"
+				weight="50"
+				alpha="0"/>
 		</s:stroke>
 
-	</s:Path>            
-	
+	</s:Path>
+
 </s:SparkSkin>

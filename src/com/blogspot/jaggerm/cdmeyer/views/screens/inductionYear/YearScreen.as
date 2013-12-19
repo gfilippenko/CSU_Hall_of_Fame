@@ -44,7 +44,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_YEARS_OF_DECADE;
 			showHomeBtn = true;
-			addEventListener(Event.ADDED_TO_STAGE, Added);
+//			addEventListener(Event.ADDED_TO_STAGE, Added);
 		}
 		
 		override protected function commitProperties():void

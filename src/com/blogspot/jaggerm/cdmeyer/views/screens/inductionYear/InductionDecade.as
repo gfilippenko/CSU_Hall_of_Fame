@@ -67,7 +67,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.inductionYear
 				btn.setStyle('skinClass', CircleButtonSkin);
 				btn.width = ScreenView.sportButtonWidth;
 				btn.height = ScreenView.sportButtonWidth;
-				btn.label = item.id.toString() + "`s";
+				btn.label = item.id.toString() + "'s";
 				if(item.years.length == 0)
 					btn.enabled = false;
 				btn.x = nextX;

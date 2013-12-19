@@ -23,7 +23,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 			super(value, _scrWidth, _scrHeight);
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_MAIN_SCREEN;
-			addEventListener(FlexEvent.CREATION_COMPLETE, Added);
+//			addEventListener(FlexEvent.CREATION_COMPLETE, Added);
 		}
 		
 		override public function draw() : void
@@ -66,8 +66,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.namesScreen
 		
 		private function Added(e : Event) : void
 		{
-//			if(list != null)
-//				DrawList();
+			if(list != null)
+				DrawList();
 		}
 		
 		override protected function BackClicked(e : MouseEvent) : void

@@ -27,6 +27,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	import flashx.textLayout.elements.TextFlow;
 	
 	import mx.controls.ButtonLabelPlacement;
+	import mx.controls.HRule;
 	import mx.core.IVisualElement;
 	import mx.graphics.BitmapFillMode;
 	import mx.rpc.events.HeaderEvent;
@@ -36,6 +37,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 	
 	import spark.components.Button;
 	import spark.components.Group;
+	import spark.components.HGroup;
 	import spark.components.Image;
 	import spark.components.Label;
 	import spark.components.TextArea;
@@ -331,7 +333,13 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 		{
 			videos.splice(0, videos.length);
 			videoButtons.splice(0, videoButtons.length);
-			var startX : uint = videoPlayerX + 200;
+			
+			var hGroup:HGroup = new HGroup();
+			hGroup.percentWidth = 100;
+			hGroup.y = 920;
+			hGroup.horizontalAlign = "center";
+			hGroup.mouseEnabled = false;
+			addElement(hGroup);
 			
 			var files : XML = XML(GetFileBytes('video.xml'));
 			for each(var item : XML in files[0].item)
@@ -344,11 +352,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 				btn.visible = false;
 				btn.setStyle("skinClass", NextBideoBtnSkin );
 				btn.addEventListener(MouseEvent.CLICK, NextBideoBtnClicked);
-				btn.x = startX;
-				btn.y = 920;
 				btn.label = video.title;
-				addElement(btn);
-				startX += 235;
+				hGroup.addElement(btn);
 				videoButtons.push(btn);											
 			}
 			

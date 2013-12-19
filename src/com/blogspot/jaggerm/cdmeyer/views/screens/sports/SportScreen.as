@@ -41,7 +41,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 			super(value, _scrWidth, _scrHeight);
 			showBackBtn = true;
 			backBtnEventType = CDMeyerEvent.SHOW_SPORTS_SCREEN;
-			addEventListener(Event.ADDED_TO_STAGE, Added);
+//			addEventListener(Event.ADDED_TO_STAGE, Added);
 		}
 		
 		override protected function commitProperties():void
@@ -117,7 +117,7 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.sports
 					list.list.dataProvider.addItem(item);
 			}
 			
-			list.list.scroller.verticalScrollBar.value = 0;
+//			list.list.scroller.verticalScrollBar.value = 0;
 			var columnIndexes:Vector.<int> = Vector.<int>([ 2 ]);
 			list.list.sortByColumns(columnIndexes, true);
 			ArrayCollection(list.list.dataProvider).enableAutoUpdate();

@@ -50,4 +50,5 @@
 			<contentType>example/x-data-type</contentType>			
 		</fileType>
 	</fileTypes>
+    <supportedProfiles>extendedDesktop</supportedProfiles>
 </application>

@@ -11,7 +11,7 @@ in accordance with the terms of the license agreement accompanying it.
 
 -->
 
-<!--- The default skin class for the thumb of a Spark VScrollBar component.  
+<!--- The default skin class for the thumb of a Spark VScrollBar component.
 
 @see spark.components.VScrollBar
 
@@ -20,9 +20,10 @@ in accordance with the terms of the license agreement accompanying it.
 @playerversion AIR 1.5
 @productversion Flex 4
 -->
-<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
-	
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
+
 	<fx:Metadata>
 		<![CDATA[ 
 		/** 
@@ -30,8 +31,8 @@ in accordance with the terms of the license agreement accompanying it.
 		*/
 		[HostComponent("spark.components.Button")]
 		]]>
-	</fx:Metadata> 
-	
+	</fx:Metadata>
+
 	<fx:Script fb:purpose="styling">
 		/**
 		 * @private
@@ -42,29 +43,40 @@ in accordance with the terms of the license agreement accompanying it.
 			super.initializationComplete();
 		}
 	</fx:Script>
-	
+
 	<s:states>
-		<s:State name="up" />
-		<s:State name="over" />
-		<s:State name="down" />
-		<s:State name="disabled" />
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
 	</s:states>
-	
+
 	<!-- background -->
-<!--	<s:Rect left="1" top="6" right="0" bottom="7" minWidth="20" minHeight="12">
+	<!--	<s:Rect left="1" top="6" right="0" bottom="7" minWidth="20" minHeight="12">
+			<s:stroke>
+				<s:SolidColorStroke color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" weight="1"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" />
+			</s:fill>
+		</s:Rect>-->
+	<s:Ellipse 
+		width="20" height="20"
+		left="1" right="0" top="6" bottom="7"
+		maxHeight="20"
+		maxWidth="20">
 		<s:stroke>
-			<s:SolidColorStroke color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" weight="1"/>
+			<s:SolidColorStroke 
+				color.down="0x00a87f"
+				color.over="0xb38807"
+				color.up="0xb38807"
+				weight="1"/>
 		</s:stroke>
 		<s:fill>
-			<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" />
-		</s:fill>
-	</s:Rect>-->
-	<s:Ellipse left="1" top="6" right="0" bottom="7" width="20" height="20" maxWidth="20" maxHeight="20">
-		<s:stroke>
-			<s:SolidColorStroke color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" weight="1"/>
-		</s:stroke>
-		<s:fill>
-			<s:SolidColor color.up="0xb38807" color.over="0xb38807" color.down="0x00a87f" />
+			<s:SolidColor 
+				color.down="0x00a87f"
+				color.over="0xb38807"
+				color.up="0xb38807"/>
 		</s:fill>
 	</s:Ellipse>
 </s:SparkSkin>

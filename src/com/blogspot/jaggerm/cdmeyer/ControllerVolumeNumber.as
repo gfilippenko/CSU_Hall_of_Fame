@@ -9,6 +9,7 @@ package com.blogspot.jaggerm.cdmeyer
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.utils.setTimeout;
 
 	[Event(name = "SecurityValid", type = "com.blogspot.jaggerm.cdmeyer.events.SecureEvent")]
 	[Event(name = "SecurityNotValid", type = "com.blogspot.jaggerm.cdmeyer.events.SecureEvent")]
@@ -24,7 +25,14 @@ package com.blogspot.jaggerm.cdmeyer
 
 		private var serialVolumes:Vector.<String> = new Vector.<String>();
 
+		private var codes:Vector.<String> = new Vector.<String>();
+
 		public function ControllerVolumeNumber()
+		{
+			loadTrustedCodes();
+		}
+
+		private function activateNativeProcess():void
 		{
 			if (NativeProcess.isSupported)
 			{
@@ -48,14 +56,22 @@ package com.blogspot.jaggerm.cdmeyer
 		{
 			var stdOut:String = _nativeProcess.standardOutput.readUTFBytes(_nativeProcess.standardOutput.bytesAvailable);
 			serialVolumes = new Vector.<String>();
-            var rex:RegExp = /[\s\r\n]*/gim;
+			var rex:RegExp = /[\s\r\n]*/gim;
 			for each (var serialNumber:String in XML(stdOut)..@serialNumber)
 			{
-				serialVolumes.push(serialNumber.replace(rex,''));
+				serialNumber = serialNumber.replace(rex, '');
+				serialVolumes.push(addSeparator(serialNumber.toUpperCase()));
 			}
 //            trace(XML(stdOut)..@serialNumber);
-			loadTrustedCodes();
-            stopNativeProcess();
+			checkSecureStatus();
+			stopNativeProcess();
+		}
+
+		private function addSeparator(value:String):String
+		{
+			var str1:String = value.slice(0, value.length / 2);
+			var str2:String = value.slice(value.length / 2, value.length);
+			return str1 + "-" + str2;
 		}
 
 		private function loadTrustedCodes():void
@@ -66,24 +82,23 @@ package com.blogspot.jaggerm.cdmeyer
 			var xml:XML = XML(xmlStream.readUTFBytes(xmlStream.bytesAvailable));
 			xmlStream.close();
 
-			var codes:Vector.<String> = new Vector.<String>();
 			for each (var serial:String in xml..Code)
 			{
 				codes.push(serial);
 			}
-            if(xml.children()[0].name().localName=="Disabled")
+			if (xml.children()[0].name().localName == "Disabled")
 			{
 				trace("Disabled Secure");
-				notifySecureStatus(true);
+				setTimeout(notifySecureStatus, 1000, true);
 			}
 			else
-				onXmlLoaded(codes);
+				activateNativeProcess();
 		}
 
-		private function onXmlLoaded(value:Vector.<String>):void
+		private function checkSecureStatus():void
 		{
 			var security:SecurityVolume = new SecurityVolume();
-			notifySecureStatus(security.applicationCanRun(value, serialVolumes));
+			notifySecureStatus(security.applicationCanRun(codes, serialVolumes));
 		}
 
 		private function stopNativeProcess():void

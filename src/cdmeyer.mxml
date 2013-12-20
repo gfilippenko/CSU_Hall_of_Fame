@@ -1,177 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
-					   xmlns:s="library://ns.adobe.com/flex/spark" 
-					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   width="1" height="1" 
-					   creationComplete="CreationComplete()"
-					   applicationComplete="ApplicationComplete()"
-                       closing="">
+<s:WindowedApplication 
+	width="1" height="1"
+	creationComplete="CreationComplete()"
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	applicationComplete="ApplicationComplete();">
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->	
-		
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+
 	</fx:Declarations>
 	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-		
-		
-		@font-face {
-			src:url("./resources/SWZ721BC.TTF");
-			fontFamily: Swis721CnBT;
-			fontWeight: bold;
-			embedAsCFF: true;
-		}
-		
-		@font-face {
-			src:url("./resources/SWZ721C.TTF");
-			fontFamily: Swis721CnBT;
-			fontWeight: normal;
-			embedAsCFF: true;
-		}
-		
-		@font-face {
-			src:url("./resources/SWZ721M.TTF");
-			fontFamily: Swis721MdBT;
-			fontWeight: bold;
-			embedAsCFF: true;
-		}
-		
-		@font-face {
-			src:url("./resources/SWZ721C.TTF");
-			fontFamily: Swis721CnBTnonCFF;
-			fontWeight: normal;
-			embedAsCFF: false;
-		}
-		
-		@font-face {
-			src:url("./resources/SWZ721BC.TTF");
-			fontFamily: Swis721CnBTnonCFF;
-			fontWeight: bold;
-			embedAsCFF: false;
-		}
-		
-		@font-face {
-			src:url("./resources/SWZ721B.TTF");
-			fontFamily: Swis721BT;
-			fontWeight: bold;
-			embedAsCFF: true;
-		}
+        @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace mx "library://ns.adobe.com/flex/mx";
 
-	</fx:Style>
+
+        @font-face {
+            src:url("./resources/SWZ721BC.TTF");
+            fontFamily: Swis721CnBT;
+            fontWeight: bold;
+            embedAsCFF: true;
+        }
+
+        @font-face {
+            src:url("./resources/SWZ721C.TTF");
+            fontFamily: Swis721CnBT;
+            fontWeight: normal;
+            embedAsCFF: true;
+        }
+
+        @font-face {
+            src:url("./resources/SWZ721M.TTF");
+            fontFamily: Swis721MdBT;
+            fontWeight: bold;
+            embedAsCFF: true;
+        }
+
+        @font-face {
+            src:url("./resources/SWZ721C.TTF");
+            fontFamily: Swis721CnBTnonCFF;
+            fontWeight: normal;
+            embedAsCFF: false;
+        }
+
+        @font-face {
+            src:url("./resources/SWZ721BC.TTF");
+            fontFamily: Swis721CnBTnonCFF;
+            fontWeight: bold;
+            embedAsCFF: false;
+        }
+
+        @font-face {
+            src:url("./resources/SWZ721B.TTF");
+            fontFamily: Swis721BT;
+            fontWeight: bold;
+            embedAsCFF: true;
+        }
+
+    </fx:Style>
 	<fx:Script>
 		<![CDATA[
 			import com.blogspot.jaggerm.cdmeyer.Controller;
-            import com.blogspot.jaggerm.cdmeyer.ControllerVolumeNumber;
-            import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
-            import com.blogspot.jaggerm.cdmeyer.events.SecureEvent;
+			import com.blogspot.jaggerm.cdmeyer.ControllerVolumeNumber;
+			import com.blogspot.jaggerm.cdmeyer.events.CDMeyerEvent;
+			import com.blogspot.jaggerm.cdmeyer.events.SecureEvent;
 			import com.blogspot.jaggerm.cdmeyer.views.WindowSkin;
-			
+
 			import mx.controls.Alert;
 			import mx.events.AIREvent;
 			import spark.components.Window;
-			
-			public static var APP_PATH : String = "";
-			private static var SECURE_WARNING : String = "The serial number is invalid. Please contact your supplier.";
-			private static var SECURE_TITLE : String = "Warning";
 
-			private var controller : Controller;
-			
-			private var wnd1 : Window;
-			private var wnd2 : Window;			
-			
-			private var wnd1Complete : Boolean = false;
-			private var wnd2Complete : Boolean = false;
-			
-			[Embed(source="./resources/csu_button_click.mp3")]
+			public static var APP_PATH:String = "";
+
+			private static var SECURE_WARNING:String = "The serial number is invalid. Please contact your supplier.";
+
+			private static var SECURE_TITLE:String = "Warning";
+
+			private var controller:Controller;
+
+			private var wnd1:Window;
+
+			private var wnd2:Window;
+
+			private var wnd1Complete:Boolean = false;
+
+			private var wnd2Complete:Boolean = false;
+
+			[Embed(source = "./resources/csu_button_click.mp3")]
 			[Bindable]
 			public var sndCls:Class;
-			
-			public var snd:Sound = new sndCls() as Sound; 
-			public var sndChannel:SoundChannel;
-			
-			public static const timer : Timer = new Timer(180000);
 
-            private var controllerVolumeNumber:ControllerVolumeNumber;
-			
-			private function CreationComplete() : void
+			public var snd:Sound = new sndCls() as Sound;
+
+			public var sndChannel:SoundChannel;
+
+			public static const timer:Timer = new Timer(180000);
+
+			private var controllerVolumeNumber:ControllerVolumeNumber;
+
+			private function CreationComplete():void
 			{
-                controllerVolumeNumber = new ControllerVolumeNumber();
-                controllerVolumeNumber.addEventListener(SecureEvent.SECURITY_NOT_VALID, closeApp);
-                controllerVolumeNumber.addEventListener(SecureEvent.SECURITY_VALID, initApp);
+				controllerVolumeNumber = new ControllerVolumeNumber();
+				controllerVolumeNumber.addEventListener(SecureEvent.SECURITY_NOT_VALID, closeApp);
+				controllerVolumeNumber.addEventListener(SecureEvent.SECURITY_VALID, initApp);
 			}
 
-            private function removeListeners():void
-            {
-                controllerVolumeNumber.removeEventListener(SecureEvent.SECURITY_NOT_VALID, closeApp);
-                controllerVolumeNumber.removeEventListener(SecureEvent.SECURITY_VALID, initApp);
-            }
+			private function removeListeners():void
+			{
+				controllerVolumeNumber.removeEventListener(SecureEvent.SECURITY_NOT_VALID, closeApp);
+				controllerVolumeNumber.removeEventListener(SecureEvent.SECURITY_VALID, initApp);
+            controllerVolumeNumber = null;
+			}
 
-            private function initApp(event:Event):void
-            {
-                removeListeners();
-                wnd1  = new Window();
-                wnd1.minimizable = false;
-                wnd1.maximizable = false;
-                wnd1.resizable = false;
-                wnd1.systemChrome = NativeWindowSystemChrome.NONE;
-                wnd1.setStyle('skinClass', WindowSkin);
-                wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);
-                wnd1.open();
+			private function initApp(event:Event):void
+			{
+				removeListeners();
+				wnd1 = new Window();
+				wnd1.minimizable = false;
+				wnd1.maximizable = false;
+				wnd1.resizable = false;
+				wnd1.systemChrome = NativeWindowSystemChrome.NONE;
+				wnd1.setStyle('skinClass', WindowSkin);
+				wnd1.addEventListener(AIREvent.WINDOW_COMPLETE, wind1Complete);
+				wnd1.open();
 
-                wnd2 = new Window();
-                wnd2.minimizable = false;
-                wnd2.maximizable = false;
-                wnd2.resizable = false;
-                wnd2.systemChrome = NativeWindowSystemChrome.NONE;
-                wnd2.setStyle('skinClass', WindowSkin);
-                wnd2.addEventListener(AIREvent.WINDOW_COMPLETE, wind2Complete);
-                wnd2.open();
+				wnd2 = new Window();
+				wnd2.minimizable = false;
+				wnd2.maximizable = false;
+				wnd2.resizable = false;
+				wnd2.systemChrome = NativeWindowSystemChrome.NONE;
+				wnd2.setStyle('skinClass', WindowSkin);
+				wnd2.addEventListener(AIREvent.WINDOW_COMPLETE, wind2Complete);
+				wnd2.open();
 
-                closeApp();
+				closeApp();
 
-                cdmeyer.timer.addEventListener(TimerEvent.TIMER, OnTimer);
-            }
+				cdmeyer.timer.addEventListener(TimerEvent.TIMER, OnTimer);
+			}
 
-            private function closeApp(event:Event=null):void
-            {
-                Alert.show(SECURE_WARNING, SECURE_TITLE, Alert.OK, this, function():void{nativeWindow.close();})
-            }
-			
-			private function OnTimer(e : TimerEvent) : void
+			private function closeApp(event:Event = null):void
+			{
+				if (event)
+					Alert.show(SECURE_WARNING, SECURE_TITLE, Alert.OK, this, forceClose);
+				else
+					forceClose(null);
+			}
+
+			private function forceClose(event:Event):void
+			{
+				nativeWindow.close()
+			}
+
+			private function OnTimer(e:TimerEvent):void
 			{
 				timer.reset();
 				timer.start();
 				controller.ShowMainScreen(null);
 			}
-			
-			private function Start() : void
+
+			private function Start():void
 			{
-				var baseDir : File = File.applicationDirectory.resolvePath(".");
+				var baseDir:File = File.applicationDirectory.resolvePath(".");
 				cdmeyer.APP_PATH = baseDir.nativePath + '/resources/';
-				
-				var file:File = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'screens.xml'); 
-				var fileStream:FileStream = new FileStream(); 
-				fileStream.open(file, FileMode.READ); 
-				var prefsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
-				fileStream.close();			
-				
-				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'names.xml');
+
+				var file:File = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH + 'screens.xml');
+				var fileStream:FileStream = new FileStream();
 				fileStream.open(file, FileMode.READ);
-				var athletesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
-				fileStream.close();		
-				
-				
-				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'sports.xml');
+				var prefsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				fileStream.close();
+
+				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH + 'names.xml');
 				fileStream.open(file, FileMode.READ);
-				var sportsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
-				fileStream.close();	
-				
-				
-				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH +'years.xml');
+				var athletesXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				fileStream.close();
+
+
+				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH + 'sports.xml');
 				fileStream.open(file, FileMode.READ);
-				var yearsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable)); 
-				fileStream.close();	
-				
+				var sportsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				fileStream.close();
+
+
+				file = File.documentsDirectory.resolvePath(cdmeyer.APP_PATH + 'years.xml');
+				fileStream.open(file, FileMode.READ);
+				var yearsXML:XML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				fileStream.close();
+
 				controller = Controller.getInstance();
 				controller.addEventListener(CDMeyerEvent.ADD_BOTTOM_SCREEN, AddScreen);
 				controller.addEventListener(CDMeyerEvent.ADD_TOP_SCREEN, AddTopScreen);
@@ -179,44 +193,44 @@
 				controller.addEventListener(CDMeyerEvent.REMOVE_TOP_SCREEN, RemoveTopScr);
 				controller.addEventListener(CDMeyerEvent.START_TIMER, StartTimer);
 				controller.addEventListener(CDMeyerEvent.STOP_TIMER, ResetTimer);
-				
+
 				controller.Atheles(athletesXML);
 				controller.Sports(sportsXML);
 				controller.Years(yearsXML);
-				
-				controller.Start(prefsXML, wnd1.width, wnd1.height);	
+
+				controller.Start(prefsXML, wnd1.width, wnd1.height);
 			}
-			
-			private function AddScreen(e : CDMeyerEvent) : void
-			{	
+
+			private function AddScreen(e:CDMeyerEvent):void
+			{
 				wnd1.addEventListener(Event.ADDED_TO_STAGE, AddedToStage, false, 0, true);
-				callLater(wnd1.addElement, [e.screen]);
-				
+				callLater(wnd1.addElement, [ e.screen ]);
+
 //				if(wnd1.numChildren > 1)
 //					wnd1.removeElementAt(1);				
 			}
-			
-			private function AddTopScreen(e : CDMeyerEvent) : void
+
+			private function AddTopScreen(e:CDMeyerEvent):void
 			{
 				wnd2.addEventListener(Event.ADDED_TO_STAGE, AddedToStage, false, 0, true);
-				callLater(wnd2.addElement, [e.screen]);
+				callLater(wnd2.addElement, [ e.screen ]);
 			}
-			
-			private function RemoveBottomScreen(e : CDMeyerEvent) : void
+
+			private function RemoveBottomScreen(e:CDMeyerEvent):void
 			{
 //				wnd1.removeElementAt(0);
 			}
-			
-			private function RemoveTopScr(e : CDMeyerEvent) : void
+
+			private function RemoveTopScr(e:CDMeyerEvent):void
 			{
 //				wnd2.removeElementAt(0);
 			}
-			
-			private function wind2Complete(event : AIREvent) : void
+
+			private function wind2Complete(event:AIREvent):void
 			{
-				var secondScreen : Screen;
-				
-				if(Screen.screens.length < 2)
+				var secondScreen:Screen;
+
+				if (Screen.screens.length < 2)
 					secondScreen = Screen.screens[0];
 				else
 					secondScreen = Screen.screens[1];
@@ -224,107 +238,107 @@
 				wnd2.nativeWindow.y = secondScreen.visibleBounds.y;
 				wnd2.nativeWindow.width = secondScreen.visibleBounds.width;
 				wnd2.nativeWindow.height = secondScreen.visibleBounds.height;
-				
-				wnd2.stage.scaleMode = StageScaleMode.NO_SCALE;				
+
+				wnd2.stage.scaleMode = StageScaleMode.NO_SCALE;
 				wnd2.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
-				
-				
+
+
 				//wnd2.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
-				
+
 				wnd2Complete = true;
-				if(wnd1Complete)
+				if (wnd1Complete)
 					Start();
 			}
-			
-			private function wind1Complete(event : AIREvent) : void
+
+			private function wind1Complete(event:AIREvent):void
 			{
-				var mainScreen : Screen = Screen.screens[0];
+				var mainScreen:Screen = Screen.screens[0];
 				wnd1.nativeWindow.x = mainScreen.bounds.x;
 				wnd1.nativeWindow.y = mainScreen.bounds.y;
 				wnd1.nativeWindow.width = mainScreen.bounds.width;
 				wnd1.nativeWindow.height = mainScreen.bounds.height;
 				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
-				
-				wnd1.stage.scaleMode = StageScaleMode.NO_SCALE;				
+
+				wnd1.stage.scaleMode = StageScaleMode.NO_SCALE;
 				wnd1.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);	
+				wnd1.stage.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDownHandler);
 				wnd1.stage.addEventListener(CDMeyerEvent.PLAY_BTN_SOUND, PlayBtnSound);
-				
+
 				wnd1.stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
-				wnd1.stage.addEventListener(TouchEvent.TOUCH_TAP, taphandler); 
-				wnd1.stage.addEventListener(TouchEvent.TOUCH_MOVE, taphandler); 
-				wnd1.stage.addEventListener(TouchEvent.TOUCH_END, taphandler); 
-				
+				wnd1.stage.addEventListener(TouchEvent.TOUCH_TAP, taphandler);
+				wnd1.stage.addEventListener(TouchEvent.TOUCH_MOVE, taphandler);
+				wnd1.stage.addEventListener(TouchEvent.TOUCH_END, taphandler);
+
 				wnd1Complete = true;
-				if(wnd2Complete)
+				if (wnd2Complete)
 					Start();
 			}
-			
-			private function MouseMove(e : MouseEvent) : void
-			{
-				Restart();			
-			}
-			
-			private function Restart() : void
-			{
-				cdmeyer.timer.reset();
-				cdmeyer.timer.start();	
-			}
-			
-			private function taphandler(e : TouchEvent) : void
+
+			private function MouseMove(e:MouseEvent):void
 			{
 				Restart();
 			}
-								
-			public function ResetTimer(e : CDMeyerEvent) : void
+
+			private function Restart():void
 			{
-				if(wnd1.stage.hasEventListener(MouseEvent.MOUSE_MOVE))
-					wnd1.stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
-				cdmeyer.timer.reset();								
+				cdmeyer.timer.reset();
+				cdmeyer.timer.start();
 			}
-			
-			public function StartTimer(e : CDMeyerEvent) : void
+
+			private function taphandler(e:TouchEvent):void
 			{
-				if(!wnd1.stage.hasEventListener(MouseEvent.MOUSE_MOVE))
+				Restart();
+			}
+
+			public function ResetTimer(e:CDMeyerEvent):void
+			{
+				if (wnd1.stage.hasEventListener(MouseEvent.MOUSE_MOVE))
+					wnd1.stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+				cdmeyer.timer.reset();
+			}
+
+			public function StartTimer(e:CDMeyerEvent):void
+			{
+				if (!wnd1.stage.hasEventListener(MouseEvent.MOUSE_MOVE))
 					wnd1.stage.removeEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
 				cdmeyer.timer.start();
 			}
-			
-			private function AddedToStage(e : Event) : void
+
+			private function AddedToStage(e:Event):void
 			{
-				var wnd : Window;
-				if(e.target is Window)
+				var wnd:Window;
+				if (e.target is Window)
 				{
 					wnd = e.target as Window;
-					if(wnd.numElements > 1)
+					if (wnd.numElements > 1)
 						wnd.removeElementAt(0);
 				}
 			}
-			
-			private function ApplicationComplete() : void
+
+			private function ApplicationComplete():void
 			{
 //				nativeWindow.x = 0;
 //				nativeWindow.y = 0;
 			}
-			
+
 			private function OnKeyDownHandler(event:KeyboardEvent):void
-			{		
+			{
 				if (event.keyCode == 27)
 				{
 					event.preventDefault();
 				}
-				
-				if(event.altKey && event.keyCode==115)
+
+				if (event.altKey && event.keyCode == 115)
 				{
 					wnd1.close();
 					wnd2.close();
 				}
-			}	
-			
-			private function PlayBtnSound(e : CDMeyerEvent) : void
+			}
+
+			private function PlayBtnSound(e:CDMeyerEvent):void
 			{
-				sndChannel=snd.play();				
+				sndChannel = snd.play();
 			}
 		]]>
 	</fx:Script>

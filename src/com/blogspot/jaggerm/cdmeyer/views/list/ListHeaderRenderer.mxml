@@ -11,9 +11,9 @@ in accordance with the terms of the license agreement accompanying it.
 
 -->
 
-<!--- 
+<!---
 
-The DefaultGridHeaderRenderer class defines the default header renderer 
+The DefaultGridHeaderRenderer class defines the default header renderer
 for the columns of a Spark DataGrid control.
 
 <p>Subclasses defined in MXML can redefine the values of the <code>labelDisplay</code>
@@ -29,31 +29,35 @@ and <code>sortIndicator</code> properties.</p>
 @productversion Flex 4.5
 -->
 
-<s:GridItemRenderer minWidth="21" minHeight="21"
-					xmlns:fx="http://ns.adobe.com/mxml/2009" 
-					xmlns:s="library://ns.adobe.com/flex/spark" 
-					xmlns:mx="library://ns.adobe.com/flex/mx">
-	
+<s:GridItemRenderer 
+	minHeight="21"
+	minWidth="21"
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx">
+
 	<fx:Declarations>
 		<!--- The default value of the <code>sortIndicator</code> property.
-		It must be an IFactory for an IVisualElement.        
-		
+		It must be an IFactory for an IVisualElement.
+
 		<p>This value is specified in a <code>fx:Declaration</code> block and can be overridden
 		by a declaration with <code>id="defaultSortIndicator"</code>
 		in an MXML subclass.</p>
-		
+
 		@langversion 3.0
 		@playerversion Flash 10
 		@playerversion AIR 2.0
 		@productversion Flex 4.5
 		-->
 		<fx:Component id="defaultSortIndicator">
-			<s:Path data="M 3.5 7.0 L 0.0 0.0 L 7.0 0.0 L 3.5 7.0" implements="spark.components.gridClasses.IGridVisualElement">
+			<s:Path 
+				data="M 3.5 7.0 L 0.0 0.0 L 7.0 0.0 L 3.5 7.0"
+				implements="spark.components.gridClasses.IGridVisualElement">
 				<fx:Script>
 					<![CDATA[
 						import spark.components.DataGrid;
 						import spark.components.Grid;
-						
+
 						/**
 						 *  @private
 						 */
@@ -62,68 +66,76 @@ and <code>sortIndicator</code> properties.</p>
 							const dataGrid:DataGrid = grid.dataGrid;
 							if (!dataGrid)
 								return;
-							
+
 							const color:uint = dataGrid.getStyle("symbolColor");
 							arrowFill1.color = color;
 							arrowFill2.color = color;
 						}
 					]]>
 				</fx:Script>
-				
+
 				<s:fill>
-					<s:RadialGradient rotation="90" focalPointRatio="1">    
+					<s:RadialGradient rotation="90"
+						focalPointRatio="1">
 						<!--- @private -->
-						<s:GradientEntry id="arrowFill1" color="0" alpha="0.6" />
+						<s:GradientEntry id="arrowFill1"
+							color="0"
+							alpha="0.6"/>
 						<!--- @private -->
-						<s:GradientEntry id="arrowFill2" color="0" alpha="0.8" />
+						<s:GradientEntry id="arrowFill2"
+							color="0"
+							alpha="0.8"/>
 					</s:RadialGradient>
 				</s:fill>
 			</s:Path>
 		</fx:Component>
-		
+
 		<!--- Displays the renderer's label property, which is set to the column's <code>headerText</code>.
 		It must be an instance of a <code>TextBase</code>, like <code>s:Label</code>.
-		
+
 		<p>This visual element is added to the <code>labelDisplayGroup</code> by the renderer's
 		<code>prepare()</code> method.   Any size/location constraints specified by the labelDisplay
 		define its location relative to the labelDisplayGroup.</p>
-		
+
 		<p>This value is specified with a <code>fx:Declaration</code> and can be overridden
 		by a declaration with <code>id="labelDisplay"</code>
 		in an MXML subclass.</p>
-		
-		
+
+
 		@langversion 3.0
 		@playerversion Flash 10
 		@playerversion AIR 2.0
 		@productversion Flex 4.5
 		-->
-		<s:Label id="labelDisplay" 
-				 verticalCenter="1" left="0" right="0" top="0" bottom="0"
-				 textAlign="start"
-				 fontWeight="bold"
-				 verticalAlign="middle"
-				 maxDisplayedLines="1"
-				 showTruncationTip="true" />
+		<s:Label id="labelDisplay"
+			left="0" right="0" top="0" bottom="0"
+			fontWeight="bold"
+			textAlign="start"
+			verticalAlign="middle"
+			verticalCenter="1"
+			maxDisplayedLines="1"
+			showTruncationTip="true"/>
 	</fx:Declarations>
-	
+
 	<fx:Script>
 		<![CDATA[
 			import spark.components.gridClasses.IGridVisualElement;
 			import mx.core.IVisualElement;
-			
+
 			import spark.components.DataGrid;
 			import spark.components.GridColumnHeaderGroup;
 			import spark.components.gridClasses.GridColumn;
 			import spark.primitives.supportClasses.GraphicElement;
-			
+
 			// chrome color constants and variables
 			private static const DEFAULT_COLOR_VALUE:uint = 0xCC;
+
 			private static const DEFAULT_COLOR:uint = 0xCCCCCC;
+
 			private static const DEFAULT_SYMBOL_COLOR:uint = 0x000000;
-			
+
 			private static var colorTransform:ColorTransform = new ColorTransform();
-			
+
 			/**
 			 *  @private
 			 */
@@ -131,26 +143,26 @@ and <code>sortIndicator</code> properties.</p>
 			{
 				if (hasEventListener(type))
 					dispatchEvent(new Event(type));
-			}            
-			
+			}
+
 			//----------------------------------
 			//  maxDisplayedLines
 			//----------------------------------
-			
+
 			private var _maxDisplayedLines:int = 1;
-			
+
 			[Bindable("maxDisplayedLinesChanged")]
-			[Inspectable(minValue="-1")]
-			
+			[Inspectable(minValue = "-1")]
+
 			/**
-			 *  The value of this property is used to initialize the 
-			 *  <code>maxDisplayedLines</code> property of this renderer's 
+			 *  The value of this property is used to initialize the
+			 *  <code>maxDisplayedLines</code> property of this renderer's
 			 *  <code>labelDisplay</code> element.
-			 * 
+			 *
 			 *  @copy spark.components.supportClasses.TextBase#maxDisplayedLines
-			 * 
+			 *
 			 *  @default 1
-			 * 
+			 *
 			 *  @langversion 3.0
 			 *  @playerversion Flash 10
 			 *  @playerversion AIR 1.5
@@ -160,7 +172,7 @@ and <code>sortIndicator</code> properties.</p>
 			{
 				return _maxDisplayedLines;
 			}
-			
+
 			/**
 			 *  @private
 			 */
@@ -168,35 +180,36 @@ and <code>sortIndicator</code> properties.</p>
 			{
 				if (value == _maxDisplayedLines)
 					return;
-				
+
 				_maxDisplayedLines = value;
 				if (labelDisplay)
 					labelDisplay.maxDisplayedLines = value;
-				
+
 				invalidateSize();
 				invalidateDisplayList();
-				
+
 				dispatchChangeEvent("maxDisplayedLinesChanged");
 			}
-			
+
 			//----------------------------------
 			//  sortIndicator
 			//----------------------------------
-			
+
 			private var _sortIndicator:IFactory;
+
 			private var sortIndicatorInstance:IVisualElement;
-			
+
 			[Bindable("sortIndicatorChanged")]
-			
+
 			/**
 			 *  A visual element that's displayed when the column is sorted.
-			 * 
+			 *
 			 *  <p>The sortIndicator visual element is added to the <code>sortIndicatorGroup</code>
-			 *  by this renderer's <code>prepare()</code> method.  Any size/location constraints 
+			 *  by this renderer's <code>prepare()</code> method.  Any size/location constraints
 			 *  specified by the sortIndicator define its location relative to the sortIndicatorGroup.</p>
-			 * 
+			 *
 			 *  @default null
-			 * 
+			 *
 			 *  @langversion 3.0
 			 *  @playerversion Flash 10
 			 *  @playerversion AIR 1.5
@@ -206,7 +219,7 @@ and <code>sortIndicator</code> properties.</p>
 			{
 				return (_sortIndicator) ? _sortIndicator : defaultSortIndicator;
 			}
-			
+
 			/**
 			 *  @private
 			 */
@@ -214,7 +227,7 @@ and <code>sortIndicator</code> properties.</p>
 			{
 				if (_sortIndicator == value)
 					return;
-				
+
 				_sortIndicator = value;
 				if (sortIndicatorInstance)
 				{
@@ -222,32 +235,32 @@ and <code>sortIndicator</code> properties.</p>
 					sortIndicatorGroup.removeElement(sortIndicatorInstance);
 					sortIndicatorInstance = null;
 				}
-				
+
 				invalidateDisplayList();
 				dispatchChangeEvent("sortIndicatorChanged");
 			}
-			
+
 			/**
 			 *  @private
-			 *  Create and add the sortIndicator to the sortIndicatorGroup and the 
+			 *  Create and add the sortIndicator to the sortIndicatorGroup and the
 			 *  labelDisplay into the labelDisplayGroup.
 			 */
 			override public function prepare(hasBeenRecycled:Boolean):void
 			{
 				super.prepare(hasBeenRecycled);
-				
+
 				if (labelDisplay && labelDisplayGroup && (labelDisplay.parent != labelDisplayGroup))
 				{
 					labelDisplayGroup.removeAllElements();
 					labelDisplayGroup.addElement(labelDisplay);
 				}
-				
+
 				const column:GridColumn = this.column;
 				if (sortIndicator && column && column.grid && column.grid.dataGrid && column.grid.dataGrid.columnHeaderGroup)
 				{
 					const dataGrid:DataGrid = column.grid.dataGrid;
 					const columnHeaderGroup:GridColumnHeaderGroup = dataGrid.columnHeaderGroup;
-					
+
 					if (columnHeaderGroup.isSortIndicatorVisible(column.columnIndex))
 					{
 						if (!sortIndicatorInstance)
@@ -257,13 +270,13 @@ and <code>sortIndicator</code> properties.</p>
 							chromeColorChanged = true;
 							invalidateDisplayList();
 						}
-						
+
 						// Initialize sortIndicator
 						sortIndicatorInstance.visible = true;
 						const gridVisualElement:IGridVisualElement = sortIndicatorInstance as IGridVisualElement;
 						if (gridVisualElement)
 							gridVisualElement.prepareGridVisualElement(column.grid, -1, column.columnIndex);
-						
+
 						sortIndicatorGroup.includeInLayout = true;
 						sortIndicatorGroup.scaleY = (column.sortDescending) ? 1 : -1;
 					}
@@ -278,10 +291,11 @@ and <code>sortIndicator</code> properties.</p>
 					}
 				}
 			}
-			
+
 			private var chromeColorChanged:Boolean = false;
+
 			private var colorized:Boolean = false;
-			
+
 			/**
 			 *  @private
 			 *  Apply chromeColor style.
@@ -292,57 +306,55 @@ and <code>sortIndicator</code> properties.</p>
 				if (chromeColorChanged)
 				{
 					var chromeColor:uint = getStyle("chromeColor");
-					
+
 					if (chromeColor != DEFAULT_COLOR || colorized)
-					{          
+					{
 						colorTransform.redOffset = ((chromeColor & (0xFF << 16)) >> 16) - DEFAULT_COLOR_VALUE;
 						colorTransform.greenOffset = ((chromeColor & (0xFF << 8)) >> 8) - DEFAULT_COLOR_VALUE;
 						colorTransform.blueOffset = (chromeColor & 0xFF) - DEFAULT_COLOR_VALUE;
 						colorTransform.alphaMultiplier = alpha;
-						
+
 						transform.colorTransform = colorTransform;
-						
-						var exclusions:Array = [labelDisplay, sortIndicatorInstance];
-						
+
+						var exclusions:Array = [ labelDisplay, sortIndicatorInstance ];
+
 						// Apply inverse colorizing to exclusions
 						if (exclusions && exclusions.length > 0)
 						{
 							colorTransform.redOffset = -colorTransform.redOffset;
 							colorTransform.greenOffset = -colorTransform.greenOffset;
 							colorTransform.blueOffset = -colorTransform.blueOffset;
-							
+
 							for (var i:int = 0; i < exclusions.length; i++)
 							{
 								var exclusionObject:Object = exclusions[i];
-								
-								if (exclusionObject &&
-									(exclusionObject is DisplayObject ||
-										exclusionObject is GraphicElement))
+
+								if (exclusionObject && (exclusionObject is DisplayObject || exclusionObject is GraphicElement))
 								{
 									colorTransform.alphaMultiplier = exclusionObject.alpha;
 									exclusionObject.transform.colorTransform = colorTransform;
 								}
 							}
 						}
-						
+
 						colorized = true;
 					}
-					
+
 					chromeColorChanged = false;
 				}
-				
+
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
 			}
-			
+
 			/**
 			 *  @private
 			 */
 			override public function styleChanged(styleProp:String):void
 			{
 				var allStyles:Boolean = !styleProp || styleProp == "styleName";
-				
+
 				super.styleChanged(styleProp);
-				
+
 				if (allStyles || styleProp == "chromeColor")
 				{
 					chromeColorChanged = true;
@@ -351,148 +363,208 @@ and <code>sortIndicator</code> properties.</p>
 			}
 		]]>
 	</fx:Script>
-	
+
 	<s:states>
-		<s:State name="normal" />
-		<s:State name="hovered" />
-		<s:State name="down" />
-	</s:states>      
-	
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="down"/>
+	</s:states>
+
 	<!-- layer 1: shadow -->
 	<!--- @private -->
-	<s:Rect id="shadow" left="-1" right="-1" top="-1" bottom="-1" radiusX="2">
+	<s:Rect id="shadow"
+		left="-1" right="-1" top="-1" bottom="-1"
+		radiusX="2">
 		<s:fill>
 			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0x000000" 
-								 color.down="0xFFFFFF"
-								 alpha="0.01"
-								 alpha.down="0" />
-				<s:GradientEntry color="0x000000" 
-								 color.down="0xFFFFFF" 
-								 alpha="0.07"
-								 alpha.down="0.5" />
+				<s:GradientEntry 
+					color="0x000000"
+					color.down="0xFFFFFF"
+					alpha="0.01"
+					alpha.down="0"/>
+				<s:GradientEntry 
+					color="0x000000"
+					color.down="0xFFFFFF"
+					alpha="0.07"
+					alpha.down="0.5"/>
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	
+
 	<!-- layer 2: fill -->
 	<!--- @private -->
-	<s:Rect id="fill" left="0" right="0" top="0" bottom="0">
+	<s:Rect id="fill"
+		left="0" right="0" top="0" bottom="0">
 		<s:fill>
 			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0xFFFFFF" 
-								 color.hovered="0xBBBDBD" 
-								 color.down="0xAAAAAA" 
-								 alpha="0.85" />
-				<s:GradientEntry color="0xD8D8D8" 
-								 color.hovered="0x9FA0A1" 
-								 color.down="0x929496" 
-								 alpha="0.85" />
+				<s:GradientEntry 
+					color="0xFFFFFF"
+					color.down="0xAAAAAA"
+					color.hovered="0xBBBDBD"
+					alpha="0.85"/>
+				<s:GradientEntry 
+					color="0xD8D8D8"
+					color.down="0x929496"
+					color.hovered="0x9FA0A1"
+					alpha="0.85"/>
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	
+
 	<!-- layer 3: fill lowlight -->
 	<!--- @private -->
-	<s:Rect id="lowlight" left="0" right="0" top="0" bottom="0">
+	<s:Rect id="lowlight"
+		left="0" right="0" top="0" bottom="0">
 		<s:fill>
 			<s:LinearGradient rotation="270">
-				<s:GradientEntry color="0x000000" ratio="0.0" alpha="0.0627" />
-				<s:GradientEntry color="0x000000" ratio="0.48" alpha="0.0099" />
-				<s:GradientEntry color="0x000000" ratio="0.48001" alpha="0" />
+				<s:GradientEntry 
+					color="0x000000"
+					ratio="0.0"
+					alpha="0.0627"/>
+				<s:GradientEntry 
+					color="0x000000"
+					ratio="0.48"
+					alpha="0.0099"/>
+				<s:GradientEntry 
+					color="0x000000"
+					ratio="0.48001"
+					alpha="0"/>
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	
+
 	<!-- layer 4: fill highlight -->
 	<!--- @private -->
-	<s:Rect id="highlight" left="0" right="0" top="0" bottom="0">
+	<s:Rect id="highlight"
+		left="0" right="0" top="0" bottom="0">
 		<s:fill>
 			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0xFFFFFF"
-								 ratio="0.0"
-								 alpha="0.33" 
-								 alpha.hovered="0.22" 
-								 alpha.down="0.12"/>
-				<s:GradientEntry color="0xFFFFFF"
-								 ratio="0.48"
-								 alpha="0.33"
-								 alpha.hovered="0.22"
-								 alpha.down="0.12" />
-				<s:GradientEntry color="0xFFFFFF"
-								 ratio="0.48001"
-								 alpha="0" />
+				<s:GradientEntry 
+					color="0xFFFFFF"
+					ratio="0.0"
+					alpha="0.33"
+					alpha.hovered="0.22"
+					alpha.down="0.12"/>
+				<s:GradientEntry 
+					color="0xFFFFFF"
+					ratio="0.48"
+					alpha="0.33"
+					alpha.hovered="0.22"
+					alpha.down="0.12"/>
+				<s:GradientEntry 
+					color="0xFFFFFF"
+					ratio="0.48001"
+					alpha="0"/>
 			</s:LinearGradient>
 		</s:fill>
-	</s:Rect>  
-	
+	</s:Rect>
+
 	<!-- layer 5: highlight stroke (all states except down) -->
 	<!--- @private -->
-	<s:Rect id="highlightStroke" left="0" right="0" top="0" bottom="0" excludeFrom="down">
+	<s:Rect id="highlightStroke"
+		left="0" right="0" top="0" bottom="0"
+		excludeFrom="down">
 		<s:stroke>
-			<s:LinearGradientStroke rotation="90" weight="1">
-				<s:GradientEntry color="0xFFFFFF" alpha.hovered="0.22" />
-				<s:GradientEntry color="0xD8D8D8" alpha.hovered="0.22" />
+			<s:LinearGradientStroke rotation="90"
+				weight="1">
+				<s:GradientEntry 
+					color="0xFFFFFF"
+					alpha.hovered="0.22"/>
+				<s:GradientEntry 
+					color="0xD8D8D8"
+					alpha.hovered="0.22"/>
 			</s:LinearGradientStroke>
 		</s:stroke>
 	</s:Rect>
-	
+
 	<!-- layer 6: highlight stroke (down state only) -->
 	<!--- @private -->
-	<s:Rect id="hldownstroke1" left="0" right="0" top="0" bottom="0" includeIn="down">
+	<s:Rect id="hldownstroke1"
+		left="0" right="0" top="0" bottom="0"
+		includeIn="down">
 		<s:stroke>
-			<s:LinearGradientStroke rotation="90" weight="1">
-				<s:GradientEntry color="0x000000" alpha="0.25" ratio="0.0" />
-				<s:GradientEntry color="0x000000" alpha="0.25" ratio="0.001" />
-				<s:GradientEntry color="0x000000" alpha="0.07" ratio="0.0011" />
-				<s:GradientEntry color="0x000000" alpha="0.07" ratio="0.965" />
-				<s:GradientEntry color="0x000000" alpha="0.00" ratio="0.9651" />
+			<s:LinearGradientStroke rotation="90"
+				weight="1">
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.25"
+					ratio="0.0"/>
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.25"
+					ratio="0.001"/>
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.07"
+					ratio="0.0011"/>
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.07"
+					ratio="0.965"/>
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.00"
+					ratio="0.9651"/>
 			</s:LinearGradientStroke>
 		</s:stroke>
 	</s:Rect>
 	<!--- @private -->
-	<s:Rect id="hldownstroke2" left="1" right="1" top="1" bottom="1" includeIn="down">
+	<s:Rect id="hldownstroke2"
+		left="1" right="1" top="1" bottom="1"
+		includeIn="down">
 		<s:stroke>
-			<s:LinearGradientStroke rotation="90" weight="1">
-				<s:GradientEntry color="0x000000" alpha="0.09" ratio="0.0" />
-				<s:GradientEntry color="0x000000" alpha="0.00" ratio="0.0001" />
+			<s:LinearGradientStroke rotation="90"
+				weight="1">
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.09"
+					ratio="0.0"/>
+				<s:GradientEntry 
+					color="0x000000"
+					alpha="0.00"
+					ratio="0.0001"/>
 			</s:LinearGradientStroke>
 		</s:stroke>
 	</s:Rect>
-	
-	<s:HGroup left="7" right="7" top="5" bottom="5" gap="2" verticalAlign="middle">
-		
+
+	<s:HGroup 
+		left="7" right="7" top="5" bottom="5"
+		verticalAlign="middle"
+		gap="2">
+
 		<!-- layer 7: Container for labelDisplay:TextBase  -->
-		<!--- Defines the size and location of the labelDisplay visual element. 
-		
-		<p>The <code>labelDisplay</code> is added to this Group by the renderer's 
+		<!--- Defines the size and location of the labelDisplay visual element.
+
+		<p>The <code>labelDisplay</code> is added to this Group by the renderer's
 		<code>prepare()</code> method.  Any size/location constraints
 		specified by the labelDisplay
 		define its layout relative to the labelDisplayGroup.</p>
-		
+
 		@langversion 3.0
 		@playerversion Flash 10
 		@playerversion AIR 2.0
 		@productversion Flex 4.5
 		-->
-		<s:Group id="labelDisplayGroup" width="100%" />
-		
+		<s:Group id="labelDisplayGroup"
+			width="100%"/>
+
 		<!-- layer 8: Container for sortIndicator:IVisualElement  -->
-		<!--- Defines the size and location of the sortIndicator visual element. 
-		
-		<p>The <code>sortIndicator</code> is added to this Group by the renderer's 
+		<!--- Defines the size and location of the sortIndicator visual element.
+
+		<p>The <code>sortIndicator</code> is added to this Group by the renderer's
 		<code>prepare()</code> method.  Any size/location constraints specified
 		by the sortIndicator
 		define its layout relative to the sortIndicatorGroup.  This Group is only
-		included in the layout when the sortIndicator is visible.</p>  
-		
+		included in the layout when the sortIndicator is visible.</p>
+
 		@langversion 3.0
 		@playerversion Flash 10
 		@playerversion AIR 2.0
 		@productversion Flex 4.5
 		-->
-		<s:Group id="sortIndicatorGroup" includeInLayout="false" />
-		
+		<s:Group id="sortIndicatorGroup"
+			includeInLayout="false"/>
+
 	</s:HGroup>
-	
+
 </s:GridItemRenderer>

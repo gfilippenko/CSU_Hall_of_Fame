@@ -335,7 +335,8 @@ package com.blogspot.jaggerm.cdmeyer.views.screens.athlete
 			videoButtons.splice(0, videoButtons.length);
 			
 			var hGroup:HGroup = new HGroup();
-			hGroup.percentWidth = 100;
+			hGroup.width = videoPlayer.width;
+			hGroup.x = videoPlayerX;
 			hGroup.y = 920;
 			hGroup.horizontalAlign = "center";
 			hGroup.mouseEnabled = false;
